@@ -2,12 +2,25 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
 .home-page {
+  width: 100%;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   color: #10233f;
   background:
-    radial-gradient(circle at 85% 15%, rgba(24, 191, 211, 0.12), transparent 25%),
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(24, 191, 211, 0.12),
+      transparent 25%
+    ),
     linear-gradient(145deg, #f8fbfd 0%, #ffffff 55%, #f2f7fa 100%);
 }
 
@@ -19,7 +32,7 @@
   position: relative;
   z-index: 10;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 40px;
   width: min(1400px, calc(100% - 80px));
@@ -30,6 +43,7 @@
 
 .home-brand {
   display: flex;
+  min-width: 0;
   align-items: center;
   gap: 10px;
   color: inherit;
@@ -39,6 +53,7 @@
 .home-brand img {
   width: 56px;
   height: 56px;
+  flex: 0 0 auto;
   object-fit: contain;
 }
 
@@ -62,6 +77,7 @@
 
 .home-navigation {
   display: flex;
+  min-width: 0;
   justify-content: center;
   gap: 34px;
 }
@@ -113,6 +129,7 @@
   border-radius: 12px;
   font-size: 0.86rem;
   font-weight: 700;
+  white-space: nowrap;
   text-decoration: none;
   transition:
     transform 0.2s ease,
@@ -150,9 +167,11 @@
 .home-hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(480px, 0.9fr);
+  grid-template-columns:
+    minmax(0, 1.08fr)
+    minmax(0, 0.92fr);
   align-items: center;
-  gap: 70px;
+  gap: clamp(32px, 4vw, 70px);
   width: min(1400px, calc(100% - 80px));
   min-height: calc(100vh - 84px);
   margin: 0 auto;
@@ -171,14 +190,21 @@
   filter: blur(10px);
 }
 
+.hero-content,
+.hero-dashboard {
+  min-width: 0;
+}
+
 .hero-content {
   position: relative;
   z-index: 2;
+  width: 100%;
   max-width: 720px;
 }
 
 .hero-badge {
   display: inline-flex;
+  max-width: 100%;
   align-items: center;
   gap: 9px;
   padding: 9px 14px;
@@ -193,8 +219,9 @@
 .hero-content h1 {
   margin: 24px 0 0;
   font-family: "Manrope", sans-serif;
-  font-size: clamp(3.4rem, 5.7vw, 6.6rem);
+  font-size: clamp(3.2rem, 5.3vw, 6.2rem);
   line-height: 0.98;
+  overflow-wrap: break-word;
   letter-spacing: -0.065em;
   color: #10233f;
 }
@@ -287,11 +314,18 @@
 .hero-dashboard {
   position: relative;
   z-index: 2;
+  display: flex;
+  width: 100%;
+  max-width: 620px;
+  justify-self: end;
+  align-items: center;
+  justify-content: center;
 }
 
 .dashboard-glow {
   position: absolute;
-  inset: 8% -5% -4% 7%;
+  inset: 8% 0 -4% 7%;
+  max-width: 100%;
   border-radius: 40px;
   background: linear-gradient(
     145deg,
@@ -303,7 +337,12 @@
 
 .dashboard-card {
   position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 620px;
+  min-width: 0;
   padding: 26px;
+  overflow: hidden;
   border: 1px solid rgba(203, 216, 228, 0.76);
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.93);
@@ -313,8 +352,14 @@
 
 .dashboard-header {
   display: flex;
+  min-width: 0;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
+}
+
+.dashboard-header > div:first-child {
+  min-width: 0;
 }
 
 .dashboard-header p {
@@ -325,19 +370,24 @@
 
 .dashboard-header h2 {
   margin: 0;
+  overflow: hidden;
   font-family: "Manrope", sans-serif;
   font-size: 1.35rem;
   color: #10233f;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dashboard-status {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   gap: 7px;
   padding: 7px 11px;
   border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 700;
+  white-space: nowrap;
   color: #17895d;
   background: #eaf9f2;
 }
@@ -345,6 +395,7 @@
 .dashboard-status span {
   width: 7px;
   height: 7px;
+  flex: 0 0 7px;
   border-radius: 50%;
   background: #18a86b;
   box-shadow: 0 0 0 4px rgba(24, 168, 107, 0.12);
@@ -352,17 +403,19 @@
 
 .dashboard-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-top: 22px;
 }
 
 .dashboard-stats article {
   display: flex;
+  min-width: 0;
   align-items: center;
   gap: 10px;
   min-height: 92px;
   padding: 14px;
+  overflow: hidden;
   border: 1px solid #e3eaf1;
   border-radius: 16px;
   background: #f9fbfd;
@@ -381,6 +434,7 @@
 
 .dashboard-stats article div:last-child {
   min-width: 0;
+  overflow: hidden;
 }
 
 .dashboard-stats span {
@@ -394,15 +448,22 @@
 
 .dashboard-stats strong {
   display: block;
+  max-width: 100%;
   margin-top: 5px;
+  overflow: hidden;
   font-family: "Manrope", sans-serif;
-  font-size: 1.08rem;
+  font-size: clamp(0.88rem, 1.2vw, 1.08rem);
   color: #173a5d;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dashboard-chart {
+  width: 100%;
+  min-width: 0;
   margin-top: 16px;
   padding: 20px;
+  overflow: hidden;
   border: 1px solid #e3eaf1;
   border-radius: 18px;
   background: #ffffff;
@@ -410,8 +471,14 @@
 
 .chart-header {
   display: flex;
+  min-width: 0;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
+}
+
+.chart-header > div {
+  min-width: 0;
 }
 
 .chart-header span {
@@ -422,27 +489,37 @@
 
 .chart-header strong {
   display: block;
+  max-width: 100%;
   margin-top: 4px;
+  overflow: hidden;
   font-family: "Manrope", sans-serif;
   font-size: 1.4rem;
   color: #10233f;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chart-header svg {
+  flex: 0 0 auto;
   color: #11aebe;
 }
 
 .chart-bars {
   display: grid;
+  width: 100%;
   height: 160px;
-  grid-template-columns: repeat(7, 1fr);
+  min-width: 0;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   align-items: end;
   gap: 12px;
   margin-top: 20px;
+  overflow: hidden;
   border-bottom: 1px solid #e5ebf1;
 }
 
 .chart-bars span {
+  width: 100%;
+  min-width: 0;
   min-height: 18px;
   border-radius: 8px 8px 3px 3px;
   background: linear-gradient(180deg, #12bdc9 0%, #075da8 100%);
@@ -451,20 +528,43 @@
 
 .chart-labels {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 12px;
   margin-top: 9px;
 }
 
 .chart-labels span {
+  min-width: 0;
+  overflow: hidden;
   text-align: center;
   font-size: 0.66rem;
   color: #8b99aa;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
+
+@media (max-width: 1180px) {
+  .home-hero {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 0.88fr);
+    gap: 36px;
+  }
+
+  .dashboard-card {
+    padding: 22px;
+  }
+
+  .dashboard-stats article {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
 
 @media (max-width: 1100px) {
   .home-header {
@@ -477,7 +577,7 @@
 
   .home-hero {
     width: min(100% - 40px, 1400px);
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 54px;
     padding-top: 70px;
   }
@@ -487,20 +587,31 @@
   }
 
   .hero-dashboard {
-    max-width: 720px;
+    width: 100%;
+    max-width: 760px;
+    justify-self: center;
+  }
+
+  .dashboard-card {
+    max-width: 760px;
+  }
+
+  .dashboard-stats article {
+    align-items: center;
+    flex-direction: row;
   }
 }
 
 @media (max-width: 700px) {
-  .home-page {
-    overflow: visible;
-  }
-
   .home-header {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     width: calc(100% - 28px);
     gap: 12px;
     min-height: 72px;
+  }
+
+  .home-brand {
+    overflow: hidden;
   }
 
   .home-brand img {
@@ -522,14 +633,25 @@
     font-size: 0.76rem;
   }
 
+  .signup-button svg {
+    display: none;
+  }
+
   .home-hero {
     width: calc(100% - 28px);
     min-height: auto;
+    gap: 42px;
     padding: 48px 0 60px;
   }
 
+  .hero-badge {
+    align-items: flex-start;
+    border-radius: 18px;
+    line-height: 1.45;
+  }
+
   .hero-content h1 {
-    font-size: clamp(2.8rem, 13vw, 4.2rem);
+    font-size: clamp(2.7rem, 13vw, 4.1rem);
   }
 
   .hero-description {
@@ -550,13 +672,25 @@
     gap: 10px;
   }
 
+  .hero-dashboard {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .dashboard-card {
+    width: 100%;
+    max-width: 100%;
     padding: 18px;
     border-radius: 22px;
   }
 
   .dashboard-stats {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-stats article {
+    align-items: center;
+    flex-direction: row;
   }
 
   .chart-bars {
@@ -566,5 +700,61 @@
 
   .chart-labels {
     gap: 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .home-header {
+    width: calc(100% - 20px);
+  }
+
+  .home-brand-name {
+    display: none;
+  }
+
+  .signup-button {
+    padding: 0 11px;
+    font-size: 0.72rem;
+  }
+
+  .home-hero {
+    width: calc(100% - 20px);
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2.4rem, 12.5vw, 3.5rem);
+  }
+
+  .dashboard-card {
+    padding: 14px;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.12rem;
+  }
+
+  .dashboard-status {
+    padding: 6px 8px;
+    font-size: 0.65rem;
+  }
+
+  .dashboard-chart {
+    padding: 14px;
+  }
+
+  .chart-header strong {
+    font-size: 1.12rem;
+  }
+
+  .chart-bars {
+    gap: 5px;
+  }
+
+  .chart-labels {
+    gap: 5px;
   }
 }

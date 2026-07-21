@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   Building2,
@@ -15,11 +16,16 @@ import "./RegisterPage.css";
 import fuelFlexLogo from "../assets/images/logofuelflex.png";
 
 function RegisterPage() {
-  const [formData, setFormData] = useState({
+    const navigate = useNavigate();
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
+    const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phoneNumber: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -43,14 +49,83 @@ function RegisterPage() {
     }));
   };
 
-  const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
     event.preventDefault();
 
+    setErrorMessage("");
+    setSuccessMessage("");
+
     if (!passwordsMatch) {
+      setErrorMessage(
+        "Les deux mots de passe ne correspondent pas."
+      );
       return;
     }
 
-    console.log(formData);
+    const payload = {
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+    };
+
+    try {
+      setIsSubmitting(true);
+
+      const response = await fetch(
+        "/api/v1/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const contentType =
+        response.headers.get("content-type");
+
+      const result =
+        contentType &&
+        contentType.includes("application/json")
+          ? await response.json()
+          : await response.text();
+
+      if (!response.ok) {
+        const message =
+          typeof result === "string"
+            ? result
+            : result.message ||
+              result.error ||
+              "Une erreur est survenue pendant l’inscription.";
+
+        throw new Error(message);
+      }
+
+      setSuccessMessage(
+        result.message ||
+          "Compte créé avec succès. Vérifiez votre adresse e-mail."
+      );
+
+      sessionStorage.setItem(
+        "fuelflex_verification_email",
+        payload.email
+      );
+
+      setTimeout(() => {
+        navigate("/verification-email");
+      }, 1200);
+    } catch (error) {
+      setErrorMessage(
+        error.message ||
+          "Impossible de communiquer avec le serveur."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -160,17 +235,17 @@ function RegisterPage() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="phoneNumber">Numéro de téléphone</label>
+              <label htmlFor="phone">Numéro de téléphone</label>
 
               <div className="input-wrapper">
                 <Phone className="input-icon" size={19} />
 
                 <input
-                  id="phoneNumber"
+                  id="phone"
                   type="tel"
-                  name="phoneNumber"
+                  name="phone"
                   placeholder="+243 81 234 5678"
-                  value={formData.phoneNumber}
+                  value={formData.phone}
                   onChange={handleChange}
                   required
                 />
@@ -263,20 +338,35 @@ function RegisterPage() {
               </p>
             </div>
 
+            {errorMessage && (
+              <div className="form-message error">
+                {errorMessage}
+              </div>
+            )}
+
+            {successMessage && (
+              <div className="form-message success">
+                {successMessage}
+              </div>
+            )}
+
             <button
               className="register-button"
               type="submit"
-              disabled={!passwordsMatch}
+              disabled={!passwordsMatch || isSubmitting}
             >
-              Créer mon compte
-              <ArrowRight size={19} />
+              {isSubmitting
+                ? "Création du compte..."
+                : "Créer mon compte"}
+
+              {!isSubmitting && <ArrowRight size={19} />}
             </button>
           </form>
 
-          <p className="login-link">
-            Vous avez déjà un compte ?
-            <a href="#">Se connecter</a>
-          </p>
+         <p className="login-link">
+          Vous avez déjà un compte ?{" "}
+          <Link to="/connexion">Se connecter</Link>
+        </p>
         </div>
 
         <p className="copyright">

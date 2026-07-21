@@ -10,6 +10,7 @@ import com.fuelflex.platform.role.entity.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -62,27 +63,86 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
+    /*
+     * État général du compte.
+     * Un compte désactivé ne peut pas se connecter.
+     */
     @Column(nullable = false)
     private boolean enabled = true;
 
+    /*
+     * Vérification des coordonnées.
+     */
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified = false;
 
     @Column(name = "phone_verified", nullable = false)
     private boolean phoneVerified = false;
 
+    /*
+     * Sécurité du compte.
+     */
+    @Column(name = "account_locked", nullable = false)
+    private boolean accountLocked = false;
+
+    @Column(name = "account_expired", nullable = false)
+    private boolean accountExpired = false;
+
+    @Column(name = "credentials_expired", nullable = false)
+    private boolean credentialsExpired = false;
+
+    @Column(name = "failed_login_attempts", nullable = false)
+    private int failedLoginAttempts = 0;
+
+    /*
+     * Date jusqu'à laquelle le compte reste verrouillé.
+     * Null signifie qu'aucun verrouillage temporaire n'est actif.
+     */
+    @Column(name = "locked_until")
+    private OffsetDateTime lockedUntil;
+
+    /*
+     * Date de la dernière connexion réussie.
+     */
+    @Column(name = "last_login_at")
+    private OffsetDateTime lastLoginAt;
+
+    /*
+     * Date du dernier changement de mot de passe.
+     */
+    @Column(name = "password_changed_at")
+    private OffsetDateTime passwordChangedAt;
+
+    /*
+     * Code OTP envoyé par e-mail.
+     */
+    @Column(name = "verification_code", length = 6)
+    private String verificationCode;
+
+    /*
+     * Date d'expiration du code OTP.
+     */
+    @Column(name = "verification_code_expiration")
+    private OffsetDateTime verificationCodeExpiration;
+
+    /*
+     * Nombre de tentatives de validation du code OTP.
+     */
+    @Column(name = "verification_code_attempts", nullable = false)
+    private int verificationCodeAttempts = 0;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(
                     name = "user_id",
-                    foreignKey = @jakarta.persistence.ForeignKey(
+                    foreignKey = @ForeignKey(
                             name = "fk_user_roles_user"
                     )
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id",
-                    foreignKey = @jakarta.persistence.ForeignKey(
+                    foreignKey = @ForeignKey(
                             name = "fk_user_roles_role"
                     )
             ),
@@ -103,9 +163,15 @@ public class User {
 
     @PrePersist
     protected void onCreate() {
+
         OffsetDateTime now = OffsetDateTime.now();
+
         createdAt = now;
         updatedAt = now;
+
+        if (passwordChangedAt == null) {
+            passwordChangedAt = now;
+        }
     }
 
     @PreUpdate

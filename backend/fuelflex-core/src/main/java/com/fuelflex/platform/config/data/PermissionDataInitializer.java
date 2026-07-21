@@ -28,6 +28,19 @@ public class PermissionDataInitializer implements CommandLineRunner {
         List<Permission> permissions = List.of(
 
                 new Permission(
+                        "organization:view",
+                        "Consulter l’organisation",
+                        "Permet de consulter les informations de l’organisation",
+                        "ORGANIZATION"
+                ),
+                new Permission(
+                        "organization:update",
+                        "Modifier l’organisation",
+                        "Permet de modifier les informations de l’organisation",
+                        "ORGANIZATION"
+                ),
+
+                new Permission(
                         "user:create",
                         "Créer un utilisateur",
                         "Permet de créer un utilisateur",
