@@ -1,0 +1,97 @@
+/* =========================================================
+   STRUCTURE GÉNÉRALE
+   ========================================================= */
+
+.supervisor-layout {
+  --supervisor-sidebar-width: 286px;
+  --supervisor-sidebar-collapsed-width: 88px;
+  --supervisor-topbar-height: 76px;
+
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+
+  background: #f5f7fb;
+}
+
+/* =========================================================
+   CORPS PRINCIPAL
+   ========================================================= */
+
+.supervisor-layout-body {
+  display: flex;
+  width: calc(100% - var(--supervisor-sidebar-width));
+  min-width: 0;
+  min-height: 100vh;
+  flex-direction: column;
+
+  margin-left: var(--supervisor-sidebar-width);
+
+  transition:
+    width 220ms ease,
+    margin-left 220ms ease;
+}
+
+/* État sidebar réduite */
+
+.supervisor-layout-sidebar-collapsed .supervisor-layout-body {
+  width: calc(100% - var(--supervisor-sidebar-collapsed-width));
+
+  margin-left: var(--supervisor-sidebar-collapsed-width);
+}
+
+/* =========================================================
+   CONTENU DES PAGES
+   ========================================================= */
+
+.supervisor-layout-content {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+  min-height: calc(100vh - var(--supervisor-topbar-height));
+  flex: 1;
+
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(37, 99, 235, 0.035),
+      transparent 30%
+    ),
+    #f5f7fb;
+}
+
+/* Empêche les enfants de dépasser horizontalement */
+
+.supervisor-layout-content > * {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  .supervisor-layout-body,
+  .supervisor-layout-sidebar-collapsed .supervisor-layout-body {
+    width: 100%;
+
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .supervisor-layout {
+    --supervisor-topbar-height: 68px;
+  }
+
+  .supervisor-layout-content {
+    min-height: calc(100vh - var(--supervisor-topbar-height));
+  }
+}

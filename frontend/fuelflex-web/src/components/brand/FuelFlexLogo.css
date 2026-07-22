@@ -1,0 +1,187 @@
+.fuelflex-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+
+  min-width: 0;
+
+  text-align: left;
+  user-select: none;
+}
+
+.fuelflex-brand-logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  transition:
+    transform 220ms ease,
+    opacity 220ms ease;
+}
+
+.fuelflex-brand-logo {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.fuelflex-brand:hover .fuelflex-brand-logo-wrapper {
+  transform: scale(1.03);
+}
+
+.fuelflex-brand-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.fuelflex-brand-name {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.fuelflex-brand-name strong {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.fuelflex-brand-name strong span {
+  color: #2563eb;
+}
+
+.fuelflex-brand-platform {
+  margin-top: 4px;
+
+  color: #64748b;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.fuelflex-brand-slogan {
+  margin-top: 10px;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+
+/* Mode compact : uniquement le logo */
+
+.fuelflex-brand-compact {
+  justify-content: center;
+  gap: 0;
+}
+
+.fuelflex-brand-compact .fuelflex-brand-text {
+  display: none;
+}
+
+/* Splash screen */
+
+.fuelflex-brand-splash {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  text-align: center;
+}
+
+.fuelflex-brand-splash .fuelflex-brand-text,
+.fuelflex-brand-splash .fuelflex-brand-name {
+  align-items: center;
+  text-align: center;
+}
+
+.fuelflex-brand-splash .fuelflex-brand-name strong {
+  font-size: 34px;
+}
+
+.fuelflex-brand-splash .fuelflex-brand-platform {
+  margin-top: 7px;
+
+  font-size: 12px;
+}
+
+.fuelflex-brand-splash .fuelflex-brand-slogan {
+  margin-top: 14px;
+
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Adaptation sidebar */
+
+.supervisor-sidebar .fuelflex-brand {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.supervisor-sidebar .fuelflex-brand-name strong {
+  color: #ffffff;
+}
+
+.supervisor-sidebar .fuelflex-brand-platform {
+  color: #7f8da3;
+}
+
+.supervisor-sidebar-collapsed .fuelflex-brand {
+  width: auto;
+  justify-content: center;
+}
+
+/* Responsive */
+
+@media (max-width: 575.98px) {
+  .fuelflex-brand-name strong {
+    font-size: 19px;
+  }
+
+  .fuelflex-brand-platform {
+    font-size: 9px;
+  }
+
+  .fuelflex-brand-splash .fuelflex-brand-name strong {
+    font-size: 30px;
+  }
+}
+
+/* Accessibilité */
+
+@media (prefers-reduced-motion: reduce) {
+  .fuelflex-brand-logo-wrapper {
+    transition: none;
+  }
+}
