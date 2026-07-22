@@ -2,8 +2,8 @@ package com.fuelflex.platform.organization.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.fuelflex.platform.organization.dto.OrganizationRequest;
-import com.fuelflex.platform.organization.dto.OrganizationResponse;
+import com.fuelflex.platform.organization.dto.request.OrganizationRequest;
+import com.fuelflex.platform.organization.dto.response.OrganizationResponse;
 import com.fuelflex.platform.organization.entity.Organization;
 
 @Component

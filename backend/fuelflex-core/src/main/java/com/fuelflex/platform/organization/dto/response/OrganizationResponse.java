@@ -1,4 +1,4 @@
-package com.fuelflex.platform.organization.dto;
+package com.fuelflex.platform.organization.dto.response;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

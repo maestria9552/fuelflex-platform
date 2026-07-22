@@ -1,11 +1,11 @@
 package com.fuelflex.platform.auth.service;
 
-import com.fuelflex.platform.auth.dto.LoginRequest;
-import com.fuelflex.platform.auth.dto.LoginResponse;
-import com.fuelflex.platform.auth.dto.RegisterRequest;
-import com.fuelflex.platform.auth.dto.RegisterResponse;
-import com.fuelflex.platform.auth.dto.ResendVerificationCodeRequest;
-import com.fuelflex.platform.auth.dto.VerifyEmailRequest;
+import com.fuelflex.platform.auth.dto.request.LoginRequest;
+import com.fuelflex.platform.auth.dto.request.RegisterRequest;
+import com.fuelflex.platform.auth.dto.request.ResendVerificationCodeRequest;
+import com.fuelflex.platform.auth.dto.request.VerifyEmailRequest;
+import com.fuelflex.platform.auth.dto.response.LoginResponse;
+import com.fuelflex.platform.auth.dto.response.RegisterResponse;
 
 public interface AuthService {
 

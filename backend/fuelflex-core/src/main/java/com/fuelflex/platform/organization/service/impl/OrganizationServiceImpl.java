@@ -6,8 +6,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fuelflex.platform.organization.dto.OrganizationRequest;
-import com.fuelflex.platform.organization.dto.OrganizationResponse;
+import com.fuelflex.platform.organization.dto.request.OrganizationRequest;
+import com.fuelflex.platform.organization.dto.response.OrganizationResponse;
 import com.fuelflex.platform.organization.entity.Organization;
 import com.fuelflex.platform.organization.entity.OrganizationStatus;
 import com.fuelflex.platform.organization.mapper.OrganizationMapper;

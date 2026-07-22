@@ -1,4 +1,4 @@
-package com.fuelflex.platform.organization.dto;
+package com.fuelflex.platform.organization.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

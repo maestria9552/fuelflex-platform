@@ -10,12 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.fuelflex.platform.auth.dto.LoginRequest;
-import com.fuelflex.platform.auth.dto.LoginResponse;
-import com.fuelflex.platform.auth.dto.RegisterRequest;
-import com.fuelflex.platform.auth.dto.RegisterResponse;
-import com.fuelflex.platform.auth.dto.ResendVerificationCodeRequest;
-import com.fuelflex.platform.auth.dto.VerifyEmailRequest;
+import com.fuelflex.platform.auth.dto.request.LoginRequest;
+import com.fuelflex.platform.auth.dto.request.RegisterRequest;
+import com.fuelflex.platform.auth.dto.request.ResendVerificationCodeRequest;
+import com.fuelflex.platform.auth.dto.request.VerifyEmailRequest;
+import com.fuelflex.platform.auth.dto.response.LoginResponse;
+import com.fuelflex.platform.auth.dto.response.RegisterResponse;
 import com.fuelflex.platform.auth.service.AuthService;
 import com.fuelflex.platform.auth.service.OtpService;
 import com.fuelflex.platform.common.exception.ApiErrorResponse;

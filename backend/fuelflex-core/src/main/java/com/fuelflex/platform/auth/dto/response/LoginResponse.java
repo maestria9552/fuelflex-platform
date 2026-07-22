@@ -1,4 +1,4 @@
-package com.fuelflex.platform.auth.dto;
+package com.fuelflex.platform.auth.dto.response;
 
 import java.util.Set;
 import java.util.UUID;

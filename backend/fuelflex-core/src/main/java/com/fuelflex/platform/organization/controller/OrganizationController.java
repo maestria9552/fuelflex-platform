@@ -6,8 +6,8 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import com.fuelflex.platform.organization.dto.OrganizationRequest;
-import com.fuelflex.platform.organization.dto.OrganizationResponse;
+import com.fuelflex.platform.organization.dto.request.OrganizationRequest;
+import com.fuelflex.platform.organization.dto.response.OrganizationResponse;
 import com.fuelflex.platform.organization.service.OrganizationService;
 
 import lombok.RequiredArgsConstructor;
