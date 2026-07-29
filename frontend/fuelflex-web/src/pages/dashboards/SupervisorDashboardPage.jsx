@@ -1,111 +1,274 @@
+import { useEffect, useState } from "react";
 import {
+  ArrowRight,
   Building2,
+  Check,
   CircleDollarSign,
   Droplets,
+  FileText,
   Fuel,
   Gauge,
+  MapPin,
+  Settings2,
+  ShieldCheck,
   TrendingUp,
   Users,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import SupervisorLayout from "../../components/layout/SupervisorLayout";
+import OrganizationSettingsModal from "../../features/organization/OrganizationSettingsModal";
+import {
+  getStoredUser,
+  mergeStoredUser,
+} from "../../services/auth/authStorage";
+
+import { getOrganizationById } from "../../services/organization/organizationService";
 import "./SupervisorDashboardPage.css";
 
-const dashboardStats = [
-  {
-    id: "stations",
-    title: "Stations actives",
-    value: "04",
-    description: "Toutes les stations sont opérationnelles",
-    evolution: "+1 ce mois",
-    icon: Building2,
-  },
-  {
-    id: "stock",
-    title: "Stock disponible",
-    value: "68 450 L",
-    description: "Essence et gasoil confondus",
-    evolution: "72 % de capacité",
-    icon: Droplets,
-  },
-  {
-    id: "sales",
-    title: "Ventes du jour",
-    value: "12 840 $",
-    description: "Toutes les stations",
-    evolution: "+8,4 %",
-    icon: CircleDollarSign,
-  },
-  {
-    id: "volume",
-    title: "Volume vendu",
-    value: "9 620 L",
-    description: "Depuis l’ouverture de la journée",
-    evolution: "+5,2 %",
-    icon: Fuel,
-  },
-];
+function calculateOrganizationProgress(user) {
+  const configurationFields = [
+    {
+      id: "organizationName",
+      label: "Nom de l’organisation",
+      completed: Boolean(user.organizationName),
+    },
+    {
+      id: "registrationNumber",
+      label: "RCCM",
+      completed: Boolean(user.registrationNumber),
+    },
+    {
+      id: "nationalId",
+      label: "ID National",
+      completed: Boolean(user.nationalId),
+    },
+    {
+      id: "taxNumber",
+      label: "Numéro fiscal",
+      completed: Boolean(user.taxNumber),
+    },
+    {
+      id: "organizationAddress",
+      label: "Adresse",
+      completed: Boolean(user.organizationAddress),
+    },
+    {
+      id: "organizationPhone",
+      label: "Téléphone",
+      completed: Boolean(user.organizationPhone),
+    },
+    {
+      id: "organizationEmail",
+      label: "Adresse e-mail",
+      completed: Boolean(user.organizationEmail),
+    },
+    {
+      id: "organizationLogo",
+      label: "Logo",
+      completed: Boolean(user.organizationLogo),
+    },
+  ];
 
-const stations = [
-  {
-    id: 1,
-    name: "FuelFlex Gombe",
-    location: "Kinshasa",
-    stock: "18 400 L",
-    sales: "4 280 $",
-    status: "Opérationnelle",
-  },
-  {
-    id: 2,
-    name: "FuelFlex Limete",
-    location: "Kinshasa",
-    stock: "21 850 L",
-    sales: "3 940 $",
-    status: "Opérationnelle",
-  },
-  {
-    id: 3,
-    name: "FuelFlex Lubumbashi",
-    location: "Haut-Katanga",
-    stock: "16 700 L",
-    sales: "2 870 $",
-    status: "Opérationnelle",
-  },
-  {
-    id: 4,
-    name: "FuelFlex Matadi",
-    location: "Kongo Central",
-    stock: "11 500 L",
-    sales: "1 750 $",
-    status: "Surveillance",
-  },
-];
+  const completedCount = configurationFields.filter(
+    (field) => field.completed
+  ).length;
 
-const activities = [
-  {
-    id: 1,
-    title: "Réception de carburant validée",
-    description: "FuelFlex Limete · 12 000 litres de gasoil",
-    time: "Il y a 18 minutes",
-    icon: Droplets,
-  },
-  {
-    id: 2,
-    title: "Clôture journalière terminée",
-    description: "FuelFlex Gombe · Aucun écart détecté",
-    time: "Il y a 42 minutes",
-    icon: Gauge,
-  },
-  {
-    id: 3,
-    title: "Nouveau gestionnaire enregistré",
-    description: "Affecté à la station FuelFlex Matadi",
-    time: "Il y a 2 heures",
-    icon: Users,
-  },
-];
+  const percentage = Math.round(
+    (completedCount / configurationFields.length) * 100
+  );
+
+  return {
+    fields: configurationFields,
+    completedCount,
+    totalCount: configurationFields.length,
+    percentage,
+  };
+}
+
+function buildUserOrganizationData(
+  currentUser,
+  organization
+) {
+  return {
+    ...currentUser,
+
+    organizationId: organization.id,
+    organizationCode: organization.code,
+
+    organizationName:
+      organization.tradeName ||
+      organization.name,
+
+    organizationOfficialName:
+      organization.name,
+
+    organizationTradeName:
+      organization.tradeName || null,
+
+    registrationNumber:
+      organization.registrationNumber || null,
+
+    nationalId:
+      organization.nationalId || null,
+
+    taxNumber:
+      organization.taxNumber || null,
+
+    organizationAddress:
+      organization.address || null,
+
+    organizationPhone:
+      organization.phone || null,
+
+    organizationEmail:
+      organization.email || null,
+
+    organizationLogo:
+      organization.logoUrl || null,
+  };
+}
 
 function SupervisorDashboardPage() {
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(() => getStoredUser() || {});
+  const [isOrganizationModalOpen, setIsOrganizationModalOpen] =
+    useState(false);
+
+  const organizationId = user.organizationId || null;
+  const organizationName =
+    user.organizationName || "Votre organisation";
+
+  const organizationCode =
+    user.organizationCode || "Code non disponible";
+
+  const configuration = calculateOrganizationProgress(user);
+
+  const isOrganizationInformationComplete =
+  Boolean(user.registrationNumber) &&
+  Boolean(user.nationalId) &&
+  Boolean(user.taxNumber) &&
+  Boolean(user.organizationAddress) &&
+  Boolean(user.organizationLogo);
+
+  useEffect(() => {
+  if (!organizationId) {
+    return undefined;
+  }
+
+  let isCancelled = false;
+
+  const loadOrganization = async () => {
+    try {
+      const organization =
+        await getOrganizationById(
+          organizationId
+        );
+
+      if (isCancelled) {
+        return;
+      }
+
+      const refreshedUser =
+        buildUserOrganizationData(
+          user,
+          organization
+        );
+
+      const storedUser =
+        mergeStoredUser(refreshedUser);
+
+      setUser(storedUser);
+    } catch (error) {
+      console.error(
+        "Impossible de charger l’organisation :",
+        error
+      );
+    }
+  };
+
+  loadOrganization();
+
+  return () => {
+    isCancelled = true;
+  };
+}, [organizationId]);
+
+  const dashboardStats = [
+    {
+      id: "stations",
+      title: "Stations actives",
+      value: "0",
+      description: "Aucune station configurée",
+      evolution: "À configurer",
+      icon: Building2,
+    },
+    {
+      id: "stock",
+      title: "Stock disponible",
+      value: "0 L",
+      description: "Aucun stock enregistré",
+      evolution: "0 % de capacité",
+      icon: Droplets,
+    },
+    {
+      id: "sales",
+      title: "Ventes du jour",
+      value: "0 $",
+      description: "Aucune vente enregistrée",
+      evolution: "0 %",
+      icon: CircleDollarSign,
+    },
+    {
+      id: "volume",
+      title: "Volume vendu",
+      value: "0 L",
+      description: "Aucune opération aujourd’hui",
+      evolution: "0 %",
+      icon: Fuel,
+    },
+  ];
+
+    const handleCompleteConfiguration = () => {
+    if (!organizationId) {
+      navigate("/configuration-societe");
+      return;
+    }
+
+    setIsOrganizationModalOpen(true);
+  };
+
+  const handleCloseOrganizationModal = () => {
+    setIsOrganizationModalOpen(false);
+  };
+
+  const handleOrganizationSaved = (
+  updatedOrganization,
+  updatedUser
+) => {
+  if (updatedUser) {
+    setUser(updatedUser);
+    return;
+  }
+
+  setUser((currentUser) => {
+    const refreshedUser =
+      buildUserOrganizationData(
+        currentUser,
+        updatedOrganization
+      );
+
+    mergeStoredUser(refreshedUser);
+
+    return refreshedUser;
+  });
+};
+
+  const handleCreateStation = () => {
+    navigate("/superviseur/stations/nouvelle");
+  };
+
   return (
     <SupervisorLayout>
       <main className="supervisor-dashboard">
@@ -115,23 +278,95 @@ function SupervisorDashboardPage() {
               Vue d’ensemble
             </span>
 
-            <h1>Tableau de bord</h1>
+            <h1>{organizationName}</h1>
 
             <p>
-              Suivez les performances, les stocks et les opérations de vos
-              stations en temps réel.
+              Configurez votre organisation, créez vos stations et suivez
+              progressivement toutes les opérations de votre réseau.
             </p>
           </div>
 
           <div className="supervisor-dashboard-period">
-            <TrendingUp size={18} />
+            <ShieldCheck size={18} />
 
             <div>
-              <span>Performance globale</span>
-              <strong>+7,8 %</strong>
+              <span>Code organisation</span>
+              <strong>{organizationCode}</strong>
             </div>
           </div>
         </section>
+
+        {configuration.percentage < 100 && (
+          <section className="supervisor-configuration-card">
+            <div className="supervisor-configuration-main">
+              <div className="supervisor-configuration-icon">
+                <Settings2 size={25} />
+              </div>
+
+              <div className="supervisor-configuration-content">
+                <span className="supervisor-configuration-eyebrow">
+                  CONFIGURATION DE L’ORGANISATION
+                </span>
+
+                <h2>Complétez votre profil professionnel</h2>
+
+                <p>
+                  Certaines informations administratives et opérationnelles
+                  sont encore manquantes. Complétez-les pour profiter pleinement
+                  de FuelFlex Platform.
+                </p>
+
+                <div className="supervisor-configuration-progress">
+                  <div className="supervisor-configuration-progress-header">
+                    <span>
+                      {configuration.completedCount} éléments complétés sur{" "}
+                      {configuration.totalCount}
+                    </span>
+
+                    <strong>{configuration.percentage} %</strong>
+                  </div>
+
+                  <div className="supervisor-configuration-progress-track">
+                    <span
+                      style={{
+                        width: `${configuration.percentage}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="supervisor-configuration-actions">
+              <div className="supervisor-configuration-checklist">
+                {configuration.fields.slice(0, 4).map((field) => (
+                  <div
+                    key={field.id}
+                    className={
+                      field.completed
+                        ? "supervisor-configuration-item completed"
+                        : "supervisor-configuration-item"
+                    }
+                  >
+                    <span>
+                      {field.completed ? <Check size={14} /> : null}
+                    </span>
+
+                    {field.label}
+                  </div>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleCompleteConfiguration}
+              >
+                Compléter la configuration
+                <ArrowRight size={18} />
+              </button>
+            </div>
+          </section>
+        )}
 
         <section
           className="supervisor-dashboard-stats"
@@ -166,82 +401,29 @@ function SupervisorDashboardPage() {
         </section>
 
         <section className="supervisor-dashboard-grid">
-          <article className="supervisor-dashboard-panel supervisor-dashboard-chart-panel">
+          <article className="supervisor-dashboard-panel supervisor-dashboard-empty-panel">
             <div className="supervisor-dashboard-panel-header">
               <div>
                 <span>Analyse des ventes</span>
                 <h2>Évolution hebdomadaire</h2>
               </div>
 
-              <button type="button">
+              <button type="button" disabled>
                 Cette semaine
               </button>
             </div>
 
-            <div className="supervisor-dashboard-chart">
-              <div className="supervisor-dashboard-chart-values">
-                <span>15K</span>
-                <span>10K</span>
-                <span>5K</span>
-                <span>0</span>
+            <div className="supervisor-dashboard-empty-state">
+              <div className="supervisor-dashboard-empty-icon">
+                <TrendingUp size={30} />
               </div>
 
-              <div className="supervisor-dashboard-chart-area">
-                <div className="supervisor-dashboard-chart-grid">
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </div>
+              <h3>Aucune donnée de vente</h3>
 
-                <svg
-                  viewBox="0 0 700 240"
-                  role="img"
-                  aria-label="Évolution des ventes de la semaine"
-                  preserveAspectRatio="none"
-                >
-                  <defs>
-                    <linearGradient
-                      id="salesGradient"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
-                      <stop
-                        offset="0%"
-                        stopColor="currentColor"
-                        stopOpacity="0.28"
-                      />
-                      <stop
-                        offset="100%"
-                        stopColor="currentColor"
-                        stopOpacity="0"
-                      />
-                    </linearGradient>
-                  </defs>
-
-                  <path
-                    className="supervisor-dashboard-chart-fill"
-                    d="M0,190 C70,165 105,175 160,132 C220,84 270,120 325,94 C385,64 420,80 480,42 C540,10 595,62 700,24 L700,240 L0,240 Z"
-                  />
-
-                  <path
-                    className="supervisor-dashboard-chart-line"
-                    d="M0,190 C70,165 105,175 160,132 C220,84 270,120 325,94 C385,64 420,80 480,42 C540,10 595,62 700,24"
-                  />
-                </svg>
-
-                <div className="supervisor-dashboard-chart-days">
-                  <span>Lun</span>
-                  <span>Mar</span>
-                  <span>Mer</span>
-                  <span>Jeu</span>
-                  <span>Ven</span>
-                  <span>Sam</span>
-                  <span>Dim</span>
-                </div>
-              </div>
+              <p>
+                Le graphique des ventes apparaîtra après la création d’une
+                station et l’enregistrement des premières opérations.
+              </p>
             </div>
           </article>
 
@@ -258,7 +440,7 @@ function SupervisorDashboardPage() {
             <div className="supervisor-dashboard-stock-gauge">
               <div className="supervisor-dashboard-stock-ring">
                 <div>
-                  <strong>72 %</strong>
+                  <strong>0 %</strong>
                   <span>Disponible</span>
                 </div>
               </div>
@@ -267,12 +449,12 @@ function SupervisorDashboardPage() {
             <div className="supervisor-dashboard-stock-details">
               <div>
                 <span>Essence</span>
-                <strong>28 750 L</strong>
+                <strong>0 L</strong>
               </div>
 
               <div>
                 <span>Gasoil</span>
-                <strong>39 700 L</strong>
+                <strong>0 L</strong>
               </div>
             </div>
           </article>
@@ -283,98 +465,126 @@ function SupervisorDashboardPage() {
             <div className="supervisor-dashboard-panel-header">
               <div>
                 <span>Réseau FuelFlex</span>
-                <h2>Performance des stations</h2>
+                <h2>Vos stations</h2>
               </div>
-
-              <button type="button">
-                Voir toutes
-              </button>
             </div>
 
-            <div className="supervisor-dashboard-table-wrapper">
-              <table className="supervisor-dashboard-table">
-                <thead>
-                  <tr>
-                    <th>Station</th>
-                    <th>Stock</th>
-                    <th>Ventes du jour</th>
-                    <th>Statut</th>
-                  </tr>
-                </thead>
+            <div className="supervisor-dashboard-empty-state supervisor-dashboard-stations-empty">
+              <div className="supervisor-dashboard-empty-icon">
+                <Building2 size={30} />
+              </div>
 
-                <tbody>
-                  {stations.map((station) => (
-                    <tr key={station.id}>
-                      <td>
-                        <div className="supervisor-dashboard-station">
-                          <div className="supervisor-dashboard-station-icon">
-                            <Building2 size={18} />
-                          </div>
+              <h3>Aucune station enregistrée</h3>
 
-                          <div>
-                            <strong>{station.name}</strong>
-                            <span>{station.location}</span>
-                          </div>
-                        </div>
-                      </td>
+              <p>
+                Créez votre première station pour commencer à gérer les
+                produits, citernes, pompes et équipes.
+              </p>
 
-                      <td>{station.stock}</td>
-                      <td>{station.sales}</td>
-
-                      <td>
-                        <span
-                          className={[
-                            "supervisor-dashboard-status",
-                            station.status === "Surveillance"
-                              ? "supervisor-dashboard-status-warning"
-                              : "",
-                          ]
-                            .filter(Boolean)
-                            .join(" ")}
-                        >
-                          {station.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <button
+                type="button"
+                onClick={handleCreateStation}
+              >
+                Créer une station
+                <ArrowRight size={17} />
+              </button>
             </div>
           </article>
 
           <article className="supervisor-dashboard-panel">
             <div className="supervisor-dashboard-panel-header">
               <div>
-                <span>Journal système</span>
-                <h2>Activités récentes</h2>
+                <span>Démarrage</span>
+                <h2>Prochaines étapes</h2>
               </div>
             </div>
 
-            <div className="supervisor-dashboard-activities">
-              {activities.map((activity) => {
-                const Icon = activity.icon;
+            <div className="supervisor-dashboard-onboarding">
+              <div className="supervisor-dashboard-onboarding-item completed">
+                <span>
+                  <Check size={17} />
+                </span>
 
-                return (
-                  <div
-                    key={activity.id}
-                    className="supervisor-dashboard-activity"
-                  >
-                    <div className="supervisor-dashboard-activity-icon">
-                      <Icon size={18} />
-                    </div>
+                <div>
+                  <strong>Compte superviseur créé</strong>
+                  <p>Votre accès principal est opérationnel.</p>
+                </div>
+              </div>
 
-                    <div className="supervisor-dashboard-activity-content">
-                      <strong>{activity.title}</strong>
-                      <p>{activity.description}</p>
-                      <span>{activity.time}</span>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="supervisor-dashboard-onboarding-item completed">
+                <span>
+                  <Check size={17} />
+                </span>
+
+                <div>
+                  <strong>Organisation créée</strong>
+                  <p>{organizationName}</p>
+                </div>
+              </div>
+
+              <div
+                className={[
+                  "supervisor-dashboard-onboarding-item",
+                  isOrganizationInformationComplete
+                    ? "completed"
+                    : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                <span>
+                  {isOrganizationInformationComplete ? (
+                    <Check size={17} />
+                  ) : (
+                    <FileText size={17} />
+                  )}
+                </span>
+
+                <div>
+                  <strong>
+                    Compléter les informations
+                  </strong>
+
+                  <p>
+                    {isOrganizationInformationComplete
+                      ? "Informations administratives complètes."
+                      : "RCCM, ID National, NIF, adresse et logo."}
+                  </p>
+                </div>
+              </div>
+
+              <div className="supervisor-dashboard-onboarding-item">
+                <span>
+                  <MapPin size={17} />
+                </span>
+
+                <div>
+                  <strong>Créer votre première station</strong>
+                  <p>Configurez son emplacement et ses paramètres.</p>
+                </div>
+              </div>
+
+              <div className="supervisor-dashboard-onboarding-item">
+                <span>
+                  <Users size={17} />
+                </span>
+
+                <div>
+                  <strong>Ajouter votre équipe</strong>
+                  <p>Créez les gestionnaires et les pompistes.</p>
+                </div>
+              </div>
             </div>
           </article>
         </section>
-      </main>
+          </main>
+
+      <OrganizationSettingsModal
+        isOpen={isOrganizationModalOpen}
+        organizationId={organizationId}
+        onClose={handleCloseOrganizationModal}
+        onSaved={handleOrganizationSaved}
+      />
     </SupervisorLayout>
   );
 }

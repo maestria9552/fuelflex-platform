@@ -1,10 +1,14 @@
 package com.fuelflex.platform.organization.service.impl;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fuelflex.platform.organization.dto.request.OrganizationRequest;
 import com.fuelflex.platform.organization.dto.response.OrganizationResponse;
@@ -13,6 +17,9 @@ import com.fuelflex.platform.organization.entity.OrganizationStatus;
 import com.fuelflex.platform.organization.mapper.OrganizationMapper;
 import com.fuelflex.platform.organization.repository.OrganizationRepository;
 import com.fuelflex.platform.organization.service.OrganizationService;
+import com.fuelflex.platform.user.entity.User;
+import com.fuelflex.platform.user.repository.UserRepository;
+import com.fuelflex.platform.storage.service.OrganizationLogoStorageService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,40 +28,83 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class OrganizationServiceImpl implements OrganizationService {
 
+    private static final String ORGANIZATION_CODE_PREFIX = "ORG-";
+
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
+    private final UserRepository userRepository;
+    private final OrganizationLogoStorageService organizationLogoStorageService;
 
     @Override
-    public OrganizationResponse create(OrganizationRequest request) {
-
+    public OrganizationResponse create(
+            OrganizationRequest request
+    ) {
         validateRequest(request);
+
+        User currentUser = getCurrentUser();
+
+        if (currentUser.getOrganization() != null) {
+            throw new IllegalStateException(
+                    "Votre organisation est déjà configurée"
+            );
+        }
+
         validateUniqueFields(request, null);
 
         Organization organization =
                 organizationMapper.toEntity(request);
 
-        organization.setStatus(OrganizationStatus.ACTIVE);
+        /*
+         * Le code est généré automatiquement par le système.
+         */
+        organization.setCode(generateUniqueCode());
+
+        organization.setName(
+                request.getName().trim()
+        );
+
+        organization.setTradeName(
+                normalizeNullableValue(
+                        request.getTradeName()
+                )
+        );
+
+        organization.setStatus(
+                OrganizationStatus.ACTIVE
+        );
+
         organization.setActive(true);
 
         Organization savedOrganization =
                 organizationRepository.save(organization);
 
-        return organizationMapper.toResponse(savedOrganization);
+        /*
+         * Le créateur du compte est automatiquement rattaché
+         * à l'organisation qu'il vient de créer.
+         */
+        currentUser.setOrganization(savedOrganization);
+
+        userRepository.save(currentUser);
+
+        return organizationMapper.toResponse(
+                savedOrganization
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public OrganizationResponse findById(UUID id) {
+        Organization organization =
+                getOrganization(id);
 
-        Organization organization = getOrganization(id);
-
-        return organizationMapper.toResponse(organization);
+        return organizationMapper.toResponse(
+                organization
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<OrganizationResponse> findAll() {
-
         return organizationRepository.findAll()
                 .stream()
                 .map(organizationMapper::toResponse)
@@ -66,54 +116,199 @@ public class OrganizationServiceImpl implements OrganizationService {
             UUID id,
             OrganizationRequest request
     ) {
-
         validateRequest(request);
 
-        Organization organization = getOrganization(id);
+        Organization organization =
+                getOrganization(id);
 
         validateUniqueFields(request, id);
 
-        organization.setCode(request.getCode());
-        organization.setName(request.getName());
-        organization.setLegalName(request.getLegalName());
-        organization.setTradeName(request.getTradeName());
+        /*
+         * Le code technique n'est jamais modifiable.
+         */
+        organization.setName(
+                request.getName().trim()
+        );
+
+        /*
+         * Le nom commercial reste facultatif.
+         * Une valeur vide est enregistrée comme null.
+         */
+        organization.setTradeName(
+                normalizeNullableValue(
+                        request.getTradeName()
+                )
+        );
+
         organization.setRegistrationNumber(
-                request.getRegistrationNumber()
+                normalizeNullableValue(
+                        request.getRegistrationNumber()
+                )
         );
-        organization.setNationalId(request.getNationalId());
-        organization.setTaxNumber(request.getTaxNumber());
-        organization.setEmail(request.getEmail());
-        organization.setPhone(request.getPhone());
-        organization.setWebsite(request.getWebsite());
-        organization.setLogoUrl(request.getLogoUrl());
-        organization.setCountry(request.getCountry());
-        organization.setProvince(request.getProvince());
-        organization.setCity(request.getCity());
-        organization.setAddress(request.getAddress());
-        organization.setDefaultCurrency(
-                request.getDefaultCurrency()
+
+        organization.setNationalId(
+                normalizeNullableValue(
+                        request.getNationalId()
+                )
         );
-        organization.setTimezone(request.getTimezone());
-        organization.setDefaultLanguage(
-                request.getDefaultLanguage()
+
+        organization.setTaxNumber(
+                normalizeNullableValue(
+                        request.getTaxNumber()
+                )
         );
-        organization.setPrimaryColor(request.getPrimaryColor());
+
+        organization.setEmail(
+                normalizeNullableValue(
+                        request.getEmail()
+                )
+        );
+
+        organization.setPhone(
+                normalizeNullableValue(
+                        request.getPhone()
+                )
+        );
+
+        organization.setWebsite(
+                normalizeNullableValue(
+                        request.getWebsite()
+                )
+        );
+
+        organization.setLogoUrl(
+                normalizeNullableValue(
+                        request.getLogoUrl()
+                )
+        );
+
+        organization.setCountry(
+                normalizeNullableValue(
+                        request.getCountry()
+                )
+        );
+
+        organization.setProvince(
+                normalizeNullableValue(
+                        request.getProvince()
+                )
+        );
+
+        organization.setCity(
+                normalizeNullableValue(
+                        request.getCity()
+                )
+        );
+
+        organization.setAddress(
+                normalizeNullableValue(
+                        request.getAddress()
+                )
+        );
+
+        String defaultCurrency =
+                normalizeNullableValue(
+                        request.getDefaultCurrency()
+                );
+
+        if (defaultCurrency != null) {
+            organization.setDefaultCurrency(
+                    defaultCurrency.toUpperCase(Locale.ROOT)
+            );
+        }
+
+        String timezone =
+                normalizeNullableValue(
+                        request.getTimezone()
+                );
+
+        if (timezone != null) {
+            organization.setTimezone(timezone);
+        }
+
+        String defaultLanguage =
+                normalizeNullableValue(
+                        request.getDefaultLanguage()
+                );
+
+        if (defaultLanguage != null) {
+            organization.setDefaultLanguage(
+                    defaultLanguage.toLowerCase(Locale.ROOT)
+            );
+        }
+
+        organization.setPrimaryColor(
+                normalizeNullableValue(
+                        request.getPrimaryColor()
+                )
+        );
+
         organization.setSecondaryColor(
-                request.getSecondaryColor()
+                normalizeNullableValue(
+                        request.getSecondaryColor()
+                )
         );
 
         Organization updatedOrganization =
                 organizationRepository.save(organization);
 
-        return organizationMapper.toResponse(updatedOrganization);
+        return organizationMapper.toResponse(
+                updatedOrganization
+        );
     }
 
     @Override
+public OrganizationResponse uploadLogo(
+        UUID id,
+        MultipartFile file
+) {
+    Organization organization =
+            getOrganization(id);
+
+    String previousLogoUrl =
+            organization.getLogoUrl();
+
+    String newLogoUrl =
+            organizationLogoStorageService.store(
+                    id,
+                    file
+            );
+
+    organization.setLogoUrl(newLogoUrl);
+
+    Organization updatedOrganization;
+
+    try {
+        updatedOrganization =
+                organizationRepository.save(organization);
+    } catch (RuntimeException exception) {
+        organizationLogoStorageService
+                .deleteByPublicUrl(newLogoUrl);
+
+        throw exception;
+    }
+
+    if (previousLogoUrl != null
+            && !previousLogoUrl.equals(newLogoUrl)) {
+
+        organizationLogoStorageService
+                .deleteByPublicUrl(previousLogoUrl);
+    }
+
+    return organizationMapper.toResponse(
+            updatedOrganization
+    );
+}
+
+    @Override
     public OrganizationResponse suspend(UUID id) {
+        Organization organization =
+                getOrganization(id);
 
-        Organization organization = getOrganization(id);
+        organization.setStatus(
+                OrganizationStatus.SUSPENDED
+        );
 
-        organization.setStatus(OrganizationStatus.SUSPENDED);
         organization.setActive(false);
 
         Organization suspendedOrganization =
@@ -126,10 +321,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public OrganizationResponse activate(UUID id) {
+        Organization organization =
+                getOrganization(id);
 
-        Organization organization = getOrganization(id);
+        organization.setStatus(
+                OrganizationStatus.ACTIVE
+        );
 
-        organization.setStatus(OrganizationStatus.ACTIVE);
         organization.setActive(true);
 
         Organization activatedOrganization =
@@ -140,8 +338,33 @@ public class OrganizationServiceImpl implements OrganizationService {
         );
     }
 
-    private Organization getOrganization(UUID id) {
+    private User getCurrentUser() {
+        Authentication authentication =
+                SecurityContextHolder.getContext()
+                        .getAuthentication();
 
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || authentication.getName() == null
+                || authentication.getName().isBlank()) {
+
+            throw new IllegalStateException(
+                    "Utilisateur non authentifié"
+            );
+        }
+
+        String email = authentication.getName();
+
+        return userRepository
+                .findByEmailIgnoreCase(email)
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Utilisateur authentifié introuvable"
+                        )
+                );
+    }
+
+    private Organization getOrganization(UUID id) {
         if (id == null) {
             throw new IllegalArgumentException(
                     "L’identifiant de l’organisation est obligatoire"
@@ -156,19 +379,34 @@ public class OrganizationServiceImpl implements OrganizationService {
                 );
     }
 
-    private void validateRequest(OrganizationRequest request) {
+    private String generateUniqueCode() {
+        String generatedCode;
 
+        do {
+            String randomPart = UUID.randomUUID()
+                    .toString()
+                    .replace("-", "")
+                    .substring(0, 8)
+                    .toUpperCase(Locale.ROOT);
+
+            generatedCode =
+                    ORGANIZATION_CODE_PREFIX + randomPart;
+
+        } while (
+                organizationRepository
+                        .findByCodeIgnoreCase(generatedCode)
+                        .isPresent()
+        );
+
+        return generatedCode;
+    }
+
+    private void validateRequest(
+            OrganizationRequest request
+    ) {
         if (request == null) {
             throw new IllegalArgumentException(
                     "Les informations de l’organisation sont obligatoires"
-            );
-        }
-
-        if (request.getCode() == null
-                || request.getCode().isBlank()) {
-
-            throw new IllegalArgumentException(
-                    "Le code de l’organisation est obligatoire"
             );
         }
 
@@ -185,27 +423,17 @@ public class OrganizationServiceImpl implements OrganizationService {
             OrganizationRequest request,
             UUID currentOrganizationId
     ) {
-
-        organizationRepository
-                .findByCodeIgnoreCase(request.getCode())
-                .filter(organization ->
-                        !organization.getId()
-                                .equals(currentOrganizationId)
-                )
-                .ifPresent(organization -> {
-                    throw new IllegalStateException(
-                            "Ce code d’organisation existe déjà"
-                    );
-                });
-
         if (request.getEmail() != null
                 && !request.getEmail().isBlank()) {
 
             organizationRepository
-                    .findByEmailIgnoreCase(request.getEmail())
+                    .findByEmailIgnoreCase(
+                            request.getEmail().trim()
+                    )
                     .filter(organization ->
-                            !organization.getId()
-                                    .equals(currentOrganizationId)
+                            currentOrganizationId == null
+                                    || !organization.getId()
+                                            .equals(currentOrganizationId)
                     )
                     .ifPresent(organization -> {
                         throw new IllegalStateException(
@@ -220,16 +448,28 @@ public class OrganizationServiceImpl implements OrganizationService {
             organizationRepository
                     .findByRegistrationNumberIgnoreCase(
                             request.getRegistrationNumber()
+                                    .trim()
                     )
                     .filter(organization ->
-                            !organization.getId()
-                                    .equals(currentOrganizationId)
+                            currentOrganizationId == null
+                                    || !organization.getId()
+                                            .equals(currentOrganizationId)
                     )
                     .ifPresent(organization -> {
                         throw new IllegalStateException(
-                                "Ce numéro d’enregistrement existe déjà"
+                                "Ce numéro RCCM existe déjà"
                         );
                     });
         }
+    }
+
+    private String normalizeNullableValue(
+            String value
+    ) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+
+        return value.trim();
     }
 }

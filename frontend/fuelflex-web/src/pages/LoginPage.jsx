@@ -105,6 +105,10 @@ function LoginPage() {
           permissions: result.permissions || [],
           tokenType: result.tokenType,
           expiresIn: result.expiresIn,
+          organizationConfigured:
+            result.organizationConfigured === true,
+          organizationId:
+            result.organizationId || null,
         })
       );
 

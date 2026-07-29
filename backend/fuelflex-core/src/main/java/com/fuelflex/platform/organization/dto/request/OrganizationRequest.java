@@ -13,12 +13,16 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OrganizationRequest {
 
-    private String code;
-
+    /*
+     * Nom officiel de l'organisation.
+     * Champ obligatoire.
+     */
     private String name;
 
-    private String legalName;
-
+    /*
+     * Nom commercial ou marque.
+     * Champ facultatif.
+     */
     private String tradeName;
 
     private String registrationNumber;

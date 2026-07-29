@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.fuelflex.platform.role.entity.Role;
+import com.fuelflex.platform.organization.entity.Organization;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +22,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -130,6 +132,23 @@ public class User {
      */
     @Column(name = "verification_code_attempts", nullable = false)
     private int verificationCodeAttempts = 0;
+
+     /*
+        * Organisation à laquelle appartient l'utilisateur.
+        *
+        * La relation reste temporairement facultative lors de l'inscription.
+        * Après sa première connexion, l'utilisateur principal doit créer
+        * et configurer son organisation avant d'accéder aux autres modules.
+        */
+        @ManyToOne(fetch = FetchType.LAZY, optional = true)
+        @JoinColumn(
+                name = "organization_id",
+                nullable = true,
+                foreignKey = @ForeignKey(
+                        name = "fk_users_organization"
+                )
+        )
+        private Organization organization;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

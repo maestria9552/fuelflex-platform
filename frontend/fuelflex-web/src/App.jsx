@@ -12,6 +12,8 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import SupervisorDashboardPage from "./pages/dashboards/SupervisorDashboardPage";
+import OrganizationSetupPage from "./pages/organization/OrganizationSetupPage";
+import CompanyPage from "./pages/organization/CompanyPage";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import RoleBasedRedirect from "./components/auth/RoleBasedRedirect";
@@ -60,7 +62,14 @@ function App() {
             path="/verification-email"
             element={<VerifyEmailPage />}
           />
-
+          <Route
+            path="/configuration-societe"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <OrganizationSetupPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/superviseur/dashboard"
             element={
@@ -69,7 +78,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="/superviseur/societe"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <CompanyPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/dashboard"
             element={
@@ -78,7 +94,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="*"
             element={<Navigate to="/" replace />}

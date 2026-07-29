@@ -7,9 +7,19 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpStatus;
+
+import com.fuelflex.platform.security.filter.JwtAuthenticationFilter;
+
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -40,6 +50,16 @@ public class SecurityConfig {
                         logout.disable()
                 )
 
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(
+                                (request, response, authException) ->
+                                        response.sendError(
+                                                HttpStatus.UNAUTHORIZED.value(),
+                                                "Authentication required"
+                                        )
+                        )
+                )
+
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers(
@@ -54,12 +74,18 @@ public class SecurityConfig {
                                         "/swagger-ui/**",
 
                                         "/v3/api-docs",
-                                        "/v3/api-docs/**"
+                                        "/v3/api-docs/**",
+                                        "/uploads/**"
                                 )
                                 .permitAll()
 
                                 .anyRequest()
                                 .authenticated()
+                )
+
+                .addFilterBefore(
+                        jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class
                 );
 
         return http.build();

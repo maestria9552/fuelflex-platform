@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile; 
 
 import com.fuelflex.platform.organization.dto.request.OrganizationRequest;
 import com.fuelflex.platform.organization.dto.response.OrganizationResponse;
@@ -45,6 +47,20 @@ public class OrganizationController {
             @RequestBody OrganizationRequest request
     ) {
         return organizationService.update(id, request);
+    }
+
+    @PostMapping(
+        value = "/{id}/logo",
+        consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public OrganizationResponse uploadLogo(
+            @PathVariable UUID id,
+            @RequestPart("file") MultipartFile file
+    ) {
+        return organizationService.uploadLogo(
+                id,
+                file
+        );
     }
 
     @PatchMapping("/{id}/activate")

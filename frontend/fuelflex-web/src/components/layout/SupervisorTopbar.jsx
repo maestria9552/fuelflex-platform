@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Bell,
   ChevronDown,
@@ -8,7 +9,9 @@ import {
   UserRound,
 } from "lucide-react";
 
+import { clearAuthSession } from "../../services/auth/authStorage";
 import "./SupervisorTopbar.css";
+
 
 function SupervisorTopbar({
   onOpenSidebar,
@@ -18,6 +21,17 @@ function SupervisorTopbar({
   },
 }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+  clearAuthSession();
+  setIsProfileOpen(false);
+
+  navigate("/connexion", {
+    replace: true,
+  });
+};
 
   const initials = user.name
     .split(" ")
@@ -118,20 +132,29 @@ function SupervisorTopbar({
               className="supervisor-topbar-profile-menu"
               role="menu"
             >
-              <button type="button" role="menuitem">
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() => setIsProfileOpen(false)}
+              >
                 Mon profil
               </button>
 
-              <button type="button" role="menuitem">
-                Paramètres du compte
-              </button>
-
+             <button
+              type="button"
+              role="menuitem"
+              onClick={() => setIsProfileOpen(false)}
+            >
+              Paramètres du compte
+            </button>
+            
               <div className="supervisor-topbar-profile-menu-divider" />
 
               <button
                 type="button"
                 role="menuitem"
                 className="supervisor-topbar-profile-menu-danger"
+                onClick={handleLogout}
               >
                 Se déconnecter
               </button>

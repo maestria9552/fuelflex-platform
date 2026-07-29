@@ -22,10 +22,15 @@ public class OrganizationResponse {
 
     private String code;
 
+    /*
+     * Nom officiel de l'organisation.
+     */
     private String name;
 
-    private String legalName;
-
+    /*
+     * Nom commercial ou marque.
+     * Peut être null lorsqu'il n'est pas renseigné.
+     */
     private String tradeName;
 
     private String registrationNumber;

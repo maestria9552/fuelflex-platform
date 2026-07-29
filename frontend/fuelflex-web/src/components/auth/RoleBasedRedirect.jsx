@@ -1,5 +1,13 @@
 import { Navigate } from "react-router-dom";
 
+function clearStoredSession() {
+  localStorage.removeItem("fuelflex_access_token");
+  localStorage.removeItem("fuelflex_user");
+
+  sessionStorage.removeItem("fuelflex_access_token");
+  sessionStorage.removeItem("fuelflex_user");
+}
+
 function getStoredUser() {
   const storedUser =
     localStorage.getItem("fuelflex_user") ||
@@ -12,12 +20,7 @@ function getStoredUser() {
   try {
     return JSON.parse(storedUser);
   } catch {
-    localStorage.removeItem("fuelflex_access_token");
-    localStorage.removeItem("fuelflex_user");
-
-    sessionStorage.removeItem("fuelflex_access_token");
-    sessionStorage.removeItem("fuelflex_user");
-
+    clearStoredSession();
     return null;
   }
 }
@@ -65,6 +68,19 @@ function RoleBasedRedirect() {
   }
 
   if (roles.includes("SUPERVISOR")) {
+    const organizationConfigured =
+      user.organizationConfigured === true &&
+      Boolean(user.organizationId);
+
+    if (!organizationConfigured) {
+      return (
+        <Navigate
+          to="/configuration-societe"
+          replace
+        />
+      );
+    }
+
     return (
       <Navigate
         to="/superviseur/dashboard"

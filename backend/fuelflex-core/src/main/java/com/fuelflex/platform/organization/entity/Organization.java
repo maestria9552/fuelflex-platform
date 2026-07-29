@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,35 +47,53 @@ public class Organization {
     private UUID id;
 
     /*
-     * Code technique unique de l’organisation.
-     * Exemples : GANADOR, TOTAL-RDC, PETRO-KIN.
+     * Code technique généré automatiquement.
+     * Non modifiable par l'utilisateur.
      */
     @Column(nullable = false, length = 50)
     private String code;
 
+    /*
+     * Nom officiel de l'entreprise.
+     * Exemple :
+     * GANADOR COMPANY SARL
+     */
     @Column(nullable = false, length = 180)
     private String name;
 
-    @Column(name = "legal_name", length = 200)
-    private String legalName;
-
+    /*
+     * Marque commerciale.
+     * Exemple :
+     * FuelFlex Station
+     *
+     * Facultatif.
+     */
     @Column(name = "trade_name", length = 180)
     private String tradeName;
 
+    @Transient
+    public String getDisplayName() {
+        if (tradeName != null && !tradeName.isBlank()) {
+            return tradeName.trim();
+        }
+
+        return name;
+    }
+
     /*
-     * RCCM.
+     * RCCM
      */
     @Column(name = "registration_number", length = 100)
     private String registrationNumber;
 
     /*
-     * ID NAT.
+     * ID National
      */
     @Column(name = "national_id", length = 100)
     private String nationalId;
 
     /*
-     * NIF.
+     * NIF
      */
     @Column(name = "tax_number", length = 100)
     private String taxNumber;
@@ -103,10 +122,6 @@ public class Organization {
     @Column(length = 500)
     private String address;
 
-    /*
-     * Code ISO de la devise.
-     * Exemples : USD, CDF, EUR.
-     */
     @Column(name = "default_currency", nullable = false, length = 10)
     private String defaultCurrency = "USD";
 

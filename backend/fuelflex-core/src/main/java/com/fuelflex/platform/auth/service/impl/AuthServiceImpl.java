@@ -49,12 +49,12 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
 
     @Override
-    public RegisterResponse register(RegisterRequest request) {
+        public RegisterResponse register(RegisterRequest request) {
 
         if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new BusinessException(
-                    "Passwords do not match."
-            );
+                throw new BusinessException(
+                        "Passwords do not match."
+                );
         }
 
         String email = request.getEmail()
@@ -66,16 +66,16 @@ public class AuthServiceImpl implements AuthService {
         );
 
         if (userRepository.existsByEmailIgnoreCase(email)) {
-            throw new BusinessException(
-                    "This email address is already registered. "
-                            + "Use resend code if the account is not verified."
-            );
+                throw new BusinessException(
+                        "This email address is already registered. "
+                                + "Use resend code if the account is not verified."
+                );
         }
 
         if (userRepository.existsByPhoneNumber(phone)) {
-            throw new BusinessException(
-                    "This phone number is already registered."
-            );
+                throw new BusinessException(
+                        "This phone number is already registered."
+                );
         }
 
         Role supervisorRole = roleRepository
@@ -123,37 +123,27 @@ public class AuthServiceImpl implements AuthService {
 
         User savedUser = userRepository.save(user);
 
-        boolean verificationEmailSent = true;
-
         try {
-           emailService.sendVerificationCode(
-                user.getEmail(),
-                user.getFirstName(),
-                user.getVerificationCode()
-        );
+
+                emailService.sendVerificationCode(
+                        savedUser.getEmail(),
+                        savedUser.getFirstName(),
+                        savedUser.getVerificationCode()
+                );
 
         } catch (Exception exception) {
 
-        log.error(
-                "Unable to resend verification email to {}.",
-                user.getEmail(),
-                exception
-        );
+                log.error(
+                        "Unable to send verification email to {}.",
+                        savedUser.getEmail(),
+                        exception
+                );
 
-        throw new BusinessException(
-                "The verification code was generated, "
-                        + "but the email could not be sent. "
-                        + "Please check the email configuration."
-        );
+                throw new BusinessException(
+                        "The account was created, but the verification email "
+                                + "could not be sent."
+                );
         }
-
-        String message = verificationEmailSent
-                ? "Account created successfully. "
-                        + "A verification code has been sent "
-                        + "to your email address."
-                : "Account created successfully, but the verification email "
-                        + "could not be sent. Use resend code from the "
-                        + "verification page.";
 
         return RegisterResponse.builder()
                 .id(savedUser.getId())
@@ -161,9 +151,13 @@ public class AuthServiceImpl implements AuthService {
                 .lastName(savedUser.getLastName())
                 .email(savedUser.getEmail())
                 .phone(savedUser.getPhoneNumber())
-                .message(message)
+                .message(
+                        "Account created successfully. "
+                                + "A verification code has been sent "
+                                + "to your email address."
+                )
                 .build();
-    }
+        }
 
     @Override
     public void verifyEmail(
@@ -423,6 +417,14 @@ public class AuthServiceImpl implements AuthService {
                 .filter(Permission::isActive)
                 .map(Permission::getCode)
                 .collect(Collectors.toSet());
+                
+                boolean organizationConfigured =
+                user.getOrganization() != null;
+
+                java.util.UUID organizationId =
+                organizationConfigured
+                ? user.getOrganization().getId()
+                : null;
 
         return LoginResponse.builder()
                 .accessToken(accessToken)
@@ -436,6 +438,8 @@ public class AuthServiceImpl implements AuthService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
+                .organizationConfigured(organizationConfigured)
+                .organizationId(organizationId)
                 .roles(roles)
                 .permissions(permissions)
                 .build();

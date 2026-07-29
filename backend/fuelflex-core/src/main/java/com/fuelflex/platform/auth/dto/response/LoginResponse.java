@@ -24,6 +24,10 @@ public class LoginResponse {
 
     private String email;
 
+    private boolean organizationConfigured;
+
+    private UUID organizationId;
+
     private Set<String> roles;
 
     private Set<String> permissions;

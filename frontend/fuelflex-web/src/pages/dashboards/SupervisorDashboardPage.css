@@ -888,3 +888,456 @@
     font-size: 10px;
   }
 }
+
+/* =========================================================
+   Configuration de l'organisation
+   ========================================================= */
+
+.supervisor-configuration-card {
+  margin-bottom: 26px;
+  padding: 26px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+  gap: 30px;
+  border: 1px solid #dce8e4;
+  border-radius: 22px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(16, 185, 129, 0.12),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f6fbf9 100%
+    );
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.07);
+}
+
+.supervisor-configuration-main {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.supervisor-configuration-icon {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      135deg,
+      #059669,
+      #10b981
+    );
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(5, 150, 105, 0.22);
+}
+
+.supervisor-configuration-content {
+  min-width: 0;
+}
+
+.supervisor-configuration-eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #059669;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.supervisor-configuration-content h2 {
+  margin: 0;
+  color: #172033;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.supervisor-configuration-content > p {
+  max-width: 680px;
+  margin: 10px 0 0;
+  color: #667386;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.supervisor-configuration-progress {
+  margin-top: 22px;
+}
+
+.supervisor-configuration-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.supervisor-configuration-progress-header span {
+  color: #667386;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.supervisor-configuration-progress-header strong {
+  color: #059669;
+  font-size: 0.86rem;
+}
+
+.supervisor-configuration-progress-track {
+  height: 9px;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e5edea;
+}
+
+.supervisor-configuration-progress-track > span {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      #059669,
+      #34d399
+    );
+  transition: width 0.35s ease;
+}
+
+.supervisor-configuration-actions {
+  padding-left: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid #e3ebe8;
+}
+
+.supervisor-configuration-checklist {
+  display: grid;
+  gap: 10px;
+}
+
+.supervisor-configuration-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #778395;
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.supervisor-configuration-item > span {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d9e1e7;
+  border-radius: 50%;
+  background: #ffffff;
+  color: transparent;
+}
+
+.supervisor-configuration-item.completed {
+  color: #344054;
+}
+
+.supervisor-configuration-item.completed > span {
+  border-color: #a7f3d0;
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.supervisor-configuration-actions > button {
+  min-height: 46px;
+  margin-top: 20px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      #059669,
+      #10b981
+    );
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(5, 150, 105, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.supervisor-configuration-actions > button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(5, 150, 105, 0.26);
+}
+
+
+/* =========================================================
+   États vides du dashboard
+   ========================================================= */
+
+.supervisor-dashboard-empty-panel {
+  min-height: 390px;
+}
+
+.supervisor-dashboard-empty-state {
+  min-height: 260px;
+  padding: 36px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.supervisor-dashboard-empty-icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.supervisor-dashboard-empty-state h3 {
+  margin: 18px 0 0;
+  color: #1e293b;
+  font-size: 1rem;
+}
+
+.supervisor-dashboard-empty-state p {
+  max-width: 430px;
+  margin: 9px 0 0;
+  color: #7a8798;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.supervisor-dashboard-empty-state > button {
+  min-height: 43px;
+  margin-top: 20px;
+  padding: 0 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 11px;
+  background: #0f172a;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.supervisor-dashboard-empty-state > button:hover {
+  transform: translateY(-1px);
+  background: #1e293b;
+}
+
+.supervisor-dashboard-stations-empty {
+  min-height: 320px;
+}
+
+
+/* =========================================================
+   Parcours de démarrage
+   ========================================================= */
+
+.supervisor-dashboard-onboarding {
+  padding: 8px 0 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.supervisor-dashboard-onboarding-item {
+  position: relative;
+  padding: 15px 0;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 13px;
+}
+
+.supervisor-dashboard-onboarding-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 17px;
+  top: 50px;
+  bottom: -4px;
+  width: 1px;
+  background: #e3e8ee;
+}
+
+.supervisor-dashboard-onboarding-item > span {
+  position: relative;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #dce3ea;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #8792a2;
+}
+
+.supervisor-dashboard-onboarding-item.completed > span {
+  border-color: #a7f3d0;
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.supervisor-dashboard-onboarding-item > div {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.supervisor-dashboard-onboarding-item strong {
+  display: block;
+  color: #253044;
+  font-size: 0.84rem;
+}
+
+.supervisor-dashboard-onboarding-item p {
+  margin: 5px 0 0;
+  color: #8792a2;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   Adaptation des anciennes zones du dashboard
+   ========================================================= */
+
+.supervisor-dashboard-panel-header button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.supervisor-dashboard-period {
+  min-width: 190px;
+}
+
+.supervisor-dashboard-stock-ring {
+  background:
+    conic-gradient(
+      #e5eaf0 0deg,
+      #e5eaf0 360deg
+    );
+}
+
+.supervisor-dashboard-stock-ring::before {
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .supervisor-configuration-card {
+    grid-template-columns: 1fr;
+  }
+
+  .supervisor-configuration-actions {
+    padding-left: 0;
+    padding-top: 24px;
+    border-left: 0;
+    border-top: 1px solid #e3ebe8;
+  }
+
+  .supervisor-configuration-checklist {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .supervisor-configuration-actions > button {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 760px) {
+  .supervisor-configuration-card {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .supervisor-configuration-main {
+    flex-direction: column;
+  }
+
+  .supervisor-configuration-icon {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+
+  .supervisor-configuration-content h2 {
+    font-size: 1.18rem;
+  }
+
+  .supervisor-configuration-checklist {
+    grid-template-columns: 1fr;
+  }
+
+  .supervisor-configuration-actions > button {
+    width: 100%;
+  }
+
+  .supervisor-dashboard-empty-state {
+    min-height: 230px;
+    padding: 28px 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .supervisor-configuration-card {
+    padding: 18px;
+  }
+
+  .supervisor-configuration-progress-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .supervisor-dashboard-empty-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .supervisor-dashboard-onboarding-item {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .supervisor-dashboard-onboarding-item > span {
+    width: 34px;
+    height: 34px;
+  }
+
+  .supervisor-dashboard-onboarding-item:not(:last-child)::after {
+    left: 16px;
+  }
+}
