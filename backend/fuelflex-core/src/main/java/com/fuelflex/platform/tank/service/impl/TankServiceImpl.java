@@ -4,18 +4,16 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fuelflex.platform.common.exception.BusinessException;
+import com.fuelflex.platform.common.security.AuthorizationService;
+import com.fuelflex.platform.common.service.EntityLookupService;
+import com.fuelflex.platform.common.util.TextNormalizer;
 import com.fuelflex.platform.depot.entity.Depot;
-import com.fuelflex.platform.depot.repository.DepotRepository;
 import com.fuelflex.platform.product.entity.Product;
-import com.fuelflex.platform.product.repository.ProductRepository;
 import com.fuelflex.platform.station.entity.Station;
-import com.fuelflex.platform.station.repository.StationRepository;
 import com.fuelflex.platform.tank.dto.request.TankRequest;
 import com.fuelflex.platform.tank.dto.response.TankResponse;
 import com.fuelflex.platform.tank.entity.Tank;
@@ -23,8 +21,6 @@ import com.fuelflex.platform.tank.entity.TankStatus;
 import com.fuelflex.platform.tank.mapper.TankMapper;
 import com.fuelflex.platform.tank.repository.TankRepository;
 import com.fuelflex.platform.tank.service.TankService;
-import com.fuelflex.platform.user.entity.User;
-import com.fuelflex.platform.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,11 +30,9 @@ import lombok.RequiredArgsConstructor;
 public class TankServiceImpl implements TankService {
 
     private final TankRepository tankRepository;
-    private final DepotRepository depotRepository;
-    private final StationRepository stationRepository;
-    private final ProductRepository productRepository;
-    private final UserRepository userRepository;
     private final TankMapper tankMapper;
+    private final EntityLookupService entityLookupService;
+    private final AuthorizationService authorizationService;
 
     @Override
     public TankResponse create(
@@ -47,19 +41,21 @@ public class TankServiceImpl implements TankService {
             UUID depotId,
             TankRequest request
     ) {
-        validateAuthenticatedOrganization(organizationId);
+        authorizationService.checkOrganizationAccess(
+                organizationId
+        );
 
-        Station station = findStation(
+        Station station = entityLookupService.findStation(
                 organizationId,
                 stationId
         );
 
-        Depot depot = findDepot(
+        Depot depot = entityLookupService.findDepot(
                 stationId,
                 depotId
         );
 
-        Product product = findProduct(
+        Product product = entityLookupService.findProduct(
                 organizationId,
                 request.getProductId()
         );
@@ -70,11 +66,11 @@ public class TankServiceImpl implements TankService {
                 product
         );
 
-        String normalizedCode = normalizeCode(
+        String normalizedCode = TextNormalizer.normalizeCode(
                 request.getCode()
         );
 
-        String normalizedName = normalizeText(
+        String normalizedName = TextNormalizer.normalizeText(
                 request.getName()
         );
 
@@ -113,14 +109,16 @@ public class TankServiceImpl implements TankService {
             UUID stationId,
             UUID depotId
     ) {
-        validateAuthenticatedOrganization(organizationId);
+        authorizationService.checkOrganizationAccess(
+                organizationId
+        );
 
-        findStation(
+        entityLookupService.findStation(
                 organizationId,
                 stationId
         );
 
-        findDepot(
+        entityLookupService.findDepot(
                 stationId,
                 depotId
         );
@@ -139,14 +137,16 @@ public class TankServiceImpl implements TankService {
             UUID stationId,
             UUID depotId
     ) {
-        validateAuthenticatedOrganization(organizationId);
+        authorizationService.checkOrganizationAccess(
+                organizationId
+        );
 
-        findStation(
+        entityLookupService.findStation(
                 organizationId,
                 stationId
         );
 
-        findDepot(
+        entityLookupService.findDepot(
                 stationId,
                 depotId
         );
@@ -168,19 +168,21 @@ public class TankServiceImpl implements TankService {
             UUID depotId,
             UUID tankId
     ) {
-        validateAuthenticatedOrganization(organizationId);
+        authorizationService.checkOrganizationAccess(
+                organizationId
+        );
 
-        findStation(
+        entityLookupService.findStation(
                 organizationId,
                 stationId
         );
 
-        findDepot(
+        entityLookupService.findDepot(
                 stationId,
                 depotId
         );
 
-        Tank tank = findTank(
+        Tank tank = entityLookupService.findTank(
                 depotId,
                 tankId
         );
@@ -196,24 +198,26 @@ public class TankServiceImpl implements TankService {
             UUID tankId,
             TankRequest request
     ) {
-        validateAuthenticatedOrganization(organizationId);
+        authorizationService.checkOrganizationAccess(
+                organizationId
+        );
 
-        Station station = findStation(
+        Station station = entityLookupService.findStation(
                 organizationId,
                 stationId
         );
 
-        Depot depot = findDepot(
+        Depot depot = entityLookupService.findDepot(
                 stationId,
                 depotId
         );
 
-        Tank tank = findTank(
+        Tank tank = entityLookupService.findTank(
                 depotId,
                 tankId
         );
 
-        Product product = findProduct(
+        Product product = entityLookupService.findProduct(
                 organizationId,
                 request.getProductId()
         );
@@ -224,11 +228,11 @@ public class TankServiceImpl implements TankService {
                 product
         );
 
-        String normalizedCode = normalizeCode(
+        String normalizedCode = TextNormalizer.normalizeCode(
                 request.getCode()
         );
 
-        String normalizedName = normalizeText(
+        String normalizedName = TextNormalizer.normalizeText(
                 request.getName()
         );
 
@@ -269,19 +273,21 @@ public class TankServiceImpl implements TankService {
             UUID depotId,
             UUID tankId
     ) {
-        validateAuthenticatedOrganization(organizationId);
+        authorizationService.checkOrganizationAccess(
+                organizationId
+        );
 
-        findStation(
+        entityLookupService.findStation(
                 organizationId,
                 stationId
         );
 
-        findDepot(
+        entityLookupService.findDepot(
                 stationId,
                 depotId
         );
 
-        Tank tank = findTank(
+        Tank tank = entityLookupService.findTank(
                 depotId,
                 tankId
         );
@@ -296,70 +302,6 @@ public class TankServiceImpl implements TankService {
         tank.setStatus(TankStatus.OUT_OF_SERVICE);
 
         tankRepository.save(tank);
-    }
-
-    private Station findStation(
-            UUID organizationId,
-            UUID stationId
-    ) {
-        return stationRepository
-                .findByIdAndOrganizationId(
-                        stationId,
-                        organizationId
-                )
-                .orElseThrow(
-                        () -> new BusinessException(
-                                "Station introuvable dans cette organisation."
-                        )
-                );
-    }
-
-    private Depot findDepot(
-            UUID stationId,
-            UUID depotId
-    ) {
-        return depotRepository
-                .findByIdAndStationId(
-                        depotId,
-                        stationId
-                )
-                .orElseThrow(
-                        () -> new BusinessException(
-                                "Dépôt introuvable dans cette station."
-                        )
-                );
-    }
-
-    private Tank findTank(
-            UUID depotId,
-            UUID tankId
-    ) {
-        return tankRepository
-                .findByIdAndDepotId(
-                        tankId,
-                        depotId
-                )
-                .orElseThrow(
-                        () -> new BusinessException(
-                                "Citerne introuvable dans ce dépôt."
-                        )
-                );
-    }
-
-    private Product findProduct(
-            UUID organizationId,
-            UUID productId
-    ) {
-        return productRepository
-                .findByIdAndOrganizationId(
-                        productId,
-                        organizationId
-                )
-                .orElseThrow(
-                        () -> new BusinessException(
-                                "Produit introuvable dans cette organisation."
-                        )
-                );
     }
 
     private void validateOperationalHierarchy(
@@ -440,7 +382,9 @@ public class TankServiceImpl implements TankService {
 
     private void applyDefaultLevels(Tank tank) {
         if (tank.getMinimumLevelLiters() == null) {
-            tank.setMinimumLevelLiters(BigDecimal.ZERO);
+            tank.setMinimumLevelLiters(
+                    BigDecimal.ZERO
+            );
         }
 
         if (tank.getMaximumLevelLiters() == null) {
@@ -506,75 +450,5 @@ public class TankServiceImpl implements TankService {
                     "Une citerne utilisant ce nom existe déjà dans ce dépôt."
             );
         }
-    }
-
-    private User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder
-                .getContext()
-                .getAuthentication();
-
-        if (
-                authentication == null
-                        || !authentication.isAuthenticated()
-                        || authentication.getName() == null
-                        || authentication.getName().isBlank()
-        ) {
-            throw new BusinessException(
-                    "Utilisateur non authentifié."
-            );
-        }
-
-        return userRepository
-                .findByEmailIgnoreCase(
-                        authentication.getName()
-                )
-                .orElseThrow(
-                        () -> new BusinessException(
-                                "Utilisateur authentifié introuvable."
-                        )
-                );
-    }
-
-    private void validateAuthenticatedOrganization(
-            UUID organizationId
-    ) {
-        User authenticatedUser = getAuthenticatedUser();
-
-        if (authenticatedUser.getOrganization() == null) {
-            throw new BusinessException(
-                    "L’utilisateur authentifié n’est rattaché à aucune organisation."
-            );
-        }
-
-        if (
-                !authenticatedUser
-                        .getOrganization()
-                        .getId()
-                        .equals(organizationId)
-        ) {
-            throw new BusinessException(
-                    "Vous n’êtes pas autorisé à accéder à cette organisation."
-            );
-        }
-    }
-
-    private String normalizeCode(String value) {
-        if (value == null) {
-            return null;
-        }
-
-        return value.trim()
-                .toUpperCase()
-                .replaceAll("[^A-Z0-9]+", "_")
-                .replaceAll("^_+|_+$", "");
-    }
-
-    private String normalizeText(String value) {
-        if (value == null) {
-            return null;
-        }
-
-        return value.trim()
-                .replaceAll("\\s+", " ");
     }
 }
