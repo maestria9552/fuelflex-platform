@@ -1,6 +1,5 @@
 package com.fuelflex.platform.dispensingpoint.service.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +17,7 @@ import com.fuelflex.platform.dispensingpoint.entity.DispensingPointStatus;
 import com.fuelflex.platform.dispensingpoint.mapper.DispensingPointMapper;
 import com.fuelflex.platform.dispensingpoint.repository.DispensingPointRepository;
 import com.fuelflex.platform.dispensingpoint.service.DispensingPointService;
+import com.fuelflex.platform.fuelmeter.service.MeteringConsistencyService;
 import com.fuelflex.platform.pump.entity.Pump;
 import com.fuelflex.platform.pump.repository.PumpRepository;
 import com.fuelflex.platform.station.entity.Station;
@@ -36,6 +36,7 @@ public class DispensingPointServiceImpl
     private final DispensingPointMapper dispensingPointMapper;
     private final EntityLookupService entityLookupService;
     private final AuthorizationService authorizationService;
+    private final MeteringConsistencyService meteringConsistencyService;
 
     @Override
     public DispensingPointResponse create(
@@ -62,7 +63,7 @@ public class DispensingPointServiceImpl
 
         validatePumpActive(pump);
 
-        Tank tank = entityLookupService.findTank(
+        Tank tank = entityLookupService.findTankByStation(
                 stationId,
                 request.getTankId()
         );
@@ -89,10 +90,6 @@ public class DispensingPointServiceImpl
                 null
         );
 
-        validateCurrentIndex(
-                request.getCurrentIndex()
-        );
-
         DispensingPoint dispensingPoint =
                 dispensingPointMapper.toEntity(
                         request
@@ -111,13 +108,21 @@ public class DispensingPointServiceImpl
         }
 
         if (request.getActive() == null) {
-            dispensingPoint.setActive(true);
+            dispensingPoint.setActive(false);
         }
 
         if (dispensingPoint.getStatus() == null) {
             dispensingPoint.setStatus(
                     DispensingPointStatus.INACTIVE
             );
+        }
+
+        if (dispensingPoint.isActive()) {
+            meteringConsistencyService
+                    .validateBeforeActivatingDispensingPoint(
+                            pump,
+                            dispensingPoint
+                    );
         }
 
         DispensingPoint savedDispensingPoint =
@@ -255,7 +260,7 @@ public class DispensingPointServiceImpl
                         dispensingPointId
                 );
 
-        Tank tank = entityLookupService.findTank(
+        Tank tank = entityLookupService.findTankByStation(
                 stationId,
                 request.getTankId()
         );
@@ -282,11 +287,6 @@ public class DispensingPointServiceImpl
                 dispensingPointId
         );
 
-        validateCurrentIndexUpdate(
-                dispensingPoint.getCurrentIndex(),
-                request.getCurrentIndex()
-        );
-
         dispensingPointMapper.updateEntity(
                 dispensingPoint,
                 request
@@ -301,6 +301,14 @@ public class DispensingPointServiceImpl
                         || dispensingPoint.getDisplayOrder() < 1
         ) {
             dispensingPoint.setDisplayOrder(1);
+        }
+
+        if (dispensingPoint.isActive()) {
+            meteringConsistencyService
+                    .validateBeforeActivatingDispensingPoint(
+                            pump,
+                            dispensingPoint
+                    );
         }
 
         DispensingPoint updatedDispensingPoint =
@@ -345,6 +353,11 @@ public class DispensingPointServiceImpl
                     "Ce point de distribution est déjà désactivé."
             );
         }
+
+        meteringConsistencyService
+                .validateBeforeDeactivatingDispensingPoint(
+                        dispensingPoint
+                );
 
         dispensingPoint.setActive(false);
         dispensingPoint.setStatus(
@@ -492,35 +505,4 @@ public class DispensingPointServiceImpl
         }
     }
 
-    private void validateCurrentIndex(
-            BigDecimal currentIndex
-    ) {
-        if (currentIndex == null) {
-            throw new BusinessException(
-                    "L’index actuel est obligatoire."
-            );
-        }
-
-        if (currentIndex.compareTo(BigDecimal.ZERO) < 0) {
-            throw new BusinessException(
-                    "L’index actuel ne peut pas être négatif."
-            );
-        }
-    }
-
-    private void validateCurrentIndexUpdate(
-            BigDecimal previousIndex,
-            BigDecimal newIndex
-    ) {
-        validateCurrentIndex(newIndex);
-
-        if (
-                previousIndex != null
-                        && newIndex.compareTo(previousIndex) < 0
-        ) {
-            throw new BusinessException(
-                    "Le nouvel index ne peut pas être inférieur à l’index actuel."
-            );
-        }
-    }
 }

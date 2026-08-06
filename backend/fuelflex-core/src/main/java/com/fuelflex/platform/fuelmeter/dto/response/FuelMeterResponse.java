@@ -1,9 +1,11 @@
-package com.fuelflex.platform.dispensingpoint.dto.response;
+package com.fuelflex.platform.fuelmeter.dto.response;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.fuelflex.platform.dispensingpoint.entity.DispensingPointStatus;
+import com.fuelflex.platform.fuelmeter.entity.FuelMeterStatus;
+import com.fuelflex.platform.fuelmeter.entity.MeterTechnology;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,29 +18,23 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DispensingPointResponse {
+public class FuelMeterResponse {
 
     private UUID id;
 
     private UUID pumpId;
 
-    private String pumpCode;
-
-    private String pumpName;
-
-    private UUID tankId;
-
-    private String tankCode;
-
-    private String tankName;
+    private UUID dispensingPointId;
 
     private String code;
 
     private String name;
 
-    private Integer nozzleNumber;
+    private MeterTechnology technology;
 
-    private DispensingPointStatus status;
+    private BigDecimal currentIndex;
+
+    private FuelMeterStatus status;
 
     private Integer displayOrder;
 

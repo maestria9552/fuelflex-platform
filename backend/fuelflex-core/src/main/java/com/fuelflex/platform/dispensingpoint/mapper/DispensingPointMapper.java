@@ -20,8 +20,6 @@ public class DispensingPointMapper {
                 .code(request.getCode())
                 .name(request.getName())
                 .nozzleNumber(request.getNozzleNumber())
-                .meteringMode(request.getMeteringMode())
-                .currentIndex(request.getCurrentIndex())
                 .status(request.getStatus())
                 .displayOrder(request.getDisplayOrder())
                 .active(
@@ -52,14 +50,6 @@ public class DispensingPointMapper {
 
         dispensingPoint.setNozzleNumber(
                 request.getNozzleNumber()
-        );
-
-        dispensingPoint.setMeteringMode(
-                request.getMeteringMode()
-        );
-
-        dispensingPoint.setCurrentIndex(
-                request.getCurrentIndex()
         );
 
         dispensingPoint.setStatus(
@@ -120,12 +110,6 @@ public class DispensingPointMapper {
                 .name(dispensingPoint.getName())
                 .nozzleNumber(
                         dispensingPoint.getNozzleNumber()
-                )
-                .meteringMode(
-                        dispensingPoint.getMeteringMode()
-                )
-                .currentIndex(
-                        dispensingPoint.getCurrentIndex()
                 )
                 .status(
                         dispensingPoint.getStatus()

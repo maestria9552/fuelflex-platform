@@ -1,11 +1,12 @@
-package com.fuelflex.platform.dispensingpoint.entity;
+package com.fuelflex.platform.fuelmeter.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.fuelflex.platform.common.util.TextNormalizer;
+import com.fuelflex.platform.dispensingpoint.entity.DispensingPoint;
 import com.fuelflex.platform.pump.entity.Pump;
-import com.fuelflex.platform.tank.entity.Tank;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +22,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,38 +30,22 @@ import lombok.Setter;
 
 @Entity
 @Table(
-        name = "dispensing_points",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uk_dispensing_point_pump_code",
-                        columnNames = {
-                                "pump_id",
-                                "code"
-                        }
-                ),
-                @UniqueConstraint(
-                        name = "uk_dispensing_point_pump_nozzle",
-                        columnNames = {
-                                "pump_id",
-                                "nozzle_number"
-                        }
-                )
-        },
+        name = "fuel_meters",
         indexes = {
                 @Index(
-                        name = "idx_dispensing_point_pump",
+                        name = "idx_fuel_meter_pump",
                         columnList = "pump_id"
                 ),
                 @Index(
-                        name = "idx_dispensing_point_tank",
-                        columnList = "tank_id"
+                        name = "idx_fuel_meter_dispensing_point",
+                        columnList = "dispensing_point_id"
                 ),
                 @Index(
-                        name = "idx_dispensing_point_status",
+                        name = "idx_fuel_meter_status",
                         columnList = "status"
                 ),
                 @Index(
-                        name = "idx_dispensing_point_active",
+                        name = "idx_fuel_meter_active",
                         columnList = "active"
                 )
         }
@@ -71,71 +55,54 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DispensingPoint {
+public class FuelMeter {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY,
-            optional = false
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "pump_id",
-            nullable = false,
-            foreignKey = @ForeignKey(
-                    name = "fk_dispensing_point_pump"
-            )
+            foreignKey = @ForeignKey(name = "fk_fuel_meter_pump")
     )
     private Pump pump;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY,
-            optional = false
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "tank_id",
-            nullable = false,
+            name = "dispensing_point_id",
             foreignKey = @ForeignKey(
-                    name = "fk_dispensing_point_tank"
+                    name = "fk_fuel_meter_dispensing_point"
             )
     )
-    private Tank tank;
+    private DispensingPoint dispensingPoint;
 
-    @Column(
-            nullable = false,
-            length = 50
-    )
+    @Column(nullable = false, length = 50)
     private String code;
 
-    @Column(
-            nullable = false,
-            length = 150
-    )
+    @Column(nullable = false, length = 150)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private MeterTechnology technology;
+
     @Column(
-            name = "nozzle_number"
+            name = "current_index",
+            nullable = false,
+            precision = 19,
+            scale = 3
     )
-    private Integer nozzleNumber;
+    private BigDecimal currentIndex;
 
     @Enumerated(EnumType.STRING)
-    @Column(
-            nullable = false,
-            length = 30
-    )
-    private DispensingPointStatus status;
+    @Column(nullable = false, length = 30)
+    private FuelMeterStatus status;
 
-    @Column(
-            name = "display_order",
-            nullable = false
-    )
+    @Column(name = "display_order", nullable = false)
     private Integer displayOrder;
 
-    @Column(
-            nullable = false
-    )
+    @Column(nullable = false)
     private boolean active;
 
     @Column(
@@ -145,25 +112,22 @@ public class DispensingPoint {
     )
     private LocalDateTime createdAt;
 
-    @Column(
-            name = "updated_at",
-            nullable = false
-    )
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
-
         createdAt = now;
         updatedAt = now;
-
         normalizeFields();
 
-        if (status == null) {
-            status = DispensingPointStatus.INACTIVE;
+        if (currentIndex == null) {
+            currentIndex = BigDecimal.ZERO;
         }
-
+        if (status == null) {
+            status = FuelMeterStatus.INACTIVE;
+        }
         if (displayOrder == null || displayOrder < 1) {
             displayOrder = 1;
         }
@@ -172,9 +136,11 @@ public class DispensingPoint {
     @PreUpdate
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
-
         normalizeFields();
 
+        if (currentIndex == null) {
+            currentIndex = BigDecimal.ZERO;
+        }
         if (displayOrder == null || displayOrder < 1) {
             displayOrder = 1;
         }

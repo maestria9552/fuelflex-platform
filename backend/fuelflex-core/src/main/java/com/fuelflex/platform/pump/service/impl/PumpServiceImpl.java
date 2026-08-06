@@ -10,6 +10,7 @@ import com.fuelflex.platform.common.exception.BusinessException;
 import com.fuelflex.platform.common.security.AuthorizationService;
 import com.fuelflex.platform.common.service.EntityLookupService;
 import com.fuelflex.platform.common.util.TextNormalizer;
+import com.fuelflex.platform.fuelmeter.service.MeteringConsistencyService;
 import com.fuelflex.platform.pump.dto.request.PumpRequest;
 import com.fuelflex.platform.pump.dto.response.PumpResponse;
 import com.fuelflex.platform.pump.entity.Pump;
@@ -30,6 +31,7 @@ public class PumpServiceImpl implements PumpService {
     private final PumpMapper pumpMapper;
     private final EntityLookupService entityLookupService;
     private final AuthorizationService authorizationService;
+    private final MeteringConsistencyService meteringConsistencyService;
 
     @Override
     public PumpResponse create(
@@ -66,6 +68,10 @@ public class PumpServiceImpl implements PumpService {
                 station,
                 request.getPumpNumber(),
                 null
+        );
+
+        validateMeteringLevel(
+                request.getMeteringLevel()
         );
 
         Pump pump = pumpMapper.toEntity(request);
@@ -106,11 +112,15 @@ public class PumpServiceImpl implements PumpService {
         }
 
         if (request.getActive() == null) {
-            pump.setActive(true);
+            pump.setActive(false);
         }
 
         if (pump.getStatus() == null) {
             pump.setStatus(PumpStatus.INACTIVE);
+        }
+
+        if (pump.isActive()) {
+            meteringConsistencyService.validateBeforeActivatingPump(pump);
         }
 
         Pump savedPump = pumpRepository.save(pump);
@@ -233,6 +243,19 @@ public class PumpServiceImpl implements PumpService {
                 pumpId
         );
 
+        validateMeteringLevel(
+                request.getMeteringLevel()
+        );
+
+        meteringConsistencyService.validateBeforeChangingMeteringLevel(
+                pump,
+                request.getMeteringLevel()
+        );
+
+        boolean targetActive = request.getActive() == null
+                ? pump.isActive()
+                : request.getActive();
+
         pumpMapper.updateEntity(
                 pump,
                 request
@@ -270,6 +293,10 @@ public class PumpServiceImpl implements PumpService {
                         || pump.getDisplayOrder() < 1
         ) {
             pump.setDisplayOrder(1);
+        }
+
+        if (targetActive) {
+            meteringConsistencyService.validateBeforeActivatingPump(pump);
         }
 
         Pump updatedPump = pumpRepository.save(pump);
@@ -392,6 +419,16 @@ public class PumpServiceImpl implements PumpService {
         if (exists) {
             throw new BusinessException(
                     "Une pompe utilisant ce numéro existe déjà dans cette station."
+            );
+        }
+    }
+
+    private void validateMeteringLevel(
+            com.fuelflex.platform.pump.entity.MeteringLevel meteringLevel
+    ) {
+        if (meteringLevel == null) {
+            throw new BusinessException(
+                    "Le niveau de comptage de la pompe est obligatoire."
             );
         }
     }

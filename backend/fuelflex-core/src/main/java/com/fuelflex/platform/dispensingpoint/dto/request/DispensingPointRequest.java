@@ -1,12 +1,9 @@
 package com.fuelflex.platform.dispensingpoint.dto.request;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import com.fuelflex.platform.dispensingpoint.entity.DispensingPointStatus;
-import com.fuelflex.platform.dispensingpoint.entity.MeteringMode;
 
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -51,21 +48,6 @@ public class DispensingPointRequest {
             message = "Le numéro du pistolet doit être supérieur à zéro."
     )
     private Integer nozzleNumber;
-
-    @NotNull(
-            message = "Le mode de comptage est obligatoire."
-    )
-    private MeteringMode meteringMode;
-
-    @NotNull(
-            message = "L’index actuel est obligatoire."
-    )
-    @DecimalMin(
-            value = "0.000",
-            inclusive = true,
-            message = "L’index actuel ne peut pas être négatif."
-    )
-    private BigDecimal currentIndex;
 
     private DispensingPointStatus status;
 

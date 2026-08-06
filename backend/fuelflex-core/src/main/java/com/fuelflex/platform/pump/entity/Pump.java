@@ -103,6 +103,14 @@ public class Pump {
     )
     private Integer pumpNumber;
 
+    @Enumerated(EnumType.STRING)
+    @Column(
+            name = "metering_level",
+            nullable = false,
+            length = 30
+    )
+    private MeteringLevel meteringLevel;
+
     @Column(
             length = 100
     )
@@ -166,6 +174,10 @@ public class Pump {
 
         if (status == null) {
             status = PumpStatus.INACTIVE;
+        }
+
+        if (meteringLevel == null) {
+            meteringLevel = MeteringLevel.PUMP;
         }
 
         if (displayOrder == null || displayOrder < 1) {

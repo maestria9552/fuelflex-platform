@@ -3,6 +3,7 @@ package com.fuelflex.platform.pump.dto.response;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fuelflex.platform.pump.entity.MeteringLevel;
 import com.fuelflex.platform.pump.entity.PumpStatus;
 
 import lombok.Builder;
@@ -25,6 +26,8 @@ public class PumpResponse {
     private String name;
 
     private Integer pumpNumber;
+
+    private MeteringLevel meteringLevel;
 
     private String manufacturer;
 

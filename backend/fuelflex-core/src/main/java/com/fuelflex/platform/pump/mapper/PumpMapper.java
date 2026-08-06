@@ -19,6 +19,7 @@ public class PumpMapper {
                 .code(request.getCode())
                 .name(request.getName())
                 .pumpNumber(request.getPumpNumber())
+                .meteringLevel(request.getMeteringLevel())
                 .manufacturer(request.getManufacturer())
                 .model(request.getModel())
                 .serialNumber(request.getSerialNumber())
@@ -36,6 +37,7 @@ public class PumpMapper {
         pump.setCode(request.getCode());
         pump.setName(request.getName());
         pump.setPumpNumber(request.getPumpNumber());
+        pump.setMeteringLevel(request.getMeteringLevel());
         pump.setManufacturer(request.getManufacturer());
         pump.setModel(request.getModel());
         pump.setSerialNumber(request.getSerialNumber());
@@ -61,6 +63,7 @@ public class PumpMapper {
                 .code(pump.getCode())
                 .name(pump.getName())
                 .pumpNumber(pump.getPumpNumber())
+                .meteringLevel(pump.getMeteringLevel())
                 .manufacturer(pump.getManufacturer())
                 .model(pump.getModel())
                 .serialNumber(pump.getSerialNumber())

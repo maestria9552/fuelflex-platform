@@ -27,6 +27,11 @@ public interface TankRepository extends JpaRepository<Tank, UUID> {
             UUID depotId
     );
 
+    Optional<Tank> findByIdAndDepotStationId(
+            UUID tankId,
+            UUID stationId
+    );
+
     boolean existsByDepotIdAndCodeIgnoreCase(
             UUID depotId,
             String code
