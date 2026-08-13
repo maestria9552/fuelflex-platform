@@ -1,0 +1,187 @@
+.product-form-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.product-form-modal-context {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid #dbeafe;
+  border-radius: 13px;
+  background: #eff6ff;
+}
+
+.product-form-modal-context span {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.product-form-modal-context strong {
+  color: #1d4ed8;
+  font-size: 0.86rem;
+}
+
+.product-form-modal-alert {
+  padding: 13px 15px;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  background: #fff5f5;
+  color: #b91c1c;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.product-form-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px;
+}
+
+.product-form-modal-grid label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  color: #364152;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.product-form-modal-grid input,
+.product-form-modal-grid select,
+.product-form-modal-grid textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 12px;
+  border: 1px solid #dce3eb;
+  border-radius: 10px;
+  outline: none;
+  background: #fbfcfe;
+  color: #172033;
+  font: inherit;
+  font-size: 0.84rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-form-modal-grid input,
+.product-form-modal-grid select {
+  min-height: 46px;
+}
+
+.product-form-modal-grid textarea {
+  min-height: 100px;
+  padding-block: 12px;
+  resize: vertical;
+}
+
+.product-form-modal-grid input:focus,
+.product-form-modal-grid select:focus,
+.product-form-modal-grid textarea:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.09);
+}
+
+.product-form-modal-field-full {
+  grid-column: 1 / -1;
+}
+
+.product-form-modal-section { overflow: hidden; border: 1px solid #e2e8f0; border-radius: 13px; background: #ffffff; }
+.product-form-modal-section summary { padding: 14px 16px; background: #f8fafc; color: #334155; font-size: .8rem; font-weight: 800; cursor: pointer; user-select: none; }
+.product-form-modal-section[open] summary { border-bottom: 1px solid #edf2f7; }
+.product-form-modal-section > .product-form-modal-grid { padding: 17px; }
+.product-form-modal-administration { border-color: #dbeafe; }
+.product-form-modal-administration summary { background: #eff6ff; color: #1d4ed8; }
+
+.product-form-modal-grid .product-form-modal-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 15px;
+  border: 1px solid #dcefe7;
+  border-radius: 12px;
+  background: #f0fdf7;
+}
+
+.product-form-modal-checkbox input {
+  width: 18px;
+  min-height: 18px;
+  flex: 0 0 18px;
+  padding: 0;
+  accent-color: #059669;
+}
+
+.product-form-modal-cancel,
+.product-form-modal-save {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 17px;
+  border-radius: 11px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.product-form-modal-cancel {
+  border: 1px solid #dce3eb;
+  background: #ffffff;
+  color: #475569;
+}
+
+.product-form-modal-save {
+  border: 0;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.2);
+}
+
+.product-form-modal-cancel:disabled,
+.product-form-modal-save:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+.product-form-modal-spinner {
+  animation: product-form-modal-spin 0.8s linear infinite;
+}
+
+@keyframes product-form-modal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 620px) {
+  .product-form-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-form-modal-field-full {
+    grid-column: auto;
+  }
+
+  .product-form-modal-context {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.product-form-modal-details {
+  grid-column: 1 / -1;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+  background: #f8fafc;
+}
+.product-form-modal-details summary { color: #475569; font-size: .78rem; font-weight: 750; cursor: pointer; }
+.product-form-modal-details[open] summary { margin-bottom: 12px; }

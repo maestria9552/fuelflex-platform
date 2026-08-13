@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 
 import fuelFlexLogo from "../../assets/images/logofuelflex.png";

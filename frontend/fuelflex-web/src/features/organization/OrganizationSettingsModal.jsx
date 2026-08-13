@@ -256,16 +256,22 @@ function OrganizationSettingsModal({
     };
   }, [isOpen, organizationId]);
 
-  useEffect(() => {
-  if (!isOpen) {
+  const resetModalState = () => {
+    if (logoPreviewUrl) {
+      URL.revokeObjectURL(logoPreviewUrl);
+    }
+
     setActiveSection("general");
     setErrorMessage("");
     setSuccessMessage("");
-
     setSelectedLogoFile(null);
     setLogoPreviewUrl("");
-    }
-  }, [isOpen]);
+  };
+
+  const handleClose = () => {
+    resetModalState();
+    onClose?.();
+  };
 
   useEffect(() => {
   return () => {
@@ -439,7 +445,7 @@ function OrganizationSettingsModal({
       <button
         type="button"
         className="organization-settings-cancel"
-        onClick={onClose}
+        onClick={handleClose}
         disabled={isSaving}
       >
         Annuler
@@ -478,7 +484,7 @@ function OrganizationSettingsModal({
       footer={modalFooter}
       closeOnOverlay={!isSaving}
       closeOnEscape={!isSaving}
-      onClose={onClose}
+      onClose={handleClose}
     >
       {isLoading ? (
         <div className="organization-settings-loading">

@@ -212,15 +212,14 @@ class MeteringConsistencyServiceImplTest {
     }
 
     @Test
-    void refusesActivePointWithoutMeter() {
+    void acceptsActivePointWithoutMeterDuringConfiguration() {
         Pump pump = pump(MeteringLevel.DISPENSING_POINT);
         DispensingPoint point = point(pump, tank());
         when(fuelMeterRepository
                 .countByDispensingPointAndActiveTrue(point))
                 .thenReturn(0L);
 
-        assertThrows(
-                BusinessException.class,
+        assertDoesNotThrow(
                 () -> service.validateBeforeActivatingDispensingPoint(
                         pump,
                         point
@@ -274,6 +273,83 @@ class MeteringConsistencyServiceImplTest {
                         pump,
                         null
                 )
+        );
+    }
+
+
+    @Test
+    void acceptsActivePumpLevelWithoutMeterDuringConfiguration() {
+        Pump pump = pump(MeteringLevel.PUMP);
+        when(fuelMeterRepository
+                .existsByDispensingPointPumpAndActiveTrue(pump))
+                .thenReturn(false);
+        when(activePoints(pump)).thenReturn(List.of());
+
+        assertDoesNotThrow(
+                () -> service.validateBeforeActivatingPump(pump)
+        );
+    }
+
+
+    @Test
+    void acceptsActiveDispensingPointLevelWithoutPoints() {
+        Pump pump = pump(MeteringLevel.DISPENSING_POINT);
+        when(fuelMeterRepository.countByPumpAndActiveTrue(pump))
+                .thenReturn(0L);
+
+        assertDoesNotThrow(
+                () -> service.validateBeforeActivatingPump(pump)
+        );
+    }
+
+
+    @Test
+    void completePumpLevelRequiresOneGlobalMeter() {
+        Pump pump = pump(MeteringLevel.PUMP);
+        when(fuelMeterRepository
+                .existsByDispensingPointPumpAndActiveTrue(pump))
+                .thenReturn(false);
+        when(fuelMeterRepository.countByPumpAndActiveTrue(pump))
+                .thenReturn(0L);
+        when(activePoints(pump)).thenReturn(List.of());
+
+        assertThrows(
+                BusinessException.class,
+                () -> service.validateCompletePumpConfiguration(pump)
+        );
+    }
+
+
+    @Test
+    void completeDispensingPointLevelRequiresMeterForEachActivePoint() {
+        Pump pump = pump(MeteringLevel.DISPENSING_POINT);
+        DispensingPoint point = point(pump, tank());
+        when(fuelMeterRepository.countByPumpAndActiveTrue(pump))
+                .thenReturn(0L);
+        when(activePoints(pump)).thenReturn(List.of(point));
+        when(fuelMeterRepository
+                .countByDispensingPointAndActiveTrue(point))
+                .thenReturn(0L);
+
+        assertThrows(
+                BusinessException.class,
+                () -> service.validateCompletePumpConfiguration(pump)
+        );
+    }
+
+
+    @Test
+    void acceptsCompletePumpConfiguration() {
+        Pump pump = pump(MeteringLevel.PUMP);
+        when(fuelMeterRepository
+                .existsByDispensingPointPumpAndActiveTrue(pump))
+                .thenReturn(false);
+        when(fuelMeterRepository.countByPumpAndActiveTrue(pump))
+                .thenReturn(1L);
+        when(activePoints(pump)).thenReturn(List.of());
+
+        assertDoesNotThrow(
+                () -> service.validateCompletePumpConfiguration(pump)
         );
     }
 

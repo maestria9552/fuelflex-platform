@@ -119,10 +119,6 @@ public class PumpServiceImpl implements PumpService {
             pump.setStatus(PumpStatus.INACTIVE);
         }
 
-        if (pump.isActive()) {
-            meteringConsistencyService.validateBeforeActivatingPump(pump);
-        }
-
         Pump savedPump = pumpRepository.save(pump);
 
         return pumpMapper.toResponse(savedPump);

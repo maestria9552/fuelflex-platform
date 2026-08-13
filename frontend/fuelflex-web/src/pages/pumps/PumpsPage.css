@@ -1,0 +1,52 @@
+.pumps-page { width: min(100%, 1180px); margin: 0 auto; }
+.pumps-page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
+.pumps-page-header span { color: #2563eb; font-size: .69rem; font-weight: 850; letter-spacing: .09em; }
+.pumps-page-header h1 { margin: 5px 0; color: #0f172a; font-size: 1.75rem; }
+.pumps-page-header p { margin: 0; color: #64748b; font-size: .86rem; }
+.pumps-page-primary { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 8px; padding: 0 15px; border: 0; border-radius: 10px; background: #2563eb; color: #fff; font: inherit; font-size: .78rem; font-weight: 750; cursor: pointer; }
+.pumps-page-alert { display: flex; align-items: center; gap: 9px; margin-bottom: 16px; padding: 12px 14px; border-radius: 11px; font-size: .8rem; }
+.pumps-page-alert.success { border: 1px solid #bbf7d0; background: #f0fdf4; color: #047857; }
+.pumps-page-alert.error { border: 1px solid #fecaca; background: #fff5f5; color: #b91c1c; }
+.pumps-page-alert button { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; border: 0; background: transparent; color: inherit; font: inherit; font-weight: 750; cursor: pointer; }
+.pumps-page-station-selector { margin-bottom: 16px; padding: 17px; border: 1px solid #e2e8f0; border-radius: 15px; background: #fff; box-shadow: 0 10px 28px rgba(15, 23, 42, .04); }
+.pumps-page-station-selector label { display: flex; max-width: 520px; flex-direction: column; gap: 8px; color: #334155; font-size: .78rem; font-weight: 800; }
+.pumps-page-station-selector select { min-height: 44px; padding: 0 12px; border: 1px solid #dce3eb; border-radius: 10px; outline: 0; background: #fff; color: #172033; color-scheme: light; font: inherit; font-size: .8rem; }
+.pumps-page-station-selector select:focus { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, .09); }
+.pumps-page-station-selector p { margin: 10px 0 0; color: #64748b; font-size: .75rem; }
+.pumps-page-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.pumps-page-toolbar label { display: flex; width: min(100%, 500px); min-height: 44px; align-items: center; gap: 9px; padding: 0 13px; border: 1px solid #dce3eb; border-radius: 11px; background: #fff; color: #94a3b8; transition: border-color .2s, box-shadow .2s; }
+.pumps-page-toolbar label:focus-within { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, .09); }
+.pumps-page-toolbar input { width: 100%; border: 0; outline: 0; background: #fff; color: #172033; color-scheme: light; font: inherit; font-size: .8rem; }
+.pumps-page-toolbar input::placeholder { color: #94a3b8; opacity: 1; }
+.pumps-page-toolbar > span { color: #64748b; font-size: .75rem; font-weight: 700; }
+.pumps-page-state { display: flex; min-height: 250px; align-items: center; justify-content: center; gap: 10px; border: 1px solid #e2e8f0; border-radius: 17px; background: #fff; color: #64748b; text-align: center; }
+.pumps-page-state.empty { flex-direction: column; color: #94a3b8; }
+.pumps-page-state.compact { min-height: 190px; }
+.pumps-page-state h2 { margin: 3px 0 0; color: #334155; font-size: 1rem; }
+.pumps-page-state p { margin: 0 0 8px; color: #64748b; font-size: .8rem; }
+.pumps-page-spinner { animation: pumps-page-spin .8s linear infinite; }
+.pumps-page-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+.pumps-page-grid article { display: flex; min-width: 0; flex-direction: column; gap: 13px; padding: 18px; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 12px 32px rgba(15, 23, 42, .045); }
+.pumps-page-grid article.inactive { background: #f8fafc; }
+.pumps-page-card-heading { display: flex; min-width: 0; align-items: flex-start; gap: 11px; }
+.pumps-page-card-heading > span { display: grid; width: 40px; height: 40px; flex: 0 0 40px; place-items: center; border-radius: 11px; background: #eff6ff; color: #2563eb; }
+.pumps-page-card-heading > div { min-width: 0; }
+.pumps-page-card-heading small { color: #2563eb; font-size: .68rem; font-weight: 800; }
+.pumps-page-card-heading h2 { margin: 3px 0; overflow: hidden; color: #0f172a; font-size: 1rem; text-overflow: ellipsis; white-space: nowrap; }
+.pumps-page-card-heading p { margin: 0; color: #64748b; font-size: .74rem; }
+.pumps-page-metering { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid #bfdbfe; border-radius: 11px; background: #eff6ff; color: #2563eb; }
+.pumps-page-metering.point { border-color: #c7d2fe; background: #eef2ff; color: #4f46e5; }
+.pumps-page-metering div { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.pumps-page-metering strong { color: #1e3a8a; font-size: .78rem; }
+.pumps-page-metering.point strong { color: #3730a3; }
+.pumps-page-metering span { color: #64748b; font-size: .68rem; }
+.pumps-page-location { display: flex; align-items: center; gap: 6px; margin: 0; color: #64748b; font-size: .74rem; }
+.pumps-page-badges { display: flex; flex-wrap: wrap; gap: 7px; }
+.pumps-page-badges em { padding: 5px 8px; border-radius: 999px; background: #f1f5f9; color: #64748b; font-size: .66rem; font-style: normal; font-weight: 800; }
+.pumps-page-badges .active, .pumps-page-badges .status.active { background: #ecfdf5; color: #047857; }
+.pumps-page-badges .status.maintenance { background: #fffbeb; color: #b45309; }
+.pumps-page-badges .status.out_of_service { background: #fef2f2; color: #b91c1c; }
+.pumps-page-actions { display: flex; justify-content: flex-end; margin-top: auto; padding-top: 12px; border-top: 1px solid #edf2f7; }
+.pumps-page-actions button { display: inline-flex; min-height: 36px; align-items: center; gap: 6px; padding: 0 11px; border: 1px solid #dbeafe; border-radius: 9px; background: #eff6ff; color: #1d4ed8; font: inherit; font-size: .72rem; font-weight: 750; cursor: pointer; }
+@keyframes pumps-page-spin { to { transform: rotate(360deg); } }
+@media (max-width: 760px) { .pumps-page-header, .pumps-page-toolbar { align-items: stretch; flex-direction: column; } .pumps-page-toolbar label { width: auto; } .pumps-page-grid { grid-template-columns: 1fr; } }

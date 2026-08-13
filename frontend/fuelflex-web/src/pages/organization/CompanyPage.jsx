@@ -83,27 +83,26 @@ function CompanyPage() {
   const [organization, setOrganization] =
     useState(null);
 
+  const organizationId =
+    user.organizationId || null;
+
   const [isLoading, setIsLoading] =
-    useState(true);
+    useState(Boolean(organizationId));
 
   const [errorMessage, setErrorMessage] =
-    useState("");
+    useState(
+      organizationId
+        ? ""
+        : "Aucune société n’est associée à ce compte."
+    );
 
   const [
     isOrganizationModalOpen,
     setIsOrganizationModalOpen,
   ] = useState(false);
 
-  const organizationId =
-    user.organizationId || null;
-
   useEffect(() => {
     if (!organizationId) {
-      setErrorMessage(
-        "Aucune société n’est associée à ce compte."
-      );
-
-      setIsLoading(false);
       return undefined;
     }
 
@@ -125,16 +124,15 @@ function CompanyPage() {
 
         setOrganization(result);
 
-        const refreshedUser =
-          buildUserOrganizationData(
-            user,
-            result
-          );
+        setUser((currentUser) => {
+          const refreshedUser =
+            buildUserOrganizationData(
+              currentUser,
+              result
+            );
 
-        const storedUser =
-          mergeStoredUser(refreshedUser);
-
-        setUser(storedUser);
+          return mergeStoredUser(refreshedUser);
+        });
       } catch (error) {
         if (isCancelled) {
           return;
@@ -571,6 +569,7 @@ function CompanyPage() {
       </main>
 
       <OrganizationSettingsModal
+        key={isOrganizationModalOpen ? "open" : "closed"}
         isOpen={isOrganizationModalOpen}
         organizationId={organizationId}
         onClose={handleCloseOrganizationModal}

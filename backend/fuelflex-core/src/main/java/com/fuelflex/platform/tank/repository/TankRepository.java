@@ -53,4 +53,9 @@ public interface TankRepository extends JpaRepository<Tank, UUID> {
             String name,
             UUID tankId
     );
+
+    boolean existsByDepotStationIdAndProductId(
+            UUID stationId,
+            UUID productId
+    );
 }

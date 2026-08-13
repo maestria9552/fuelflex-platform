@@ -59,6 +59,10 @@ public class StationServiceImpl implements StationService {
         Station station =
                 stationMapper.toEntity(request);
 
+        if (request.getActive() == null) {
+            station.setActive(true);
+        }
+
         station.setOrganization(organization);
         station.setCode(normalizedCode);
         station.setName(normalizedName);

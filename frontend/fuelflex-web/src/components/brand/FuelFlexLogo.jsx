@@ -1,4 +1,3 @@
-import React from "react";
 import fuelFlexLogo from "../../assets/images/logofuelflex.png";
 import "./FuelFlexLogo.css";
 

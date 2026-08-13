@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fuelflex.platform.station.dto.request.StationRequest;
 import com.fuelflex.platform.station.dto.response.StationResponse;
+import com.fuelflex.platform.station.dto.response.StationConfigurationValidationResponse;
+import com.fuelflex.platform.station.service.StationConfigurationValidationService;
 import com.fuelflex.platform.station.service.StationService;
 
 import jakarta.validation.Valid;
@@ -27,6 +29,9 @@ import lombok.RequiredArgsConstructor;
 public class StationController {
 
     private final StationService stationService;
+
+    private final StationConfigurationValidationService
+            stationConfigurationValidationService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -64,6 +69,17 @@ public class StationController {
             @PathVariable UUID stationId
     ) {
         return stationService.findById(
+                organizationId,
+                stationId
+        );
+    }
+
+    @GetMapping("/{stationId}/configuration-validation")
+    public StationConfigurationValidationResponse validateConfiguration(
+            @PathVariable UUID organizationId,
+            @PathVariable UUID stationId
+    ) {
+        return stationConfigurationValidationService.validate(
                 organizationId,
                 stationId
         );

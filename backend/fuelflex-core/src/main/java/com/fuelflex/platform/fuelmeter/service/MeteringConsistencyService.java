@@ -30,6 +30,8 @@ public interface MeteringConsistencyService {
 
     void validateBeforeActivatingPump(Pump pump);
 
+    void validateCompletePumpConfiguration(Pump pump);
+
     void validateBeforeDeactivatingMeter(FuelMeter fuelMeter);
 
     void validateBeforeDeactivatingDispensingPoint(

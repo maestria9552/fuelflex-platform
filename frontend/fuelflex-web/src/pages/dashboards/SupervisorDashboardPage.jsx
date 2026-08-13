@@ -170,16 +170,15 @@ function SupervisorDashboardPage() {
         return;
       }
 
-      const refreshedUser =
-        buildUserOrganizationData(
-          user,
-          organization
-        );
+      setUser((currentUser) => {
+        const refreshedUser =
+          buildUserOrganizationData(
+            currentUser,
+            organization
+          );
 
-      const storedUser =
-        mergeStoredUser(refreshedUser);
-
-      setUser(storedUser);
+        return mergeStoredUser(refreshedUser);
+      });
     } catch (error) {
       console.error(
         "Impossible de charger l’organisation :",

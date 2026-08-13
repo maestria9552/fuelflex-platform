@@ -25,6 +25,7 @@ public class PumpMapper {
                 .serialNumber(request.getSerialNumber())
                 .location(request.getLocation())
                 .displayOrder(request.getDisplayOrder())
+                .status(request.getStatus())
                 .active(Boolean.TRUE.equals(request.getActive()))
                 .build();
     }
@@ -43,6 +44,10 @@ public class PumpMapper {
         pump.setSerialNumber(request.getSerialNumber());
         pump.setLocation(request.getLocation());
         pump.setDisplayOrder(request.getDisplayOrder());
+
+        if (request.getStatus() != null) {
+            pump.setStatus(request.getStatus());
+        }
 
         if (request.getActive() != null) {
             pump.setActive(request.getActive());

@@ -1,6 +1,6 @@
-import React from "react";
 import "./SupervisorSidebar.css";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -17,6 +17,7 @@ import {
   Settings2,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   X,
 } from "lucide-react";
 
@@ -74,6 +75,10 @@ const navigationGroups = [
         label: "Pompes",
         path: "/superviseur/pompes",
         icon: Fuel,
+        children: [
+          { id: "pistolets", label: "Pistolets", path: "/superviseur/pistolets" },
+          { id: "compteurs", label: "Compteurs", path: "/superviseur/compteurs" },
+        ],
       },
       {
         id: "tarification",
@@ -133,6 +138,13 @@ function SupervisorSidebar({
   onClose,
   onToggleCollapse,
 }) {
+  const location = useLocation();
+  const isPumpSectionActive = ["/superviseur/pompes", "/superviseur/pistolets", "/superviseur/compteurs"].includes(location.pathname);
+  const isPumpChildActive = ["/superviseur/pistolets", "/superviseur/compteurs"].includes(location.pathname);
+  const [isPumpsOpen, setIsPumpsOpen] = useState(isPumpSectionActive);
+
+  const showPumpsOpen = isPumpChildActive || isPumpsOpen;
+
   const sidebarWidth = isCollapsed ? 88 : 286;
 
   return (
@@ -206,6 +218,21 @@ function SupervisorSidebar({
               <div className="supervisor-sidebar-group-links">
                 {group.items.map((item) => {
                   const Icon = item.icon;
+
+                  if (item.children) {
+                    return (
+                      <div className="supervisor-sidebar-parent" key={item.id}>
+                        <div className="supervisor-sidebar-parent-row">
+                          <NavLink to={item.path} onClick={onClose} title={isCollapsed ? item.label : undefined} className={`supervisor-sidebar-link supervisor-sidebar-parent-link ${isPumpSectionActive ? "supervisor-sidebar-link-active" : ""}`}>
+                            <span className="supervisor-sidebar-link-icon"><Icon size={20} strokeWidth={1.8} aria-hidden="true" /></span>
+                            {!isCollapsed && <span className="supervisor-sidebar-link-label">{item.label}</span>}
+                          </NavLink>
+                          {!isCollapsed && <button type="button" className="supervisor-sidebar-submenu-toggle" aria-label={showPumpsOpen ? "Replier le sous-menu Pompes" : "Développer le sous-menu Pompes"} aria-expanded={showPumpsOpen} onClick={() => setIsPumpsOpen((current) => isPumpChildActive ? true : !current)}><ChevronDown size={17} aria-hidden="true" /></button>}
+                        </div>
+                        {!isCollapsed && showPumpsOpen && <div className="supervisor-sidebar-submenu">{item.children.map((child) => <NavLink key={child.id} to={child.path} onClick={onClose} className={({ isActive }) => `supervisor-sidebar-sublink ${isActive ? "supervisor-sidebar-sublink-active" : ""}`}><span />{child.label}</NavLink>)}</div>}
+                      </div>
+                    );
+                  }
 
                   return (
                     <NavLink

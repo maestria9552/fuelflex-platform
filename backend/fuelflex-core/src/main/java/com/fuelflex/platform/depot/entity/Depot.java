@@ -140,9 +140,6 @@ public class Depot {
             displayOrder = 1;
         }
 
-        if (!active) {
-            active = true;
-        }
     }
 
     @PreUpdate

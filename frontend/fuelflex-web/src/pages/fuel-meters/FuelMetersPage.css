@@ -1,0 +1,58 @@
+.fuel-meters-page { width: min(100%, 1180px); margin: 0 auto; }
+.fuel-meters-page-header { margin-bottom: 20px; }
+.fuel-meters-page-header span { color: #2563eb; font-size: .69rem; font-weight: 850; letter-spacing: .09em; }
+.fuel-meters-page-header h1 { margin: 5px 0; color: #0f172a; font-size: 1.75rem; }
+.fuel-meters-page-header p { margin: 0; color: #64748b; font-size: .86rem; }
+.fuel-meters-page-primary { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; gap: 8px; padding: 0 14px; border: 0; border-radius: 10px; background: #2563eb; color: #fff; font: inherit; font-size: .76rem; font-weight: 750; text-decoration: none; cursor: pointer; }
+.fuel-meters-page-alert { display: flex; align-items: center; gap: 9px; margin-bottom: 16px; padding: 12px 14px; border-radius: 11px; font-size: .8rem; }
+.fuel-meters-page-alert.success { border: 1px solid #bbf7d0; background: #f0fdf4; color: #047857; }
+.fuel-meters-page-alert.error { border: 1px solid #fecaca; background: #fff5f5; color: #b91c1c; }
+.fuel-meters-page-alert button { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; border: 0; background: transparent; color: inherit; font: inherit; font-weight: 750; cursor: pointer; }
+.fuel-meters-page-selectors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 16px; padding: 17px; border: 1px solid #e2e8f0; border-radius: 15px; background: #fff; box-shadow: 0 10px 28px rgba(15, 23, 42, .04); }
+.fuel-meters-page-selectors label { display: flex; flex-direction: column; gap: 8px; color: #334155; font-size: .78rem; font-weight: 800; }
+.fuel-meters-page-selectors select { min-height: 44px; padding: 0 12px; border: 1px solid #dce3eb; border-radius: 10px; outline: 0; background: #fff; color: #172033; font: inherit; font-size: .8rem; }
+.fuel-meters-page-selectors select:focus { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, .09); }
+.fuel-meters-page-mode { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; padding: 15px; border: 1px solid #bfdbfe; border-radius: 13px; background: #eff6ff; color: #2563eb; }
+.fuel-meters-page-mode.point { border-color: #c7d2fe; background: #eef2ff; color: #4f46e5; }
+.fuel-meters-page-mode div { display: flex; flex-direction: column; gap: 3px; }
+.fuel-meters-page-mode small { color: #64748b; font-size: .68rem; }
+.fuel-meters-page-mode strong { color: #1e3a8a; font-size: .86rem; }
+.fuel-meters-page-mode p { margin: 0; color: #64748b; font-size: .73rem; }
+.fuel-meters-page-state { display: flex; min-height: 245px; align-items: center; justify-content: center; gap: 10px; border: 1px solid #e2e8f0; border-radius: 17px; background: #fff; color: #64748b; text-align: center; }
+.fuel-meters-page-state.empty { flex-direction: column; color: #94a3b8; }
+.fuel-meters-page-state.compact { min-height: 175px; }
+.fuel-meters-page-state h2 { margin: 3px 0 0; color: #334155; font-size: 1rem; }
+.fuel-meters-page-state p { margin: 0 0 8px; color: #64748b; font-size: .8rem; }
+.fuel-meters-page-spinner { animation: fuel-meters-spin .8s linear infinite; }
+.fuel-meters-page-global-card, .fuel-meters-page-point-grid article { position: relative; display: flex; flex-direction: column; gap: 13px; padding: 19px; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 12px 32px rgba(15, 23, 42, .045); }
+.fuel-meters-page-global-card { max-width: 720px; }
+.fuel-meters-page-card-heading { display: flex; align-items: flex-start; gap: 11px; }
+.fuel-meters-page-card-heading > span { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 11px; background: #eff6ff; color: #2563eb; }
+.fuel-meters-page-card-heading small, .fuel-meters-page-point-grid header small { color: #2563eb; font-size: .67rem; font-weight: 800; }
+.fuel-meters-page-card-heading h2, .fuel-meters-page-point-grid h2 { margin: 3px 0; color: #0f172a; font-size: 1rem; }
+.fuel-meters-page-point-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+.fuel-meters-page-point-grid article.inactive { background: #f8fafc; }
+.fuel-meters-page-point-grid header { display: flex; justify-content: space-between; gap: 12px; }
+.fuel-meters-page-point-grid header p { margin: 0; color: #64748b; font-size: .72rem; }
+.fuel-meters-page-point-grid header > em { color: #64748b; font-size: .66rem; font-style: normal; font-weight: 800; }
+.fuel-meters-page-point-grid h3 { margin: 0; color: #172033; font-size: .92rem; }
+.fuel-meters-page-configured { color: #047857; font-size: .7rem; text-transform: uppercase; }
+.fuel-meters-page-meter-details { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.fuel-meters-page-meter-details div { display: flex; min-width: 0; flex-direction: column; gap: 3px; padding: 10px; border-radius: 10px; background: #f8fafc; }
+.fuel-meters-page-meter-details small { color: #94a3b8; font-size: .64rem; }
+.fuel-meters-page-meter-details strong { overflow: hidden; color: #334155; font-size: .75rem; text-overflow: ellipsis; }
+.fuel-meters-page-badges { display: flex; flex-wrap: wrap; gap: 7px; }
+.fuel-meters-page-badges em { padding: 5px 8px; border-radius: 999px; background: #f1f5f9; color: #64748b; font-size: .66rem; font-style: normal; font-weight: 800; }
+.fuel-meters-page-badges .active, .fuel-meters-page-badges .status.active { background: #ecfdf5; color: #047857; }
+.fuel-meters-page-badges .status.maintenance { background: #fffbeb; color: #b45309; }
+.fuel-meters-page-badges .status.out_of_service { background: #fef2f2; color: #b91c1c; }
+.fuel-meters-page-edit { align-self: flex-end; display: inline-flex; min-height: 36px; align-items: center; gap: 6px; padding: 0 11px; border: 1px solid #dbeafe; border-radius: 9px; background: #eff6ff; color: #1d4ed8; font: inherit; font-size: .72rem; font-weight: 750; cursor: pointer; }
+.fuel-meters-page-missing { display: flex; min-height: 180px; align-items: center; justify-content: center; flex-direction: column; gap: 7px; color: #94a3b8; text-align: center; }
+.fuel-meters-page-missing strong { color: #475569; font-size: .85rem; }
+.fuel-meters-page-missing p { margin: 0 0 5px; color: #64748b; font-size: .72rem; }
+.fuel-meters-page-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.fuel-meters-page-toolbar label { display: flex; width: min(100%, 500px); min-height: 44px; align-items: center; gap: 9px; padding: 0 13px; border: 1px solid #dce3eb; border-radius: 11px; background: #fff; color: #94a3b8; }
+.fuel-meters-page-toolbar input { width: 100%; border: 0; outline: 0; background: #fff; color: #172033; font: inherit; font-size: .8rem; }
+.fuel-meters-page-toolbar > span { color: #64748b; font-size: .75rem; font-weight: 700; }
+@keyframes fuel-meters-spin { to { transform: rotate(360deg); } }
+@media (max-width: 760px) { .fuel-meters-page-selectors, .fuel-meters-page-point-grid, .fuel-meters-page-meter-details { grid-template-columns: 1fr; } .fuel-meters-page-toolbar { align-items: stretch; flex-direction: column; } .fuel-meters-page-toolbar label { width: auto; } }

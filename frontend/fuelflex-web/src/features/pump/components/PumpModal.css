@@ -1,0 +1,47 @@
+.pump-modal-metering {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.pump-modal-metering legend {
+  grid-column: 1 / -1;
+  margin-bottom: 2px;
+  color: #364152;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.product-form-modal-grid .pump-modal-metering label {
+  display: grid;
+  grid-template-columns: 18px 22px minmax(0, 1fr);
+  align-items: flex-start;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 13px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.product-form-modal-grid .pump-modal-metering label.selected {
+  border-color: #93c5fd;
+  background: #eff6ff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .06);
+}
+
+.pump-modal-metering input { width: 17px; min-height: 17px; margin-top: 2px; padding: 0; accent-color: #2563eb; }
+.pump-modal-metering svg { margin-top: 1px; color: #2563eb; }
+.pump-modal-metering label > span { display: flex; flex-direction: column; gap: 5px; }
+.pump-modal-metering strong { color: #0f172a; font-size: .82rem; }
+.pump-modal-metering small { color: #64748b; font-size: .73rem; font-weight: 500; line-height: 1.45; }
+.pump-modal-metering em { color: #1d4ed8; font-size: .69rem; font-style: normal; font-weight: 650; line-height: 1.4; }
+.pump-modal-metering-warning { margin: -8px 0 0; padding: 10px 12px; border: 1px solid #fde68a; border-radius: 10px; background: #fffbeb; color: #92400e; font-size: .73rem; line-height: 1.45; }
+
+@media (max-width: 620px) {
+  .pump-modal-metering { grid-template-columns: 1fr; }
+  .pump-modal-metering legend { grid-column: auto; }
+}

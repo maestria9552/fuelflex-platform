@@ -1,0 +1,38 @@
+.tank-modal-levels {
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.tank-modal-levels-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.tank-modal-levels-heading strong {
+  color: #334155;
+  font-size: .8rem;
+}
+
+.tank-modal-levels-heading span {
+  color: #64748b;
+  font-size: .72rem;
+}
+
+.tank-modal-levels > .product-form-modal-grid {
+  padding: 17px;
+}
+
+@media (max-width: 620px) {
+  .tank-modal-levels-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+}

@@ -20,6 +20,7 @@ import com.fuelflex.platform.organization.service.OrganizationService;
 import com.fuelflex.platform.user.entity.User;
 import com.fuelflex.platform.user.repository.UserRepository;
 import com.fuelflex.platform.storage.service.OrganizationLogoStorageService;
+import com.fuelflex.platform.tariffcategory.service.DefaultTariffCategoryService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +35,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationMapper organizationMapper;
     private final UserRepository userRepository;
     private final OrganizationLogoStorageService organizationLogoStorageService;
+    private final DefaultTariffCategoryService defaultTariffCategoryService;
 
     @Override
     public OrganizationResponse create(
@@ -77,6 +79,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         Organization savedOrganization =
                 organizationRepository.save(organization);
+
+        defaultTariffCategoryService.ensureDefaults(savedOrganization);
 
         /*
          * Le créateur du compte est automatiquement rattaché

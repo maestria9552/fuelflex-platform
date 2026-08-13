@@ -116,15 +116,6 @@ public class MeteringConsistencyServiceImpl
             return;
         }
 
-        long count = fuelMeterRepository
-                .countByDispensingPointAndActiveTrue(
-                        dispensingPoint
-                );
-        if (count != 1) {
-            throw new BusinessException(
-                    "Chaque point de distribution actif doit posséder exactement un compteur actif."
-            );
-        }
         if (fuelMeterRepository.countByPumpAndActiveTrue(pump) > 0) {
             throw new BusinessException(
                     "Le mode hybride de comptage est interdit."
@@ -154,22 +145,11 @@ public class MeteringConsistencyServiceImpl
             throw incoherentLevelChange();
         }
 
-        for (DispensingPoint point : activePoints(pump)) {
-            if (fuelMeterRepository
-                    .countByDispensingPointAndActiveTrue(point) != 1) {
-                throw incoherentLevelChange();
-            }
-        }
     }
 
     @Override
     public void validateBeforeActivatingPump(Pump pump) {
         if (pump.getMeteringLevel() == MeteringLevel.PUMP) {
-            if (fuelMeterRepository.countByPumpAndActiveTrue(pump) != 1) {
-                throw new BusinessException(
-                        "Une pompe en comptage global doit posséder exactement un compteur actif."
-                );
-            }
             if (fuelMeterRepository
                     .existsByDispensingPointPumpAndActiveTrue(pump)) {
                 throw new BusinessException(
@@ -185,6 +165,21 @@ public class MeteringConsistencyServiceImpl
                     "Un compteur global est incompatible avec le niveau de comptage par point de distribution."
             );
         }
+    }
+
+    @Override
+    public void validateCompletePumpConfiguration(Pump pump) {
+        validateBeforeActivatingPump(pump);
+
+        if (pump.getMeteringLevel() == MeteringLevel.PUMP) {
+            if (fuelMeterRepository.countByPumpAndActiveTrue(pump) != 1) {
+                throw new BusinessException(
+                        "Une pompe en comptage global doit posséder exactement un compteur actif."
+                );
+            }
+            return;
+        }
+
         for (DispensingPoint point : activePoints(pump)) {
             if (fuelMeterRepository
                     .countByDispensingPointAndActiveTrue(point) != 1) {

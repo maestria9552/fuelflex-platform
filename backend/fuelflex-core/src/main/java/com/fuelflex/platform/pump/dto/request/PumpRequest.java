@@ -1,6 +1,7 @@
 package com.fuelflex.platform.pump.dto.request;
 
 import com.fuelflex.platform.pump.entity.MeteringLevel;
+import com.fuelflex.platform.pump.entity.PumpStatus;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -41,6 +42,8 @@ public class PumpRequest {
     private String location;
 
     private Integer displayOrder;
+
+    private PumpStatus status;
 
     private Boolean active;
 }

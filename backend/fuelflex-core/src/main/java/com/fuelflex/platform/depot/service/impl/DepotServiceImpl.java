@@ -62,6 +62,10 @@ public class DepotServiceImpl implements DepotService {
 
         Depot depot = depotMapper.toEntity(request);
 
+        if (request.getActive() == null) {
+            depot.setActive(true);
+        }
+
         depot.setStation(station);
         depot.setCode(normalizedCode);
         depot.setName(normalizedName);

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  ArrowLeft,
   ArrowRight,
   Eye,
   EyeOff,

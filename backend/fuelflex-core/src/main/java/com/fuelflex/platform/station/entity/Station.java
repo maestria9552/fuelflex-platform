@@ -214,9 +214,6 @@ public class Station {
             displayOrder = 1;
         }
 
-        if (!active) {
-            active = true;
-        }
     }
 
     @PreUpdate

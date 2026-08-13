@@ -14,6 +14,14 @@ import VerifyEmailPage from "./pages/VerifyEmailPage";
 import SupervisorDashboardPage from "./pages/dashboards/SupervisorDashboardPage";
 import OrganizationSetupPage from "./pages/organization/OrganizationSetupPage";
 import CompanyPage from "./pages/organization/CompanyPage";
+import StationSetupEntryPage from "./pages/stations/StationSetupEntryPage";
+import StationsPage from "./pages/stations/StationsPage";
+import ProductsPage from "./pages/products/ProductsPage";
+import DepotsPage from "./pages/depots/DepotsPage";
+import TanksPage from "./pages/tanks/TanksPage";
+import PumpsPage from "./pages/pumps/PumpsPage";
+import DispensingPointsPage from "./pages/dispensing-points/DispensingPointsPage";
+import FuelMetersPage from "./pages/fuel-meters/FuelMetersPage";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import RoleBasedRedirect from "./components/auth/RoleBasedRedirect";
@@ -83,6 +91,70 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
                 <CompanyPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superviseur/produits"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <ProductsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superviseur/depots"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <DepotsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superviseur/citernes"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <TanksPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superviseur/pompes"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <PumpsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superviseur/pistolets"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <DispensingPointsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superviseur/compteurs"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <FuelMetersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superviseur/stations"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <StationsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superviseur/stations/nouvelle"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <StationSetupEntryPage />
               </ProtectedRoute>
             }
           />

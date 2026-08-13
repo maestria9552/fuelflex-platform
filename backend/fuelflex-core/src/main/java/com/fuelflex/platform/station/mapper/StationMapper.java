@@ -31,10 +31,7 @@ public class StationMapper {
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
                 .displayOrder(request.getDisplayOrder())
-                .active(
-                        request.getActive() == null
-                                || request.getActive()
-                )
+                .active(Boolean.TRUE.equals(request.getActive()))
                 .build();
     }
 
