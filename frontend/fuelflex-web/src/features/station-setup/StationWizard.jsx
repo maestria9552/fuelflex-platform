@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { LoaderCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import DepotModal from "../depot/components/DepotModal";
 import TankModal from "../tank/components/TankModal";
@@ -35,6 +36,7 @@ import "./StationWizard.css";
 const AVAILABLE_STEPS = new Set(["station", "products", "depots", "tanks", "pumps", "dispensing-points", "fuel-meters", "review", "commissioning"]);
 
 function StationWizard({ organizationId, onBackToPreparation }) {
+  const { t } = useTranslation(["stationSetup", "stations", "depots", "tanks", "pumps", "dispensingPoints", "fuelMeters"]);
   const [initialDraft] = useState(() => getStationSetupDraft(organizationId));
   const [activeStep, setActiveStep] = useState(AVAILABLE_STEPS.has(initialDraft?.activeStep) ? initialDraft.activeStep : "station");
   const [station, setStation] = useState(null);
@@ -116,11 +118,11 @@ function StationWizard({ organizationId, onBackToPreparation }) {
         clearStationSetupDraft();
         setActiveStep("station");
         setSelectedProductIds([]);
-        setStationError("Le brouillon précédent n’est plus disponible. Reprenez la création de la station.");
+        setStationError(t("wizard.draftUnavailable"));
       })
       .finally(() => { if (!controller.signal.aborted) setIsRestoring(false); });
     return () => controller.abort();
-  }, [initialDraft, organizationId]);
+  }, [initialDraft, organizationId, t]);
 
   useEffect(() => {
     if (!station?.id) return undefined;
@@ -150,10 +152,10 @@ function StationWizard({ organizationId, onBackToPreparation }) {
           selectedProductIds: persistedIds,
         });
       })
-      .catch((error) => { if (error?.name !== "AbortError") setProductsError(error?.message || "Impossible de charger les produits actifs."); })
+      .catch((error) => { if (error?.name !== "AbortError") setProductsError(error?.message || t("wizard.productsLoadFailed")); })
       .finally(() => { if (!controller.signal.aborted) setIsLoadingProducts(false); });
     return () => controller.abort();
-  }, [activeStep, organizationId, productsAttempt, station?.id]);
+  }, [activeStep, organizationId, productsAttempt, station?.id, t]);
 
   useEffect(() => {
     if (!station?.id || !["depots", "tanks", "dispensing-points", "fuel-meters", "review"].includes(activeStep)) return undefined;
@@ -169,10 +171,10 @@ function StationWizard({ organizationId, onBackToPreparation }) {
         setDepots(loadedDepots);
         saveStationSetupDraft(organizationId, { stationId: station.id, activeStep, selectedProductIds, depotIds: loadedDepots.map((depot) => depot.id) });
       })
-      .catch((error) => { if (error?.name !== "AbortError") setDepotsError(error?.message || "Impossible de charger les dépôts."); })
+      .catch((error) => { if (error?.name !== "AbortError") setDepotsError(error?.message || t("depots:feedback.depotsLoadFailed")); })
       .finally(() => { if (!controller.signal.aborted) setIsLoadingDepots(false); });
     return () => controller.abort();
-  }, [activeStep, depotsAttempt, organizationId, selectedProductIds, station?.id]);
+  }, [activeStep, depotsAttempt, organizationId, selectedProductIds, station?.id, t]);
 
   useEffect(() => {
     if (!["tanks", "dispensing-points", "review"].includes(activeStep) || depots.length === 0 || !station?.id) return undefined;
@@ -184,10 +186,10 @@ function StationWizard({ organizationId, onBackToPreparation }) {
         return Promise.all(depots.map(async (depot) => [depot.id, await getTanks(organizationId, station.id, depot.id, { signal: controller.signal })]));
       })
       .then((entries) => setTanksByDepot(Object.fromEntries(entries.map(([id, tanks]) => [id, Array.isArray(tanks) ? tanks : []]))))
-      .catch((error) => { if (error?.name !== "AbortError") setTanksError(error?.message || "Impossible de charger les citernes."); })
+      .catch((error) => { if (error?.name !== "AbortError") setTanksError(error?.message || t("tanks:feedback.tanksLoadFailed")); })
       .finally(() => { if (!controller.signal.aborted) setIsLoadingTanks(false); });
     return () => controller.abort();
-  }, [activeStep, depots, organizationId, station?.id, tanksAttempt]);
+  }, [activeStep, depots, organizationId, station?.id, t, tanksAttempt]);
 
   useEffect(() => {
     if (!["pumps", "dispensing-points", "fuel-meters", "review"].includes(activeStep) || !station?.id) return undefined;
@@ -203,10 +205,10 @@ function StationWizard({ organizationId, onBackToPreparation }) {
         setPumps(loadedPumps);
         saveStationSetupDraft(organizationId, { stationId: station.id, activeStep, selectedProductIds, depotIds: depots.map((depot) => depot.id), pumpIds: loadedPumps.map((pump) => pump.id) });
       })
-      .catch((error) => { if (error?.name !== "AbortError") setPumpsError(error?.message || "Impossible de charger les pompes."); })
+      .catch((error) => { if (error?.name !== "AbortError") setPumpsError(error?.message || t("pumps:feedback.pumpsLoadFailed")); })
       .finally(() => { if (!controller.signal.aborted) setIsLoadingPumps(false); });
     return () => controller.abort();
-  }, [activeStep, depots, organizationId, pumpsAttempt, selectedProductIds, station?.id]);
+  }, [activeStep, depots, organizationId, pumpsAttempt, selectedProductIds, station?.id, t]);
 
   useEffect(() => {
     if (!["dispensing-points", "fuel-meters", "review"].includes(activeStep) || pumps.length === 0 || !station?.id) return undefined;
@@ -222,10 +224,10 @@ function StationWizard({ organizationId, onBackToPreparation }) {
         setDispensingPointsByPump(loadedPoints);
         saveStationSetupDraft(organizationId, { stationId: station.id, activeStep, selectedProductIds, depotIds: depots.map((depot) => depot.id), pumpIds: pumps.map((pump) => pump.id), dispensingPointIds: Object.values(loadedPoints).flat().map((point) => point.id) });
       })
-      .catch((error) => { if (error?.name !== "AbortError") setDispensingPointsError(error?.message || "Impossible de charger les pistolets."); })
+      .catch((error) => { if (error?.name !== "AbortError") setDispensingPointsError(error?.message || t("dispensingPoints:feedback.pointsLoadFailed")); })
       .finally(() => { if (!controller.signal.aborted) setIsLoadingDispensingPoints(false); });
     return () => controller.abort();
-  }, [activeStep, depots, dispensingPointsAttempt, organizationId, pumps, selectedProductIds, station?.id]);
+  }, [activeStep, depots, dispensingPointsAttempt, organizationId, pumps, selectedProductIds, station?.id, t]);
 
   useEffect(() => {
     if (!["fuel-meters", "review"].includes(activeStep) || pumps.length === 0 || !station?.id) return undefined;
@@ -247,10 +249,10 @@ function StationWizard({ organizationId, onBackToPreparation }) {
         const fuelMeterIds = [...Object.values(loadedPumpMeters).flat(), ...Object.values(loadedPointMeters).flat()].map((meter) => meter.id);
         saveStationSetupDraft(organizationId, { stationId: station.id, activeStep, selectedProductIds, depotIds: depots.map((depot) => depot.id), pumpIds: pumps.map((pump) => pump.id), dispensingPointIds: Object.values(dispensingPointsByPump).flat().map((point) => point.id), fuelMeterIds });
       })
-      .catch((error) => { if (error?.name !== "AbortError") setFuelMetersError(error?.message || "Impossible de charger les compteurs."); })
+      .catch((error) => { if (error?.name !== "AbortError") setFuelMetersError(error?.message || t("fuelMeters:feedback.configurationLoadFailed")); })
       .finally(() => { if (!controller.signal.aborted) setIsLoadingFuelMeters(false); });
     return () => controller.abort();
-  }, [activeStep, depots, dispensingPointsByPump, fuelMetersAttempt, organizationId, pumps, selectedProductIds, station?.id]);
+  }, [activeStep, depots, dispensingPointsByPump, fuelMetersAttempt, organizationId, pumps, selectedProductIds, station?.id, t]);
 
   useEffect(() => {
     if (!["review", "commissioning"].includes(activeStep) || !station?.id) return undefined;
@@ -263,20 +265,20 @@ function StationWizard({ organizationId, onBackToPreparation }) {
         return validateStationConfiguration(organizationId, station.id, { signal: controller.signal });
       })
       .then(setConfigurationValidation)
-      .catch((error) => { if (error?.name !== "AbortError") { setConfigurationValidation(null); setConfigurationValidationError(error?.message || "Impossible de valider la configuration."); } })
+      .catch((error) => { if (error?.name !== "AbortError") { setConfigurationValidation(null); setConfigurationValidationError(error?.message || t("wizard.configurationValidationFailed")); } })
       .finally(() => { if (!controller.signal.aborted) setIsValidatingConfiguration(false); });
     return () => controller.abort();
-  }, [activeStep, configurationValidationAttempt, organizationId, station?.id]);
+  }, [activeStep, configurationValidationAttempt, organizationId, station?.id, t]);
 
   const handleStationSubmit = async (payload) => {
     setIsSavingStation(true); setStationError(""); setStationSuccess("");
     try {
       const savedStation = station?.id ? await updateStation(organizationId, station.id, payload) : await createStation(organizationId, payload);
       setStation(savedStation);
-      setStationSuccess(station?.id ? "Les informations de la station ont été mises à jour." : "La station a été créée avec succès.");
+      setStationSuccess(station?.id ? t("stations:feedback.updated") : t("wizard.stationCreated"));
       setActiveStep("products");
       saveStationSetupDraft(organizationId, { stationId: savedStation.id, activeStep: "products", selectedProductIds, depotIds: depots.map((depot) => depot.id) });
-    } catch (error) { setStationError(error?.message || "Impossible d’enregistrer la station."); }
+    } catch (error) { setStationError(error?.message || t("wizard.stationSaveFailed")); }
     finally { setIsSavingStation(false); }
   };
 
@@ -323,10 +325,10 @@ function StationWizard({ organizationId, onBackToPreparation }) {
       const refreshed = await getStationProducts(organizationId, station.id);
       setStationProducts(Array.isArray(refreshed) ? refreshed : []);
       saveDraft({ activeStep: "depots", selectedProductIds });
-      setProductsSavedMessage("La sélection des produits a été enregistrée.");
+      setProductsSavedMessage(t("wizard.productsSaved"));
       setActiveStep("depots");
     } catch (error) {
-      setProductsError(error?.message || "Impossible d’enregistrer la sélection des produits.");
+      setProductsError(error?.message || t("wizard.productsSaveFailed"));
     } finally {
       setIsSavingProducts(false);
     }
@@ -335,31 +337,31 @@ function StationWizard({ organizationId, onBackToPreparation }) {
   const goToStep = (step) => { setActiveStep(step); saveDraft({ activeStep: step }); };
   const handleDepotSaved = (savedDepot, wasUpdate) => {
     setEditingDepot(undefined);
-    setDepotsSuccess(wasUpdate ? "Le dépôt a été modifié avec succès." : "Le dépôt a été créé avec succès.");
+    setDepotsSuccess(t(wasUpdate ? "depots:feedback.updated" : "depots:feedback.created"));
     saveDraft({ activeStep: "depots", depotIds: [...new Set([...depots.map((depot) => depot.id), savedDepot.id])] });
     setDepotsAttempt((attempt) => attempt + 1);
   };
   const handleTankSaved = (savedTank, wasUpdate) => {
     setTankModalState(null);
-    setTanksSuccess(wasUpdate ? "La citerne a été modifiée avec succès." : "La citerne a été créée avec succès.");
+    setTanksSuccess(t(wasUpdate ? "tanks:feedback.updated" : "tanks:feedback.created"));
     setTanksAttempt((attempt) => attempt + 1);
   };
   const handlePumpSaved = (savedPump, wasUpdate) => {
     setEditingPump(undefined);
-    setPumpsSuccess(wasUpdate ? "La pompe a été modifiée avec succès." : "La pompe a été créée avec succès.");
+    setPumpsSuccess(t(wasUpdate ? "pumps:feedback.updated" : "pumps:feedback.created"));
     saveDraft({ activeStep: "pumps", pumpIds: [...new Set([...pumps.map((pump) => pump.id), savedPump.id])] });
     setPumpsAttempt((attempt) => attempt + 1);
   };
   const handleDispensingPointSaved = (savedPoint, wasUpdate) => {
     setDispensingPointModalState(null);
-    setDispensingPointsSuccess(wasUpdate ? "Le pistolet a été modifié avec succès." : "Le pistolet a été créé avec succès.");
+    setDispensingPointsSuccess(t(wasUpdate ? "dispensingPoints:feedback.updated" : "dispensingPoints:feedback.created"));
     const currentIds = Object.values(dispensingPointsByPump).flat().map((point) => point.id);
     saveDraft({ activeStep: "dispensing-points", dispensingPointIds: [...new Set([...currentIds, savedPoint.id])] });
     setDispensingPointsAttempt((attempt) => attempt + 1);
   };
   const handleFuelMeterSaved = (savedMeter, wasUpdate) => {
     setFuelMeterModalState(null);
-    setFuelMetersSuccess(wasUpdate ? "Le compteur a été modifié avec succès." : "Le compteur a été créé avec succès.");
+    setFuelMetersSuccess(t(wasUpdate ? "fuelMeters:feedback.updated" : "fuelMeters:feedback.created"));
     const currentIds = [...Object.values(pumpMetersByPump).flat(), ...Object.values(pointMetersByPoint).flat()].map((meter) => meter.id);
     saveDraft({ activeStep: "fuel-meters", fuelMeterIds: [...new Set([...currentIds, savedMeter.id])] });
     setFuelMetersAttempt((attempt) => attempt + 1);
@@ -373,19 +375,19 @@ function StationWizard({ organizationId, onBackToPreparation }) {
       const latestValidation = await validateStationConfiguration(organizationId, station.id);
       setConfigurationValidation(latestValidation);
       if (!latestValidation?.valid) {
-        setConfigurationValidationError("La configuration a changé et doit être corrigée avant de terminer.");
+        setConfigurationValidationError(t("wizard.configurationChanged"));
         return;
       }
       clearStationSetupDraft();
       setIsCommissioningComplete(true);
     } catch (error) {
-      setConfigurationValidationError(error?.message || "Impossible de terminer la configuration technique.");
+      setConfigurationValidationError(error?.message || t("wizard.commissioningFailed"));
     } finally {
       setIsCompletingCommissioning(false);
     }
   };
 
-  if (isRestoring) return <section className="station-setup-state-card"><LoaderCircle className="station-setup-spinner" size={34} /><h2>Reprise de votre configuration...</h2><p>Nous rechargeons la station enregistrée dans ce brouillon.</p></section>;
+  if (isRestoring) return <section className="station-setup-state-card"><LoaderCircle className="station-setup-spinner" size={34} /><h2>{t("wizard.restoringTitle")}</h2><p>{t("wizard.restoringDescription")}</p></section>;
 
   return (
     <section className="station-wizard-shell">

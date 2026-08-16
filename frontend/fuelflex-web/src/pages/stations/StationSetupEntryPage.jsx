@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   AlertCircle,
   ArrowLeft,
@@ -23,6 +24,7 @@ import "./StationSetupEntryPage.css";
 
 function StationSetupEntryPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation(["stationSetup", "common", "stations"]);
   const organizationId = getStoredUser()?.organizationId || null;
   const [verificationStatus, setVerificationStatus] = useState(
     organizationId ? "loading" : "missing-organization"
@@ -46,12 +48,12 @@ function StationSetupEntryPage() {
       .then((hasProducts) => setVerificationStatus(hasProducts ? "ready" : "missing-products"))
       .catch((error) => {
         if (error?.name === "AbortError") return;
-        setVerificationError(error?.message || "Impossible de vérifier les produits actifs.");
+        setVerificationError(error?.message || t("entry.verificationFallback"));
         setVerificationStatus("error");
       });
 
     return () => controller.abort();
-  }, [organizationId, verificationAttempt]);
+  }, [organizationId, t, verificationAttempt]);
 
   const handleStartWizard = () => {
     saveStationSetupDraft(organizationId, { activeStep: "station" });
@@ -63,29 +65,29 @@ function StationSetupEntryPage() {
   const renderLoading = () => (
     <section className="station-setup-state-card">
       <LoaderCircle className="station-setup-spinner" size={36} />
-      <h2>Vérification des produits actifs...</h2>
-      <p>Nous vérifions que votre organisation peut commencer la configuration d’une station.</p>
+      <h2>{t("entry.loadingTitle")}</h2>
+      <p>{t("entry.loadingDescription")}</p>
     </section>
   );
 
   const renderError = (message, onRetry) => (
     <section className="station-setup-state-card station-setup-error-card">
       <span className="station-setup-state-icon"><AlertCircle size={30} /></span>
-      <h2>La vérification n’a pas abouti</h2>
+      <h2>{t("entry.verificationFailed")}</h2>
       <p>{message}</p>
-      <button type="button" className="station-setup-primary" onClick={onRetry}><RefreshCw size={17} />Réessayer</button>
+      <button type="button" className="station-setup-primary" onClick={onRetry}><RefreshCw size={17} />{t("common:actions.retry")}</button>
     </section>
   );
 
   const renderReadyState = () => (
     <section className="station-setup-ready-card">
       <div className="station-setup-ready-icon"><ShieldCheck size={34} /></div>
-      <span className="station-setup-kicker">PRÉREQUIS VALIDÉ</span>
-      <h2>Votre organisation est prête</h2>
-      <p>Le catalogue contient au moins un produit actif. Sélectionnez ensuite les produits utilisés par cette station.</p>
+      <span className="station-setup-kicker">{t("entry.readyKicker")}</span>
+      <h2>{t("entry.readyTitle")}</h2>
+      <p>{t("entry.readyDescription")}</p>
       <div className="station-setup-actions">
-        <button type="button" className="station-setup-secondary" onClick={openProductCatalog}><PackagePlus size={17} />Gérer les produits</button>
-        <button type="button" className="station-setup-primary" onClick={handleStartWizard}>Commencer la configuration<ArrowRight size={17} /></button>
+        <button type="button" className="station-setup-secondary" onClick={openProductCatalog}><PackagePlus size={17} />{t("entry.manageProducts")}</button>
+        <button type="button" className="station-setup-primary" onClick={handleStartWizard}>{t("entry.start")}<ArrowRight size={17} /></button>
       </div>
     </section>
   );
@@ -95,25 +97,25 @@ function StationSetupEntryPage() {
       <main className="station-setup-page">
         <header className="station-setup-header">
           <div>
-            <span className="station-setup-eyebrow">Configuration</span>
-            <h1>Créer une station</h1>
-            <p>Vérifiez les prérequis de votre organisation avant de commencer la configuration technique.</p>
+            <span className="station-setup-eyebrow">{t("entry.eyebrow")}</span>
+            <h1>{t("entry.title")}</h1>
+            <p>{t("entry.description")}</p>
           </div>
-          <div className="station-setup-header-badge"><Fuel size={19} /><span>Assistant de préparation</span></div>
+          <div className="station-setup-header-badge"><Fuel size={19} /><span>{t("entry.badge")}</span></div>
         </header>
 
         {verificationStatus === "loading" && renderLoading()}
-        {verificationStatus === "missing-organization" && renderError("Aucune société n’est associée à ce compte.", () => navigate("/configuration-societe"))}
+        {verificationStatus === "missing-organization" && renderError(t("stations:feedback.organizationMissing"), () => navigate("/configuration-societe"))}
         {verificationStatus === "error" && renderError(verificationError, () => setVerificationAttempt((attempt) => attempt + 1))}
         {verificationStatus === "missing-products" && (
           <section className="station-setup-requirement-card">
             <span className="station-setup-requirement-icon"><PackagePlus size={31} /></span>
-            <span className="station-setup-kicker">PRÉREQUIS PRODUIT</span>
-            <h2>Vous devez configurer au moins un produit avant de créer une station.</h2>
-            <p>Les catégories et produits forment le catalogue permanent de l’organisation et seront réutilisés dans toutes vos stations.</p>
+            <span className="station-setup-kicker">{t("entry.productKicker")}</span>
+            <h2>{t("entry.productRequiredTitle")}</h2>
+            <p>{t("entry.productRequiredDescription")}</p>
             <div className="station-setup-actions">
-              <button type="button" className="station-setup-secondary" onClick={() => navigate("/superviseur/dashboard")}><ArrowLeft size={17} />Retour au tableau de bord</button>
-              <button type="button" className="station-setup-primary" onClick={openProductCatalog}>Gérer les produits<ArrowRight size={17} /></button>
+              <button type="button" className="station-setup-secondary" onClick={() => navigate("/superviseur/dashboard")}><ArrowLeft size={17} />{t("entry.backToDashboard")}</button>
+              <button type="button" className="station-setup-primary" onClick={openProductCatalog}>{t("entry.manageProducts")}<ArrowRight size={17} /></button>
             </div>
           </section>
         )}

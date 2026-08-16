@@ -1,0 +1,22 @@
+{
+  "page": {
+    "eyebrow": "NETWORK CONFIGURATION", "title": "Depots", "description": "Manage the depots associated with your different stations.", "add": "Add depot",
+    "station": "Station", "selectStation": "Select a station", "stationHelp": "Select the station whose depots you want to manage.",
+    "loadingStations": "Loading stations...", "loadingDepots": "Loading depots...",
+    "noStationTitle": "No station configured", "noStationDescription": "Create a station before managing its depots.",
+    "noSelectionTitle": "No station selected", "noSelectionDescription": "Choose a station from the selector above.",
+    "searchPlaceholder": "Search by name, code, or location", "searchAriaLabel": "Search for a depot", "count_one": "{{count}} depot", "count_other": "{{count}} depots",
+    "emptyTitle": "No depot has been configured for this station yet.", "emptyDescription": "Add the first depot for {{stationName}}.",
+    "noResultTitle": "No depot found", "noResultDescription": "Try another name, code, or location.", "edit": "Edit"
+  },
+  "availability": { "active": "Active", "inactive": "Inactive" },
+  "feedback": {
+    "organizationMissing": "No company is associated with this account.", "stationsLoadFailed": "Unable to load stations.", "depotsLoadFailed": "Unable to load depots.",
+    "created": "The depot was created successfully.", "updated": "The depot was updated successfully.", "saveFailed": "Unable to save the depot."
+  },
+  "modal": {
+    "createTitle": "Create depot", "editTitle": "Edit depot", "description": "Enter the depot's physical organization information.",
+    "name": "Name", "code": "Code", "additionalInformation": "Additional information", "descriptionLabel": "Description", "location": "Location",
+    "displayOrder": "Display order", "administration": "Administration", "activeUsable": "Depot active and available", "saving": "Saving..."
+  }
+}

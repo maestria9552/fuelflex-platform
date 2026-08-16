@@ -1,0 +1,22 @@
+{
+  "page": {
+    "eyebrow": "CONFIGURATION DU RÉSEAU", "title": "Dépôts", "description": "Gérez les dépôts rattachés à vos différentes stations.", "add": "Ajouter un dépôt",
+    "station": "Station", "selectStation": "Sélectionner une station", "stationHelp": "Sélectionnez la station dont vous souhaitez gérer les dépôts.",
+    "loadingStations": "Chargement des stations...", "loadingDepots": "Chargement des dépôts...",
+    "noStationTitle": "Aucune station configurée", "noStationDescription": "Créez d’abord une station avant de gérer ses dépôts.",
+    "noSelectionTitle": "Aucune station sélectionnée", "noSelectionDescription": "Choisissez une station dans le sélecteur ci-dessus.",
+    "searchPlaceholder": "Rechercher par nom, code ou emplacement", "searchAriaLabel": "Rechercher un dépôt", "count_one": "{{count}} dépôt", "count_other": "{{count}} dépôts",
+    "emptyTitle": "Aucun dépôt n’est encore configuré pour cette station.", "emptyDescription": "Ajoutez le premier dépôt de {{stationName}}.",
+    "noResultTitle": "Aucun dépôt trouvé", "noResultDescription": "Essayez un autre nom, code ou emplacement.", "edit": "Modifier"
+  },
+  "availability": { "active": "Actif", "inactive": "Inactif" },
+  "feedback": {
+    "organizationMissing": "Aucune société n’est associée à ce compte.", "stationsLoadFailed": "Impossible de charger les stations.", "depotsLoadFailed": "Impossible de charger les dépôts.",
+    "created": "Le dépôt a été créé avec succès.", "updated": "Le dépôt a été modifié avec succès.", "saveFailed": "Impossible d’enregistrer le dépôt."
+  },
+  "modal": {
+    "createTitle": "Créer un dépôt", "editTitle": "Modifier le dépôt", "description": "Renseignez les informations d’organisation physique du dépôt.",
+    "name": "Nom", "code": "Code", "additionalInformation": "Informations complémentaires", "descriptionLabel": "Description", "location": "Emplacement",
+    "displayOrder": "Ordre d’affichage", "administration": "Administration", "activeUsable": "Dépôt actif et utilisable", "saving": "Enregistrement..."
+  }
+}

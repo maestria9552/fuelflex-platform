@@ -1,0 +1,61 @@
+{
+  "title": "Notifications",
+  "description": "Track important events across your operations.",
+  "actions": {
+    "markRead": "Mark as read",
+    "markAllRead": "Mark all as read"
+  },
+  "category": {
+    "information": "Information",
+    "actionRequired": "Action required"
+  },
+  "status": {
+    "unread": "Unread"
+  },
+  "empty": {
+    "title": "No notifications",
+    "description": "New business notifications will appear here."
+  },
+  "feedback": {
+    "loading": "Loading notifications...",
+    "loadError": "Unable to load notifications.",
+    "countError": "Unable to load the unread notification count.",
+    "markReadError": "Unable to mark the notification as read.",
+    "markAllReadError": "Unable to mark all notifications as read."
+  },
+  "accessibility": {
+    "open": "Open notifications",
+    "unreadCount_one": "{{count}} unread notification",
+    "unreadCount_other": "{{count}} unread notifications"
+  },
+  "fallback": {
+    "title": "FuelFlex event",
+    "message": "A business event has been recorded."
+  },
+  "events": {
+    "dayOpened": {
+      "title": "Day opened",
+      "message": "An operating day has been opened."
+    },
+    "dayClosed": {
+      "title": "Day closed",
+      "message": "An operating day has been closed."
+    },
+    "orderSubmitted": {
+      "title": "Order awaiting approval",
+      "message": "An order requires your attention."
+    },
+    "orderApproved": {
+      "title": "Order approved",
+      "message": "An order has been approved."
+    },
+    "orderRejected": {
+      "title": "Order rejected",
+      "message": "An order has been rejected."
+    },
+    "receptionCompleted": {
+      "title": "Reception completed",
+      "message": "A fuel reception has been completed."
+    }
+  }
+}

@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 import fuelFlexLogo from "../../assets/images/logofuelflex.png";
 import "./AppSplashScreen.css";
 
-function AppSplashScreen({
-  message = "Initialisation de FuelFlex Platform...",
-}) {
+function AppSplashScreen({ message }) {
+  const { t } = useTranslation("common");
+  const resolvedMessage = message ?? t("feedback.initializing");
   return (
     <motion.div
       className="app-splash-screen"
@@ -15,7 +16,7 @@ function AppSplashScreen({
       transition={{ duration: 0.3 }}
       role="status"
       aria-live="polite"
-      aria-label={message}
+      aria-label={resolvedMessage}
     >
       <div className="app-splash-screen-decoration app-splash-screen-decoration-left" />
       <div className="app-splash-screen-decoration app-splash-screen-decoration-right" />
@@ -51,7 +52,7 @@ function AppSplashScreen({
           <div className="app-splash-screen-logo-background">
             <img
               src={fuelFlexLogo}
-              alt="FuelFlex"
+              alt={t("brand.logoAlt")}
               className="app-splash-screen-logo-image"
             />
           </div>
@@ -64,7 +65,7 @@ function AppSplashScreen({
 
           <strong>Platform</strong>
 
-          <p>Smart Fuel Station Management</p>
+          <p>{t("brand.slogan")}</p>
         </div>
 
         <div className="app-splash-screen-progress">
@@ -80,7 +81,7 @@ function AppSplashScreen({
             />
           </div>
 
-          <p>{message}</p>
+          <p>{resolvedMessage}</p>
         </div>
       </motion.div>
 

@@ -1,0 +1,29 @@
+{
+  "fallback": { "organization": "Votre organisation", "organizationCode": "Code non disponible" },
+  "errors": { "loadOrganization": "Impossible de charger l’organisation :" },
+  "header": { "eyebrow": "Vue d’ensemble", "description": "Configurez votre organisation, créez vos stations et suivez progressivement toutes les opérations de votre réseau.", "organizationCode": "Code organisation" },
+  "configuration": {
+    "eyebrow": "CONFIGURATION DE L’ORGANISATION", "title": "Complétez votre profil professionnel", "description": "Certaines informations administratives et opérationnelles sont encore manquantes. Complétez-les pour profiter pleinement de FuelFlex Platform.",
+    "progress_one": "{{completed}} élément complété sur {{total}}", "progress_other": "{{completed}} éléments complétés sur {{total}}", "complete": "Compléter la configuration",
+    "fields": { "organizationName": "Nom de l’organisation", "registrationNumber": "RCCM", "nationalId": "ID National", "taxNumber": "Numéro fiscal", "organizationAddress": "Adresse", "organizationPhone": "Téléphone", "organizationEmail": "Adresse e-mail", "organizationLogo": "Logo" }
+  },
+  "kpi": {
+    "ariaLabel": "Indicateurs principaux",
+    "stations": { "title": "Stations actives", "description": "Aucune station configurée", "evolution": "À configurer" },
+    "stock": { "title": "Stock disponible", "description": "Aucun stock enregistré", "evolution": "{{percentage}} % de capacité" },
+    "sales": { "title": "Ventes du jour", "description": "Aucune vente enregistrée", "evolution": "{{percentage}} %" },
+    "volume": { "title": "Volume vendu", "description": "Aucune opération aujourd’hui", "evolution": "{{percentage}} %" },
+    "liters": "{{value}} L", "currencyAmount": "{{value}} $"
+  },
+  "salesAnalysis": { "eyebrow": "Analyse des ventes", "title": "Évolution hebdomadaire", "period": "Cette semaine", "emptyTitle": "Aucune donnée de vente", "emptyDescription": "Le graphique des ventes apparaîtra après la création d’une station et l’enregistrement des premières opérations." },
+  "stock": { "eyebrow": "Capacité globale", "title": "Niveau des stocks", "available": "Disponible", "gasoline": "Essence", "diesel": "Gasoil" },
+  "stations": { "eyebrow": "Réseau FuelFlex", "title": "Vos stations", "emptyTitle": "Aucune station enregistrée", "emptyDescription": "Créez votre première station pour commencer à gérer les produits, citernes, pompes et équipes.", "create": "Créer une station" },
+  "onboarding": {
+    "eyebrow": "Démarrage", "title": "Prochaines étapes",
+    "accountTitle": "Compte superviseur créé", "accountDescription": "Votre accès principal est opérationnel.",
+    "organizationTitle": "Organisation créée",
+    "informationTitle": "Compléter les informations", "informationComplete": "Informations administratives complètes.", "informationMissing": "RCCM, ID National, NIF, adresse et logo.",
+    "stationTitle": "Créer votre première station", "stationDescription": "Configurez son emplacement et ses paramètres.",
+    "teamTitle": "Ajouter votre équipe", "teamDescription": "Créez les gestionnaires et les pompistes."
+  }
+}

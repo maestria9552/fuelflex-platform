@@ -8,6 +8,8 @@ import com.fuelflex.platform.auth.dto.request.LoginRequest;
 import com.fuelflex.platform.auth.dto.request.RegisterRequest;
 import com.fuelflex.platform.auth.dto.request.ResendVerificationCodeRequest;
 import com.fuelflex.platform.auth.dto.request.VerifyEmailRequest;
+import com.fuelflex.platform.auth.dto.request.EmployeeActivationVerifyRequest;
+import com.fuelflex.platform.auth.dto.request.EmployeeActivationSetPasswordRequest;
 import com.fuelflex.platform.auth.dto.response.LoginResponse;
 import com.fuelflex.platform.auth.dto.response.RegisterResponse;
 import com.fuelflex.platform.auth.service.AuthService;
@@ -57,6 +59,24 @@ public class AuthController {
         authService.resendVerificationCode(request);
 
         return "A new verification code has been sent to your email address.";
+    }
+
+    @PostMapping("/employee-activation/verify")
+    @ResponseStatus(HttpStatus.OK)
+    public String verifyEmployeeInvitation(
+            @Valid @RequestBody EmployeeActivationVerifyRequest request
+    ) {
+        authService.verifyEmployeeInvitation(request);
+        return "Invitation verified. You may now choose your password.";
+    }
+
+    @PostMapping("/employee-activation/set-password")
+    @ResponseStatus(HttpStatus.OK)
+    public String activateEmployee(
+            @Valid @RequestBody EmployeeActivationSetPasswordRequest request
+    ) {
+        authService.activateEmployee(request);
+        return "Employee account activated successfully.";
     }
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(

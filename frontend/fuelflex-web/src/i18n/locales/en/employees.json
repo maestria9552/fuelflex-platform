@@ -1,0 +1,123 @@
+{
+  "list": {
+    "eyebrow": "Team",
+    "title": "Employees",
+    "description": "Manage internal accounts and their station assignments.",
+    "new": "New employee",
+    "filters": "Employee filters",
+    "search": "Search by name, email, or phone",
+    "allRoles": "All roles",
+    "allStatuses": "All statuses",
+    "loading": "Loading employees…",
+    "emptyTitle": "No employees found",
+    "emptyDescription": "No employee matches the current criteria.",
+    "total_one": "{{count}} employee",
+    "total_other": "{{count}} employees",
+    "pagination": "Employee pagination",
+    "page": "Page {{current}} of {{total}}",
+    "previous": "Previous page",
+    "next": "Next page"
+  },
+  "fields": {
+    "employee": "Employee",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone",
+    "role": "Role",
+    "status": "Status",
+    "createdAt": "Created",
+    "actions": "Actions"
+  },
+  "roles": {
+    "MANAGER": "Manager",
+    "PUMP_ATTENDANT": "Pump attendant",
+    "ACCOUNTANT": "Accountant",
+    "AUDITOR": "Auditor"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Disabled",
+    "pending": "Pending activation"
+  },
+  "actions": {
+    "view": "View",
+    "edit": "Edit",
+    "disable": "Disable",
+    "enable": "Reactivate",
+    "dismiss": "Dismiss message",
+    "resendInvitation": "Resend invitation"
+  },
+  "form": {
+    "createTitle": "Create employee",
+    "createDescription": "The organization is automatically derived from your supervisor account.",
+    "editTitle": "Edit employee",
+    "editDescription": "Only allowed information will be updated.",
+    "chooseRole": "Choose a role",
+    "emailImmutable": "Email is immutable in this version.",
+    "accessNote": "The account is created without a permanent password disclosed to the supervisor. The first-access workflow will be handled separately."
+  },
+  "statusConfirm": {
+    "disableTitle": "Disable this employee?",
+    "disableDescription": "{{name}} will no longer be able to sign in. Active assignments will end, while their history remains available.",
+    "enableTitle": "Reactivate this employee?",
+    "enableDescription": "{{name}} can access the account again. No previous assignment will be restored automatically."
+  },
+  "detail": {
+    "back": "Back to employees",
+    "loading": "Loading employee…",
+    "information": "Information",
+    "informationDescription": "Identity, role, and account status."
+  },
+  "assignments": {
+    "title": "Assignments",
+    "description": "Current stations and administrative history.",
+    "assign": "Assign to a station",
+    "createTitle": "New assignment",
+    "createDescription": "Choose an active station in your organization.",
+    "endTitle": "Remove from station",
+    "transferTitle": "Transfer to a station",
+    "source": "Source assignment: {{station}}",
+    "station": "Station",
+    "destination": "Destination station",
+    "chooseStation": "Choose a station",
+    "effectiveDate": "Effective date (optional)",
+    "endDate": "End date (optional)",
+    "reason": "Reason (optional)",
+    "managerTransferNote": "Only this assignment will be transferred. The manager’s other active stations remain unchanged.",
+    "disabledNote": "History remains available, but a disabled employee cannot be assigned or transferred.",
+    "noActive": "No active assignment",
+    "since": "Since {{date}}",
+    "end": "Remove",
+    "transfer": "Transfer",
+    "history": "History",
+    "filterStatus": "Filter history",
+    "all": "All",
+    "active": "Active",
+    "ended": "Ended",
+    "noHistory": "No assignment in this history"
+  },
+  "feedback": {
+    "created": "Employee created. An activation invitation was sent.",
+    "updated": "Employee updated.",
+    "disabled": "Employee disabled and active assignments ended.",
+    "enabled": "Employee reactivated without restoring previous assignments.",
+    "assigned": "Assignment created.",
+    "ended": "Assignment ended. History was preserved.",
+    "transferred": "Transfer completed.",
+    "createdNoEmail": "Employee created, but the invitation could not be sent. Resend it from the employee record.",
+    "invitationResent": "Invitation resent.",
+    "invitationNotSent": "The invitation could not be sent."
+  },
+  "errors": {
+    "load": "Unable to load employees.",
+    "detailLoad": "Unable to load the employee record.",
+    "save": "Unable to save the employee.",
+    "conflict": "This operation conflicts with the employee’s current state or existing data.",
+    "status": "Unable to update status.",
+    "statusConflict": "Status cannot be changed in the current state.",
+    "assignmentSave": "Unable to save the assignment.",
+    "assignmentConflict": "This assignment is not possible. Check the status, role, and existing active stations.",
+    "invitationResend": "Unable to resend the invitation."
+  }
+}

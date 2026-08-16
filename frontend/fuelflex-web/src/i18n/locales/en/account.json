@@ -1,0 +1,45 @@
+{
+  "title": "Account settings",
+  "description": "View your account information and manage your password.",
+  "information": {
+    "title": "Account information",
+    "description": "This information is provided by your FuelFlex account.",
+    "email": "Email address",
+    "emailStatus": "Email status",
+    "verified": "Verified",
+    "unverified": "Not verified",
+    "lastLogin": "Last sign-in",
+    "passwordChangedAt": "Password changed",
+    "notAvailable": "Not available"
+  },
+  "security": {
+    "title": "Security",
+    "description": "Change your password after confirming your current password.",
+    "passwordRule": "The new password must contain at least 8 characters and differ from the current password."
+  },
+  "fields": {
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password"
+  },
+  "actions": {
+    "changePassword": "Change password",
+    "saving": "Changing..."
+  },
+  "feedback": {
+    "loading": "Loading account settings...",
+    "loadError": "Unable to load account information.",
+    "saveError": "Unable to change the password.",
+    "passwordChanged": "Your password has been changed."
+  },
+  "validation": {
+    "requiredFields": "All password fields are required.",
+    "minimumLength": "The new password must contain at least 8 characters.",
+    "passwordMismatch": "The confirmation does not match the new password.",
+    "passwordUnchanged": "The new password must differ from the current password."
+  },
+  "accessibility": {
+    "showPassword": "Show {{field}}",
+    "hidePassword": "Hide {{field}}"
+  }
+}

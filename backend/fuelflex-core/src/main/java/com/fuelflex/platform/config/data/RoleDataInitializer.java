@@ -3,6 +3,7 @@ package com.fuelflex.platform.config.data;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.core.annotation.Order;
@@ -11,6 +12,7 @@ import com.fuelflex.platform.role.entity.RoleType;
 import com.fuelflex.platform.role.repository.RoleRepository;
 
 @Component
+@ConditionalOnProperty(name = "fuelflex.data-initialization.enabled", havingValue = "true", matchIfMissing = true)
 @Order(1)
 public class RoleDataInitializer implements CommandLineRunner {
 

@@ -1,0 +1,16 @@
+{
+  "brand": "MANAGER WORKSPACE",
+  "role": "Manager",
+  "logout": "Sign out",
+  "eyebrow": "STATION MANAGEMENT",
+  "title": "Manager Dashboard",
+  "welcome": "Welcome to your management workspace.",
+  "readyTitle": "Your management workspace is ready.",
+  "readyDescription": "Operational features will be added progressively.",
+  "navigationLabel": "Manager navigation",
+  "dashboardNav": "Dashboard",
+  "ordersNav": "Orders",
+  "receiptsNav": "Reception",
+  "salesNav": "Sales",
+  "soon": "Coming soon"
+}

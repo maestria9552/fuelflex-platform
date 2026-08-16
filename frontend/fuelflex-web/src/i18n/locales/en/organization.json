@@ -1,0 +1,139 @@
+{
+  "page": {
+    "eyebrow": "Administration",
+    "title": "Company",
+    "description": "View and manage your organization’s administrative and business information.",
+    "edit": "Edit information",
+    "registered": "Registered company",
+    "fuelFlexCode": "FuelFlex code",
+    "administrativeProfile": "Administrative profile",
+    "administrativeInformation": "Administrative information",
+    "officialName": "Official name",
+    "contactAndLocation": "Contact details and location",
+    "configurationStatus": "Configuration status",
+    "essentialInformation": "Essential information",
+    "complete": "Your company’s essential administrative information is complete.",
+    "incomplete": "Complete your company’s RCCM, National ID, NIF, address, and logo."
+  },
+  "modal": {
+    "title": "Organization settings",
+    "description": "Complete and update your company’s administrative information.",
+    "loading": "Loading company...",
+    "loadingDescription": "We are retrieving the saved information.",
+    "configurationProgress": "Configuration progress",
+    "organizationCode": "Organization code",
+    "active": "Active organization",
+    "inactive": "Inactive",
+    "saving": "Saving..."
+  },
+  "sections": {
+    "general": {
+      "label": "General information",
+      "description": "Official and trading identity"
+    },
+    "legal": {
+      "label": "Legal information",
+      "description": "RCCM, National ID, and NIF"
+    },
+    "contact": {
+      "label": "Contact details",
+      "description": "Phone, email, and website"
+    },
+    "location": {
+      "label": "Location",
+      "description": "Country, province, city, and address"
+    },
+    "regional": {
+      "label": "Regional settings",
+      "description": "Currency, language, and time zone"
+    },
+    "appearance": {
+      "label": "Visual identity",
+      "description": "Company logo and colors"
+    }
+  },
+  "fields": {
+    "officialName": "Official name",
+    "tradeName": "Trade name",
+    "rccm": "RCCM",
+    "nationalId": "National ID",
+    "taxNumber": "Tax number — NIF",
+    "phone": "Phone",
+    "email": "Email address",
+    "website": "Website",
+    "country": "Country",
+    "province": "Province",
+    "city": "City",
+    "address": "Physical address",
+    "defaultCurrency": "Default currency",
+    "defaultLanguage": "Default language",
+    "timezone": "Time zone",
+    "logo": "Company logo",
+    "primaryColor": "Primary color",
+    "secondaryColor": "Secondary color",
+    "status": "Status",
+    "currency": "Currency",
+    "addressShort": "Address",
+    "nif": "NIF"
+  },
+  "placeholders": {
+    "officialName": "Company legal name",
+    "tradeName": "Brand or trading name",
+    "nationalId": "National identification number",
+    "taxNumber": "Tax identification number",
+    "country": "Country",
+    "province": "Province",
+    "city": "City",
+    "address": "Street, number, district"
+  },
+  "help": {
+    "tradeName": "Optional. This name will be used in the interface when provided.",
+    "logo": "Accepted formats: PNG, JPG, WEBP, and SVG. Maximum size: 2 MB.",
+    "selectedFile": "Selected file: {{name}}"
+  },
+  "options": {
+    "usd": "US dollar — USD",
+    "cdf": "Congolese franc — CDF",
+    "fr": "French",
+    "en": "English",
+    "kinshasa": "Kinshasa — UTC+1",
+    "lubumbashi": "Lubumbashi — UTC+2"
+  },
+  "status": {
+    "PENDING": "Pending",
+    "ACTIVE": "Active",
+    "SUSPENDED": "Suspended",
+    "INACTIVE": "Inactive"
+  },
+  "feedback": {
+    "noValue": "Not provided",
+    "noOrganization": "No company is associated with this account.",
+    "loadError": "Unable to load the company information.",
+    "missingId": "The organization identifier is unavailable.",
+    "nameRequired": "The company’s official name is required.",
+    "invalidLogoType": "Unsupported format. Select a PNG, JPG, WEBP, or SVG file.",
+    "logoTooLarge": "The logo must not exceed 2 MB.",
+    "saved": "The company information has been saved.",
+    "savedWithLogo": "The company information and logo have been saved.",
+    "saveError": "Unable to save the information.",
+    "loadingPage": "Loading company information..."
+  },
+  "accessibility": {
+    "logoAlt": "{{name}} logo",
+    "previewLogoAlt": "Logo preview",
+    "companyFallback": "Your company",
+    "sectionToggle": "Show or hide the {{section}} section"
+  },
+  "setup": {
+    "header": "Organization setup", "logout": "Log out", "kicker": "INITIAL SETUP", "title": "Let’s create your professional workspace", "description": "Enter your company’s essential information. You can complete the remaining details from your dashboard.", "progress": "Profile progress", "security": "Your company code will be generated automatically, and all relationships will use a unique UUID.",
+    "step1": "Identification", "step1Description": "Main information", "step2": "Contact details", "step2Description": "Additional information", "stepProgress": "STEP {{current}} OF {{total}}",
+    "identityTitle": "Company identity", "identityDescription": "Only the company’s official name is required to continue.", "officialName": "Company official name", "officialNamePlaceholder": "E.g. MITAS HOLDING SARL", "addTradeName": "Add a trade name", "tradeNameHelp": "Optional — enable this only if your company uses a separate brand or trading name.", "tradeNamePlaceholder": "E.g. MITAS", "nationalIdPlaceholder": "National identifier", "taxNumberLabel": "Tax number", "taxNumberPlaceholder": "Company NIF", "later": "You can complete or update this information later.", "continue": "Continue",
+    "contactTitle": "Contact details and settings", "contactDescription": "This information is optional at this stage.", "emailPlaceholder": "contact@company.com", "phonePlaceholder": "+243...", "provincePlaceholder": "E.g. Kinshasa", "cityPlaceholder": "E.g. Kinshasa", "addressPlaceholder": "District, street and number", "currency": "Primary currency", "timezone": "Time zone", "back": "Back", "creating": "Creating...", "create": "Create my company",
+    "nameRequired": "Enter your company’s official name.", "createFailed": "Unable to create the company.", "unexpectedError": "An error occurred while creating the company.",
+    "preview": { "dashboard": "Dashboard", "stations": "Stations", "stocks": "Inventory", "products": "Products", "team": "Team", "reports": "Reports", "settings": "Settings", "overview": "Overview", "supervisorDashboard": "Supervisor dashboard", "supervisor": "Supervisor", "mainAccount": "Primary account", "globalOverview": "GLOBAL OVERVIEW", "welcome": "Hello, welcome to FuelFlex", "network": "Track the performance of your station network.", "thisWeek": "This week", "activeStations": "Active stations", "configurationRequired": "Setup required", "todaySales": "Today’s sales", "noData": "No data available", "availableStock": "Available inventory", "noProduct": "No product configured", "activePumps": "Active pumps", "noPump": "No pump configured", "salesTrend": "Sales trend", "lastSevenDays": "Activity over the last seven days", "configurationStatus": "Setup status", "preparing": "Preparing your workspace", "accountCreated": "Supervisor account created", "companyPending": "Company to configure", "stationsPending": "Stations to create" }
+  },
+  "progress": {
+    "items_one": "{{completed}} of {{count}} item",
+    "items_other": "{{completed}} of {{count}} items"
+  }
+}

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Navigate, useLocation } from "react-router-dom";
 
 function getStoredSession() {
@@ -55,6 +56,7 @@ function ProtectedRoute({
   children,
   allowedRoles = [],
 }) {
+  const { t } = useTranslation("auth");
   const location = useLocation();
   const session = getStoredSession();
 
@@ -65,8 +67,7 @@ function ProtectedRoute({
         replace
         state={{
           from: location.pathname,
-          message:
-            "Veuillez vous connecter pour accéder à cet espace.",
+          message: t("protectedRoute.loginRequired"),
         }}
       />
     );

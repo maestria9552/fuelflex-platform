@@ -1,0 +1,5 @@
+{
+  "navigation": { "features": "Fonctionnalités", "benefits": "Avantages", "contact": "Contact", "createAccount": "Créer un compte" },
+  "hero": { "badge": "Gestion intelligente des stations-service", "title": "Pilotez toutes vos stations depuis", "highlight": "une plateforme unique.", "description": "FuelFlex centralise vos stocks, vos ventes, vos pompes, vos citernes, vos équipes et vos rapports pour vous offrir une vision complète de votre activité.", "start": "Commencer maintenant", "workspace": "Accéder à mon espace", "quickSetup": "Configuration rapide", "realTime": "Suivi en temps réel", "secureData": "Données sécurisées" },
+  "dashboard": { "overview": "Vue d’ensemble", "title": "Tableau de bord", "online": "En ligne", "activeStations": "Stations actives", "activePumps": "Pompes actives", "availableStock": "Stock disponible", "stockValue": "{{value}} L", "todaySales": "Ventes du jour", "salesValue": "{{value}} USD", "days": { "monday": "Lun", "tuesday": "Mar", "wednesday": "Mer", "thursday": "Jeu", "friday": "Ven", "saturday": "Sam", "sunday": "Dim" } }
+}

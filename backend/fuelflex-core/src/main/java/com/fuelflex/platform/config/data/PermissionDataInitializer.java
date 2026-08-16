@@ -3,6 +3,7 @@ package com.fuelflex.platform.config.data;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.core.annotation.Order;
@@ -10,6 +11,7 @@ import com.fuelflex.platform.permission.entity.Permission;
 import com.fuelflex.platform.permission.repository.PermissionRepository;
 
 @Component
+@ConditionalOnProperty(name = "fuelflex.data-initialization.enabled", havingValue = "true", matchIfMissing = true)
 @Order(2)
 public class PermissionDataInitializer implements CommandLineRunner {
 
@@ -64,6 +66,18 @@ public class PermissionDataInitializer implements CommandLineRunner {
                         "Permet de désactiver un utilisateur",
                         "USER"
                 ),
+                new Permission(
+                        "assignment:view", "Consulter les affectations",
+                        "Permet de consulter les affectations administratives", "ASSIGNMENT"),
+                new Permission(
+                        "assignment:create", "Créer une affectation",
+                        "Permet d’affecter un employé à une station", "ASSIGNMENT"),
+                new Permission(
+                        "assignment:end", "Terminer une affectation",
+                        "Permet de retirer un employé d’une station", "ASSIGNMENT"),
+                new Permission(
+                        "assignment:transfer", "Muter un employé",
+                        "Permet de muter un employé entre stations", "ASSIGNMENT"),
 
                 new Permission(
                         "role:create",
@@ -121,6 +135,9 @@ public class PermissionDataInitializer implements CommandLineRunner {
                         "Permet de modifier un fournisseur",
                         "SUPPLIER"
                 ),
+                new Permission("supplier:partnership_view", "Consulter les partenariats fournisseur", "Consulter les partenariats de son organisation", "SUPPLIER"),
+                new Permission("supplier:partnership_create", "Créer un partenariat fournisseur", "Créer un partenariat dans son organisation", "SUPPLIER"),
+                new Permission("supplier:partnership_update", "Modifier un partenariat fournisseur", "Modifier un partenariat de son organisation", "SUPPLIER"),
 
                 new Permission(
                         "sale:create",

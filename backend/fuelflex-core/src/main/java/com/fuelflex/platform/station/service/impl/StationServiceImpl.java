@@ -1,6 +1,7 @@
 package com.fuelflex.platform.station.service.impl;
 
 import java.util.List;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fuelflex.platform.common.exception.BusinessException;
+import com.fuelflex.platform.assignment.service.EmployeeAssignmentService;
 import com.fuelflex.platform.organization.entity.Organization;
 import com.fuelflex.platform.station.dto.request.StationRequest;
 import com.fuelflex.platform.station.dto.response.StationResponse;
@@ -32,6 +34,7 @@ public class StationServiceImpl implements StationService {
     private final StationMapper stationMapper;
 
     private final UserRepository userRepository;
+    private final EmployeeAssignmentService employeeAssignmentService;
 
     @Override
     public StationResponse create(
@@ -264,6 +267,9 @@ public class StationServiceImpl implements StationService {
          * Suppression logique : la station reste conservée
          * pour préserver son historique métier.
          */
+        employeeAssignmentService.endAllForStation(
+                station, getCurrentUser(), OffsetDateTime.now(), "STATION_CLOSED");
+
         station.setActive(false);
         station.setStatus(StationStatus.CLOSED);
 

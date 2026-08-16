@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import com.fuelflex.platform.role.entity.Role;
 import com.fuelflex.platform.role.repository.RoleRepository;
 
 @Component
+@ConditionalOnProperty(name = "fuelflex.data-initialization.enabled", havingValue = "true", matchIfMissing = true)
 @Order(3)
 public class RolePermissionDataInitializer implements CommandLineRunner {
 
@@ -46,6 +48,11 @@ public class RolePermissionDataInitializer implements CommandLineRunner {
                 "user:update",
                 "user:disable",
 
+                "assignment:view",
+                "assignment:create",
+                "assignment:end",
+                "assignment:transfer",
+
                 "role:create",
                 "role:view",
                 "role:update",
@@ -54,9 +61,10 @@ public class RolePermissionDataInitializer implements CommandLineRunner {
                 "station:view",
                 "station:update",
 
-                "supplier:create",
                 "supplier:view",
-                "supplier:update",
+                "supplier:partnership_view",
+                "supplier:partnership_create",
+                "supplier:partnership_update",
 
                 "sale:view",
                 "report:view"
@@ -73,9 +81,8 @@ public class RolePermissionDataInitializer implements CommandLineRunner {
                 "station:view",
                 "station:update",
 
-                "supplier:create",
                 "supplier:view",
-                "supplier:update",
+                "supplier:partnership_view",
 
                 "sale:create",
                 "sale:view",
@@ -153,7 +160,7 @@ public class RolePermissionDataInitializer implements CommandLineRunner {
                         )
                 );
 
-        Set<Permission> permissions = new HashSet<>();
+        Set<Permission> permissions = new HashSet<>(role.getPermissions());
 
         Arrays.stream(permissionCodes)
                 .forEach(permissionCode -> {

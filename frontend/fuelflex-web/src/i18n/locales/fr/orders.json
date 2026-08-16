@@ -1,0 +1,201 @@
+{
+  "eyebrow": "COMMANDES",
+  "loading": "Chargement…",
+  "common": {
+    "noSupplier": "Sans fournisseur"
+  },
+  "statuses": {
+    "draft": "Brouillon",
+    "pendingSupervisor": "En attente du superviseur",
+    "supervisorRejected": "Refusée par le superviseur",
+    "pendingSupplier": "En attente du fournisseur",
+    "supplierRejected": "Refusée par le fournisseur",
+    "awaitingReception": "En attente de réception"
+  },
+  "errors": {
+    "forbidden": "Accès refusé.",
+    "notFound": "Commande introuvable.",
+    "load": "Impossible de charger les commandes.",
+    "formRequired": "Choisissez une station et ajoutez au moins un produit.",
+    "conflict": "Cette commande ne peut plus être modifiée."
+  },
+  "list": {
+    "title": "Commandes",
+    "subtitle": "Suivez vos commandes de leur création jusqu’à la réception.",
+    "new": "Nouvelle commande",
+    "emptyTitle": "Aucune commande",
+    "emptyDescription": "Créez votre première commande.",
+    "view": "Voir",
+    "productCount": "{{count}} produits",
+    "page": "Page {{current}} sur {{total}}",
+    "previous": "Précédente",
+    "next": "Suivante",
+    "columns": {
+      "number": "N° commande",
+      "station": "Station",
+      "supplier": "Fournisseur",
+      "products": "Produits",
+      "date": "Date",
+      "status": "Statut",
+      "action": "Action"
+    }
+  },
+  "new": {
+    "title": "Nouvelle commande",
+    "editTitle": "Modifier le brouillon",
+    "subtitle": "Préparez un panier et enregistrez-le comme brouillon.",
+    "station": "Station",
+    "chooseStation": "Choisissez une station",
+    "supplier": "Fournisseur (facultatif)",
+    "availableEyebrow": "PRODUITS DISPONIBLES",
+    "availableTitle": "Ajouter au panier",
+    "chooseStationHint": "Choisissez une station pour voir ses produits.",
+    "noProducts": "Aucun produit disponible pour cette station.",
+    "quantityFor": "Quantité pour {{product}}",
+    "add": "Ajouter",
+    "cartEyebrow": "PANIER",
+    "cartTitle": "Produits commandés",
+    "emptyCart": "Votre panier est vide.",
+    "decrease": "Diminuer",
+    "increase": "Augmenter",
+    "remove": "Retirer",
+    "saveDraft": "Enregistrer le brouillon"
+  },
+  "detail": {
+    "back": "Retour aux commandes",
+    "information": "Informations de la commande",
+    "station": "Station",
+    "supplier": "Fournisseur",
+    "created": "Créée le",
+    "createdBy": "Créée par",
+    "edit": "Modifier",
+    "submit": "Soumettre la commande",
+    "submitTitle": "Soumettre la commande",
+    "submitConfirmAction": "Soumettre",
+    "submitConfirm": "Soumettre cette commande ? Après soumission, elle sera envoyée au superviseur et ne pourra plus être modifiée.",
+    "items": "Produits commandés",
+    "timelineEyebrow": "HISTORIQUE",
+    "timeline": "Suivi de la commande",
+    "noHistory": "Aucun événement historique.",
+    "supervisorRejected": "Commande refusée par le superviseur",
+    "supplierRejected": "Commande refusée par le fournisseur",
+    "noReason": "Aucun motif fourni."
+  },
+  "history": {
+    "created": "Commande créée",
+    "updated": "Commande modifiée",
+    "submitted": "Commande soumise",
+    "supervisorApproved": "Commande validée par le superviseur",
+    "supervisorRejected": "Commande refusée par le superviseur",
+    "supplierApproved": "Commande acceptée par le fournisseur",
+    "supplierRejected": "Commande refusée par le fournisseur"
+  },
+  "next": {
+    "draft": "Brouillon modifiable",
+    "pendingSupervisor": "En attente de validation du superviseur",
+    "supervisorRejected": "La commande est refusée et verrouillée.",
+    "pendingSupplier": "En attente de validation du fournisseur",
+    "supplierRejected": "La commande est refusée et verrouillée.",
+    "awaitingReception": "Prochaine étape : réception"
+  },
+  "supervisor": {
+    "filters": {
+      "all": "Toutes",
+      "pending": "À valider",
+      "approved": "Validées / transmises",
+      "rejected": "Refusées"
+    },
+    "list": {
+      "title": "Commandes",
+      "subtitle": "Consultez et traitez les commandes soumises par vos gestionnaires.",
+      "empty": "Aucune commande dans ce filtre.",
+      "view": "Voir",
+      "columns": {
+        "number": "N° commande",
+        "station": "Station",
+        "manager": "Gestionnaire",
+        "supplier": "Fournisseur",
+        "products": "Produits",
+        "date": "Date de soumission",
+        "status": "Statut",
+        "action": "Action"
+      }
+    },
+    "detail": {
+      "heading": "Commande {{number}}",
+      "back": "Retour aux commandes",
+      "information": "Informations",
+      "number": "N° commande",
+      "station": "Station",
+      "manager": "Gestionnaire",
+      "created": "Date de création",
+      "submitted": "Date de soumission",
+      "supplier": "Fournisseur",
+      "items": "Produits commandés",
+      "history": "Historique de la commande",
+      "waitingForYou": "En attente de votre validation",
+      "approve": "Valider la commande",
+      "reject": "Refuser",
+      "approveSuccess": "Commande validée.",
+      "rejectSuccess": "Commande refusée.",
+      "conflict": "Cette commande a déjà été traitée ou son état ne permet plus cette opération."
+    },
+    "modal": {
+      "approveTitle": "Valider cette commande ?",
+      "approveText": "La commande poursuivra automatiquement son workflow selon le type de fournisseur sélectionné.",
+      "rejectTitle": "Refuser la commande",
+      "rejectText": "Indiquez un motif obligatoire pour informer le gestionnaire.",
+      "reasonLabel": "Motif du refus",
+      "confirmApprove": "Valider",
+      "confirmReject": "Confirmer le refus"
+    }
+  },
+  "document": {
+    "title": "Bon de commande",
+    "back": "Retour à la commande",
+    "print": "Imprimer",
+    "orderInformation": "Informations de la commande",
+    "verifyAuthenticity": "Vérifier l’authenticité",
+    "reference": "Référence",
+    "draft": "Brouillon",
+    "organization": "Organisation",
+    "station": "Station",
+    "manager": "Gestionnaire",
+    "supplier": "Fournisseur",
+    "date": "Date",
+    "items": "Produits commandés",
+    "line": "N°",
+    "product": "Produit",
+    "quantity": "Quantité",
+    "unit": "Unité",
+    "created": "Créé le",
+    "submitted": "Soumis le",
+    "validated": "Validé le",
+    "view": "Voir le bon de commande",
+    "attachmentsCount": "Pièces jointes : {{count}}",
+    "validatedBy": "Validé par",
+    "validation": "Validation",
+    "supervisor": "Superviseur",
+    "pendingValidation": "En attente de validation",
+    "roleSupervisor": "Superviseur"
+  },
+  "attachments": {
+    "eyebrow": "PIÈCES JOINTES",
+    "title": "Pièces jointes (facultatif)",
+    "none": "Aucune pièce jointe",
+    "label": "Intitulé",
+    "labelPlaceholder": "Ex. Proforma fournisseur",
+    "add": "Ajouter",
+    "download": "Télécharger",
+    "remove": "Supprimer",
+    "labelRequired": "Un intitulé et un fichier sont requis.",
+    "invalidType": "Formats acceptés : PDF, JPG ou PNG.",
+    "tooLarge": "La taille maximale est de 2 Mo.",
+    "limit": "Deux pièces jointes maximum.",
+    "uploadError": "Impossible d’ajouter la pièce jointe.",
+    "deleteError": "Impossible de supprimer la pièce jointe."
+  },
+  "reception": {
+    "start": "Démarrer une réception"
+  }
+}

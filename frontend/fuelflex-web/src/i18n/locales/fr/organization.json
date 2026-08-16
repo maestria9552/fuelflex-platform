@@ -1,0 +1,139 @@
+{
+  "page": {
+    "eyebrow": "Administration",
+    "title": "Société",
+    "description": "Consultez et gérez les informations administratives et professionnelles de votre organisation.",
+    "edit": "Modifier les informations",
+    "registered": "Société enregistrée",
+    "fuelFlexCode": "Code FuelFlex",
+    "administrativeProfile": "Profil administratif",
+    "administrativeInformation": "Informations administratives",
+    "officialName": "Dénomination officielle",
+    "contactAndLocation": "Coordonnées et localisation",
+    "configurationStatus": "État de la configuration",
+    "essentialInformation": "Informations essentielles",
+    "complete": "Les informations administratives essentielles de votre société sont complètes.",
+    "incomplete": "Complétez le RCCM, l’ID National, le NIF, l’adresse et le logo de votre société."
+  },
+  "modal": {
+    "title": "Paramètres de l’organisation",
+    "description": "Complétez et actualisez les informations administratives de votre société.",
+    "loading": "Chargement de la société...",
+    "loadingDescription": "Nous récupérons les informations enregistrées.",
+    "configurationProgress": "Progression de la configuration",
+    "organizationCode": "Code organisation",
+    "active": "Organisation active",
+    "inactive": "Inactive",
+    "saving": "Enregistrement..."
+  },
+  "sections": {
+    "general": {
+      "label": "Informations générales",
+      "description": "Identité officielle et commerciale"
+    },
+    "legal": {
+      "label": "Informations juridiques",
+      "description": "RCCM, ID National et NIF"
+    },
+    "contact": {
+      "label": "Coordonnées",
+      "description": "Téléphone, e-mail et site web"
+    },
+    "location": {
+      "label": "Localisation",
+      "description": "Pays, province, ville et adresse"
+    },
+    "regional": {
+      "label": "Paramètres régionaux",
+      "description": "Devise, langue et fuseau horaire"
+    },
+    "appearance": {
+      "label": "Identité visuelle",
+      "description": "Logo et couleurs de la société"
+    }
+  },
+  "fields": {
+    "officialName": "Nom officiel",
+    "tradeName": "Nom commercial",
+    "rccm": "RCCM",
+    "nationalId": "ID National",
+    "taxNumber": "Numéro fiscal — NIF",
+    "phone": "Téléphone",
+    "email": "Adresse e-mail",
+    "website": "Site web",
+    "country": "Pays",
+    "province": "Province",
+    "city": "Ville",
+    "address": "Adresse physique",
+    "defaultCurrency": "Devise par défaut",
+    "defaultLanguage": "Langue par défaut",
+    "timezone": "Fuseau horaire",
+    "logo": "Logo de la société",
+    "primaryColor": "Couleur principale",
+    "secondaryColor": "Couleur secondaire",
+    "status": "Statut",
+    "currency": "Devise",
+    "addressShort": "Adresse",
+    "nif": "NIF"
+  },
+  "placeholders": {
+    "officialName": "Nom légal de la société",
+    "tradeName": "Marque ou enseigne commerciale",
+    "nationalId": "Numéro d’identification nationale",
+    "taxNumber": "Numéro d’identification fiscale",
+    "country": "Pays",
+    "province": "Province",
+    "city": "Ville",
+    "address": "Avenue, numéro, commune"
+  },
+  "help": {
+    "tradeName": "Facultatif. Ce nom sera utilisé dans l’interface lorsque renseigné.",
+    "logo": "Formats acceptés : PNG, JPG, WEBP et SVG. Taille maximale : 2 Mo.",
+    "selectedFile": "Fichier sélectionné : {{name}}"
+  },
+  "options": {
+    "usd": "Dollar américain — USD",
+    "cdf": "Franc congolais — CDF",
+    "fr": "Français",
+    "en": "Anglais",
+    "kinshasa": "Kinshasa — UTC+1",
+    "lubumbashi": "Lubumbashi — UTC+2"
+  },
+  "status": {
+    "PENDING": "En attente",
+    "ACTIVE": "Active",
+    "SUSPENDED": "Suspendue",
+    "INACTIVE": "Inactive"
+  },
+  "feedback": {
+    "noValue": "Non renseigné",
+    "noOrganization": "Aucune société n’est associée à ce compte.",
+    "loadError": "Impossible de charger les informations de la société.",
+    "missingId": "L’identifiant de l’organisation est indisponible.",
+    "nameRequired": "Le nom officiel de la société est obligatoire.",
+    "invalidLogoType": "Format non autorisé. Sélectionnez un fichier PNG, JPG, WEBP ou SVG.",
+    "logoTooLarge": "Le logo ne doit pas dépasser 2 Mo.",
+    "saved": "Les informations de la société ont été enregistrées.",
+    "savedWithLogo": "Les informations et le logo de la société ont été enregistrés.",
+    "saveError": "Impossible d’enregistrer les informations.",
+    "loadingPage": "Chargement des informations de la société..."
+  },
+  "accessibility": {
+    "logoAlt": "Logo de {{name}}",
+    "previewLogoAlt": "Aperçu du logo",
+    "companyFallback": "Votre société",
+    "sectionToggle": "Afficher ou masquer la section {{section}}"
+  },
+  "setup": {
+    "header": "Configuration de l’organisation", "logout": "Déconnexion", "kicker": "CONFIGURATION INITIALE", "title": "Créons votre espace professionnel", "description": "Renseignez les informations essentielles de votre société. Les autres éléments pourront être complétés depuis votre tableau de bord.", "progress": "Progression du profil", "security": "Votre code société sera généré automatiquement et toutes les relations utiliseront un UUID unique.",
+    "step1": "Identification", "step1Description": "Informations principales", "step2": "Coordonnées", "step2Description": "Informations complémentaires", "stepProgress": "ÉTAPE {{current}} SUR {{total}}",
+    "identityTitle": "Identité de la société", "identityDescription": "Seul le nom officiel de la société est obligatoire pour continuer.", "officialName": "Nom officiel de la société", "officialNamePlaceholder": "Ex. MITAS HOLDING SARL", "addTradeName": "Ajouter un nom commercial", "tradeNameHelp": "Facultatif — activez cette option uniquement si votre société utilise une marque ou une appellation commerciale différente.", "tradeNamePlaceholder": "Ex. MITAS", "nationalIdPlaceholder": "Identifiant national", "taxNumberLabel": "Numéro fiscal", "taxNumberPlaceholder": "NIF de la société", "later": "Vous pourrez compléter ou modifier ces informations plus tard.", "continue": "Continuer",
+    "contactTitle": "Coordonnées et paramètres", "contactDescription": "Ces informations restent facultatives à cette étape.", "emailPlaceholder": "contact@societe.com", "phonePlaceholder": "+243...", "provincePlaceholder": "Ex. Kinshasa", "cityPlaceholder": "Ex. Kinshasa", "addressPlaceholder": "Commune, avenue et numéro", "currency": "Devise principale", "timezone": "Fuseau horaire", "back": "Retour", "creating": "Création en cours...", "create": "Créer ma société",
+    "nameRequired": "Veuillez renseigner le nom officiel de votre société.", "createFailed": "Impossible de créer la société.", "unexpectedError": "Une erreur est survenue pendant la création de la société.",
+    "preview": { "dashboard": "Tableau de bord", "stations": "Stations", "stocks": "Stocks", "products": "Produits", "team": "Équipe", "reports": "Rapports", "settings": "Paramètres", "overview": "Vue d’ensemble", "supervisorDashboard": "Tableau de bord superviseur", "supervisor": "Superviseur", "mainAccount": "Compte principal", "globalOverview": "APERÇU GLOBAL", "welcome": "Bonjour, bienvenue sur FuelFlex", "network": "Suivez les performances de votre réseau de stations.", "thisWeek": "Cette semaine", "activeStations": "Stations actives", "configurationRequired": "Configuration requise", "todaySales": "Ventes du jour", "noData": "Aucune donnée disponible", "availableStock": "Stock disponible", "noProduct": "Aucun produit configuré", "activePumps": "Pompes actives", "noPump": "Aucune pompe configurée", "salesTrend": "Évolution des ventes", "lastSevenDays": "Activité des sept derniers jours", "configurationStatus": "État de configuration", "preparing": "Préparation de votre espace", "accountCreated": "Compte superviseur créé", "companyPending": "Société à configurer", "stationsPending": "Stations à créer" }
+  },
+  "progress": {
+    "items_one": "{{completed}} sur {{count}} élément",
+    "items_other": "{{completed}} sur {{count}} éléments"
+  }
+}

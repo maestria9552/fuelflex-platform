@@ -1,0 +1,27 @@
+{
+  "page": {
+    "eyebrow": "NETWORK CONFIGURATION", "title": "Pumps", "description": "Manage the pumps installed at your different stations.", "add": "Add pump",
+    "station": "Station", "selectStation": "Select a station", "stationHelp": "Select the station whose pumps you want to manage.",
+    "loadingStations": "Loading stations...", "loadingPumps": "Loading pumps...",
+    "noStationTitle": "No station configured", "noStationDescription": "Create a station before managing its pumps.",
+    "noSelectionTitle": "No station selected", "noSelectionDescription": "Choose a station from the selector above.",
+    "searchPlaceholder": "Search by name, code, number, manufacturer, or model", "searchAriaLabel": "Search for a pump",
+    "count_one": "{{count}} pump", "count_other": "{{count}} pumps",
+    "emptyTitle": "No pump has been configured for this station yet.", "emptyDescription": "Add the first pump for {{stationName}}.", "stationFallback": "this station",
+    "noResultTitle": "No pump found", "noResultDescription": "Try another name, code, number, manufacturer, or model.",
+    "pumpNumber": "Pump no. {{number}}", "edit": "Edit"
+  },
+  "status": { "ACTIVE": "Active", "INACTIVE": "Inactive", "MAINTENANCE": "Maintenance", "OUT_OF_SERVICE": "Out of service" },
+  "availability": { "active": "Active", "inactive": "Inactive" },
+  "meteringLevel": {
+    "PUMP": { "title": "Pump-level metering", "detail": "One meter for the entire pump", "description": "A single meter will track the volume dispensed by this pump.", "help": "Suitable when dispensing points use the same tank." },
+    "DISPENSING_POINT": { "title": "Dispensing-point metering", "detail": "One individual meter per dispensing point", "description": "Each dispensing point will have its own meter.", "help": "Required when dispensing points must be tracked independently." }
+  },
+  "feedback": { "organizationMissing": "No company is associated with this account.", "stationsLoadFailed": "Unable to load stations.", "pumpsLoadFailed": "Unable to load pumps.", "created": "The pump was created successfully.", "updated": "The pump was updated successfully.", "saveFailed": "Unable to save the pump." },
+  "modal": {
+    "createTitle": "Create pump", "editTitle": "Edit pump", "description": "Configure the physical dispenser and its metering level.",
+    "name": "Name", "code": "Code", "pumpNumber": "Pump number", "meteringMode": "Metering mode", "meteringWarning": "Changing the metering mode may require adapting existing meters.",
+    "additionalInformation": "Additional information", "manufacturer": "Manufacturer", "model": "Model", "serialNumber": "Serial number", "location": "Location", "displayOrder": "Display order",
+    "administration": "Administration", "status": "Status", "activeUsable": "Pump active and available", "saving": "Saving..."
+  }
+}

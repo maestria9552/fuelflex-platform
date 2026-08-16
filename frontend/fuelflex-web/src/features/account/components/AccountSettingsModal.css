@@ -1,0 +1,258 @@
+.account-settings-loading,
+.account-settings-load-error {
+  display: flex;
+  min-height: 240px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  color: #64748b;
+  text-align: center;
+}
+
+.account-settings-load-error p {
+  margin: 0;
+}
+
+.account-settings-load-error button,
+.account-settings-cancel,
+.account-settings-save {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-radius: 11px;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.account-settings-load-error button,
+.account-settings-cancel {
+  color: #334155;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+}
+
+.account-settings-save {
+  color: #ffffff;
+  background: #2563eb;
+  border: 1px solid #2563eb;
+}
+
+.account-settings-cancel:disabled,
+.account-settings-save:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.account-settings-spinner {
+  animation: accountSettingsSpin 0.8s linear infinite;
+}
+
+.account-settings-content {
+  display: grid;
+  gap: 18px;
+}
+
+.account-settings-section {
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+}
+
+.account-settings-section > header {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-bottom: 16px;
+  color: #2563eb;
+}
+
+.account-settings-section > header div {
+  min-width: 0;
+}
+
+.account-settings-section h3,
+.account-settings-section p {
+  margin: 0;
+}
+
+.account-settings-section h3 {
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+.account-settings-section > header p {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.account-settings-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.account-settings-details > div {
+  min-width: 0;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+}
+
+.account-settings-details dt {
+  margin-bottom: 5px;
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.account-settings-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.account-settings-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 750;
+}
+
+.account-settings-status.verified {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.account-settings-status.unverified {
+  color: #9a3412;
+  background: #ffedd5;
+}
+
+.account-settings-alert {
+  margin-bottom: 14px;
+  padding: 11px 13px;
+  border: 1px solid;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.account-settings-alert.error {
+  color: #b91c1c;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.account-settings-alert.success {
+  color: #166534;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+#account-password-form {
+  display: grid;
+  gap: 14px;
+}
+
+.account-settings-password-field {
+  display: grid;
+  gap: 7px;
+}
+
+.account-settings-password-field > span:first-child {
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.account-settings-password-control {
+  position: relative;
+  display: flex;
+}
+
+.account-settings-password-control input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 48px 0 12px;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.86rem;
+}
+
+.account-settings-password-control button {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #64748b;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.account-settings-password-control button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+#account-password-help {
+  color: #64748b;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.account-settings-password-control input:focus-visible,
+.account-settings-password-control button:focus-visible,
+.account-settings-load-error button:focus-visible,
+.account-settings-cancel:focus-visible,
+.account-settings-save:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+@keyframes accountSettingsSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .account-settings-section {
+    padding: 14px;
+  }
+
+  .account-settings-details {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .account-settings-spinner {
+    animation: none;
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "page": {
+    "eyebrow": "CONFIGURATION DU RÉSEAU",
+    "title": "Compteurs",
+    "description": "Gérez les compteurs selon le mode défini sur chaque pompe.",
+    "station": "Station",
+    "pump": "Pompe",
+    "selectStation": "Sélectionner une station",
+    "selectPump": "Sélectionner une pompe",
+    "loading": "Chargement...",
+    "loadingStations": "Chargement des stations...",
+    "loadingPumps": "Chargement des pompes...",
+    "loadingGlobalMeter": "Chargement du compteur global...",
+    "loadingPoints": "Chargement des pistolets...",
+    "loadingIndividualMeters": "Chargement des compteurs individuels...",
+    "noStationTitle": "Aucune station configurée",
+    "noStationDescription": "Créez d’abord une station avant de gérer ses compteurs.",
+    "noStationSelectedTitle": "Aucune station sélectionnée",
+    "noStationSelectedDescription": "Choisissez la station dont vous souhaitez gérer les compteurs.",
+    "noPumpTitle": "Aucune pompe configurée",
+    "noPumpDescription": "Créez d’abord une pompe dans cette station.",
+    "noPumpSelectedTitle": "Aucune pompe sélectionnée",
+    "noPumpSelectedDescription": "Choisissez la pompe dont vous souhaitez gérer les compteurs.",
+    "pumpNumber": "Pompe n° {{number}}",
+    "globalConfigured": "COMPTEUR GLOBAL CONFIGURÉ",
+    "globalMissingTitle": "Compteur global non configuré",
+    "globalMissingDescription": "Ajoutez l’unique compteur global attendu pour cette pompe.",
+    "addMeter": "Ajouter le compteur",
+    "noPointsTitle": "Aucun pistolet n’est configuré pour cette pompe.",
+    "noPointsDescription": "Configurez d’abord les pistolets avant d’ajouter leurs compteurs.",
+    "managePoints": "Gérer les pistolets",
+    "searchPlaceholder": "Rechercher par pistolet ou compteur",
+    "searchAriaLabel": "Rechercher un pistolet ou un compteur",
+    "pointCount_one": "{{count}} pistolet",
+    "pointCount_other": "{{count}} pistolets",
+    "noResultTitle": "Aucun résultat",
+    "noResultDescription": "Essayez un autre nom, code ou numéro.",
+    "nozzleNumber": "Pistolet n° {{number}}",
+    "tank": "Citerne : {{name}}",
+    "tankUnknown": "Non renseignée",
+    "configured": "Compteur configuré",
+    "missing": "Compteur non configuré",
+    "missingDescription": "Aucun compteur actif n’est associé à ce pistolet.",
+    "addIndividualMeter": "Ajouter un compteur",
+    "edit": "Modifier",
+    "code": "Code",
+    "technology": "Technologie",
+    "currentIndex": "Index courant"
+  },
+  "meteringLevel": {
+    "PUMP": {
+      "title": "Comptage global à la pompe",
+      "detail": "Un seul compteur actif suit l’ensemble des distributions de cette pompe."
+    },
+    "DISPENSING_POINT": {
+      "title": "Comptage par pistolet",
+      "detail": "Chaque pistolet actif dispose de son propre compteur individuel."
+    }
+  },
+  "technology": {
+    "MECHANICAL": "Mécanique",
+    "ELECTRONIC": "Électronique",
+    "MANUAL": "Manuel"
+  },
+  "status": {
+    "ACTIVE": "Actif",
+    "INACTIVE": "Inactif",
+    "MAINTENANCE": "Maintenance",
+    "OUT_OF_SERVICE": "Hors service"
+  },
+  "availability": {
+    "active": "Actif",
+    "inactive": "Inactif"
+  },
+  "feedback": {
+    "organizationMissing": "Aucune société n’est associée à ce compte.",
+    "stationsLoadFailed": "Impossible de charger les stations.",
+    "pumpsLoadFailed": "Impossible de charger les pompes.",
+    "configurationLoadFailed": "Impossible de charger la configuration des compteurs.",
+    "created": "Le compteur a été créé avec succès.",
+    "updated": "Le compteur a été modifié avec succès.",
+    "saveFailed": "Impossible d’enregistrer le compteur."
+  },
+  "modal": {
+    "editTitle": "Modifier le compteur",
+    "createTitle": "Configurer le compteur",
+    "pumpDescription": "Ce compteur sera rattaché directement à la pompe.",
+    "pointDescription": "Ce compteur sera rattaché au pistolet sélectionné.",
+    "pump": "Pompe",
+    "point": "Pistolet",
+    "globalMeter": "Compteur global",
+    "name": "Nom",
+    "code": "Code",
+    "technology": "Technologie",
+    "currentIndex": "Index actuel",
+    "initialIndex": "Index initial",
+    "additionalInformation": "Informations complémentaires",
+    "displayOrder": "Ordre d’affichage",
+    "status": "Statut",
+    "activeUsable": "Compteur actif et utilisable",
+    "saving": "Enregistrement..."
+  },
+  "validation": {
+    "invalidParentType": "Le type de parent du compteur est invalide.",
+    "parentMissing": "Le parent du compteur est introuvable.",
+    "nonNegativeIndex": "L’index actuel doit être un nombre positif ou nul.",
+    "indexRegression": "Le nouvel index ne peut pas être inférieur à l’index actuel."
+  }
+}

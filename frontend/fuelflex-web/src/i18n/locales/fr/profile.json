@@ -1,0 +1,24 @@
+{
+  "title": "Mon profil",
+  "description": "Consultez et mettez à jour vos informations personnelles.",
+  "fields": {
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Adresse e-mail",
+    "emailReadOnly": "L’adresse e-mail ne peut pas être modifiée depuis le profil.",
+    "phoneNumber": "Téléphone",
+    "phonePlaceholder": "Ex. +243 000 000 000"
+  },
+  "actions": {
+    "saving": "Enregistrement..."
+  },
+  "feedback": {
+    "loading": "Chargement du profil...",
+    "loadError": "Impossible de charger votre profil.",
+    "saveError": "Impossible d’enregistrer votre profil.",
+    "saved": "Votre profil a été mis à jour."
+  },
+  "validation": {
+    "requiredFields": "Le prénom, le nom et le téléphone sont obligatoires."
+  }
+}

@@ -1,5 +1,7 @@
 import "./SupervisorSidebar.css";
-import { useState } from "react";
+import { getSupervisorPendingOrderCount } from "../../services/purchaseOrder/supervisorPurchaseOrderService";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -11,9 +13,9 @@ import {
   Cylinder,
   BadgeDollarSign,
   Handshake,
-  BriefcaseBusiness,
-  UserRoundCog,
+  UsersRound,
   ChartNoAxesCombined,
+  ClipboardCheck,
   Settings2,
   ChevronLeft,
   ChevronRight,
@@ -26,17 +28,23 @@ import FuelFlexLogo from "../brand/FuelFlexLogo";
 const navigationGroups = [
   {
     id: "general",
-    label: "Général",
+    labelKey: "groups.general",
     items: [
       {
         id: "dashboard",
-        label: "Tableau de bord",
+        labelKey: "items.dashboard",
         path: "/superviseur/dashboard",
         icon: LayoutDashboard,
       },
       {
+        id: "orders",
+        labelKey: "items.orders",
+        path: "/superviseur/commandes",
+        icon: ClipboardCheck,
+      },
+      {
         id: "societe",
-        label: "Société",
+        labelKey: "items.company",
         path: "/superviseur/societe",
         icon: Building2,
       },
@@ -44,45 +52,45 @@ const navigationGroups = [
   },
   {
     id: "configuration",
-    label: "Configuration",
+    labelKey: "groups.configuration",
     items: [
       {
         id: "stations",
-        label: "Stations",
+        labelKey: "items.stations",
         path: "/superviseur/stations",
         icon: Fuel,
       },
       {
         id: "produits",
-        label: "Produits",
+        labelKey: "items.products",
         path: "/superviseur/produits",
         icon: Droplets,
       },
       {
         id: "depots",
-        label: "Dépôts",
+        labelKey: "items.depots",
         path: "/superviseur/depots",
         icon: Warehouse,
       },
       {
         id: "citernes",
-        label: "Citernes",
+        labelKey: "items.tanks",
         path: "/superviseur/citernes",
         icon: Cylinder,
       },
       {
         id: "pompes",
-        label: "Pompes",
+        labelKey: "items.pumps",
         path: "/superviseur/pompes",
         icon: Fuel,
         children: [
-          { id: "pistolets", label: "Pistolets", path: "/superviseur/pistolets" },
-          { id: "compteurs", label: "Compteurs", path: "/superviseur/compteurs" },
+          { id: "pistolets", labelKey: "items.dispensingPoints", path: "/superviseur/pistolets" },
+          { id: "compteurs", labelKey: "items.fuelMeters", path: "/superviseur/compteurs" },
         ],
       },
       {
         id: "tarification",
-        label: "Tarification",
+        labelKey: "items.pricing",
         path: "/superviseur/tarification",
         icon: BadgeDollarSign,
       },
@@ -90,41 +98,35 @@ const navigationGroups = [
   },
   {
     id: "gestion",
-    label: "Gestion",
+    labelKey: "groups.management",
     items: [
       {
         id: "clients",
-        label: "Clients partenaires",
+        labelKey: "items.partnerCustomers",
         path: "/superviseur/clients",
         icon: Handshake,
       },
       {
-        id: "gestionnaires",
-        label: "Gestionnaires",
-        path: "/superviseur/gestionnaires",
-        icon: BriefcaseBusiness,
-      },
-      {
-        id: "pompistes",
-        label: "Pompistes",
-        path: "/superviseur/pompistes",
-        icon: UserRoundCog,
+        id: "employes",
+        labelKey: "items.employees",
+        path: "/superviseur/employes",
+        icon: UsersRound,
       },
     ],
   },
   {
     id: "analyse",
-    label: "Analyse",
+    labelKey: "groups.analytics",
     items: [
       {
         id: "rapports",
-        label: "Rapports",
+        labelKey: "items.reports",
         path: "/superviseur/rapports",
         icon: ChartNoAxesCombined,
       },
       {
         id: "parametres",
-        label: "Paramètres",
+        labelKey: "items.settings",
         path: "/superviseur/parametres",
         icon: Settings2,
       },
@@ -138,7 +140,10 @@ function SupervisorSidebar({
   onClose,
   onToggleCollapse,
 }) {
+  const { t } = useTranslation(["navigation", "common"]);
   const location = useLocation();
+  const [pendingOrderCount, setPendingOrderCount] = useState(0);
+  useEffect(() => { let active = true; const refresh = () => getSupervisorPendingOrderCount().then((count) => active && setPendingOrderCount(Number(count?.count ?? count) || 0)).catch(() => {}); refresh(); const timer = window.setInterval(refresh, 45000); window.addEventListener("fuelflex:notifications-refresh", refresh); return () => { active = false; window.clearInterval(timer); window.removeEventListener("fuelflex:notifications-refresh", refresh); }; }, []);
   const isPumpSectionActive = ["/superviseur/pompes", "/superviseur/pistolets", "/superviseur/compteurs"].includes(location.pathname);
   const isPumpChildActive = ["/superviseur/pistolets", "/superviseur/compteurs"].includes(location.pathname);
   const [isPumpsOpen, setIsPumpsOpen] = useState(isPumpSectionActive);
@@ -154,7 +159,7 @@ function SupervisorSidebar({
           <motion.button
             type="button"
             className="supervisor-sidebar-overlay"
-            aria-label="Fermer le menu"
+            aria-label={t("navigation:sidebar.closeMenu")}
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -189,7 +194,7 @@ function SupervisorSidebar({
             type="button"
             className="supervisor-sidebar-mobile-close"
             onClick={onClose}
-            aria-label="Fermer le menu"
+            aria-label={t("navigation:sidebar.closeMenu")}
           >
             <X size={20} strokeWidth={1.8} />
           </button>
@@ -197,7 +202,7 @@ function SupervisorSidebar({
 
         <nav
           className="supervisor-sidebar-navigation"
-          aria-label="Navigation superviseur"
+          aria-label={t("navigation:sidebar.supervisorNavigation")}
         >
           {navigationGroups.map((group) => (
             <div
@@ -211,25 +216,26 @@ function SupervisorSidebar({
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {group.label}
+                  {t(`navigation:${group.labelKey}`)}
                 </motion.p>
               )}
 
               <div className="supervisor-sidebar-group-links">
                 {group.items.map((item) => {
                   const Icon = item.icon;
+                  const itemLabel = t(`navigation:${item.labelKey}`);
 
                   if (item.children) {
                     return (
                       <div className="supervisor-sidebar-parent" key={item.id}>
                         <div className="supervisor-sidebar-parent-row">
-                          <NavLink to={item.path} onClick={onClose} title={isCollapsed ? item.label : undefined} className={`supervisor-sidebar-link supervisor-sidebar-parent-link ${isPumpSectionActive ? "supervisor-sidebar-link-active" : ""}`}>
+                          <NavLink to={item.path} onClick={onClose} title={isCollapsed ? itemLabel : undefined} className={`supervisor-sidebar-link supervisor-sidebar-parent-link ${isPumpSectionActive ? "supervisor-sidebar-link-active" : ""}`}>
                             <span className="supervisor-sidebar-link-icon"><Icon size={20} strokeWidth={1.8} aria-hidden="true" /></span>
-                            {!isCollapsed && <span className="supervisor-sidebar-link-label">{item.label}</span>}
+                            {!isCollapsed && <span className="supervisor-sidebar-link-label">{itemLabel}</span>}
                           </NavLink>
-                          {!isCollapsed && <button type="button" className="supervisor-sidebar-submenu-toggle" aria-label={showPumpsOpen ? "Replier le sous-menu Pompes" : "Développer le sous-menu Pompes"} aria-expanded={showPumpsOpen} onClick={() => setIsPumpsOpen((current) => isPumpChildActive ? true : !current)}><ChevronDown size={17} aria-hidden="true" /></button>}
+                          {!isCollapsed && <button type="button" className="supervisor-sidebar-submenu-toggle" aria-label={showPumpsOpen ? t("navigation:sidebar.collapsePumpsSubmenu") : t("navigation:sidebar.expandPumpsSubmenu")} aria-expanded={showPumpsOpen} onClick={() => setIsPumpsOpen((current) => isPumpChildActive ? true : !current)}><ChevronDown size={17} aria-hidden="true" /></button>}
                         </div>
-                        {!isCollapsed && showPumpsOpen && <div className="supervisor-sidebar-submenu">{item.children.map((child) => <NavLink key={child.id} to={child.path} onClick={onClose} className={({ isActive }) => `supervisor-sidebar-sublink ${isActive ? "supervisor-sidebar-sublink-active" : ""}`}><span />{child.label}</NavLink>)}</div>}
+                        {!isCollapsed && showPumpsOpen && <div className="supervisor-sidebar-submenu">{item.children.map((child) => <NavLink key={child.id} to={child.path} onClick={onClose} className={({ isActive }) => `supervisor-sidebar-sublink ${isActive ? "supervisor-sidebar-sublink-active" : ""}`}><span />{t(`navigation:${child.labelKey}`)}</NavLink>)}</div>}
                       </div>
                     );
                   }
@@ -239,7 +245,7 @@ function SupervisorSidebar({
                       key={item.id}
                       to={item.path}
                       onClick={onClose}
-                      title={isCollapsed ? item.label : undefined}
+                      title={isCollapsed ? itemLabel : undefined}
                       className={({ isActive }) =>
                         [
                           "supervisor-sidebar-link",
@@ -259,6 +265,7 @@ function SupervisorSidebar({
                         />
                       </span>
 
+                      {item.id === "orders" && pendingOrderCount > 0 && !isCollapsed && <b className="supervisor-sidebar-pending-badge">{pendingOrderCount > 99 ? "99+" : pendingOrderCount}</b>}
                       {!isCollapsed && (
                         <motion.span
                           className="supervisor-sidebar-link-label"
@@ -266,7 +273,7 @@ function SupervisorSidebar({
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.2 }}
                         >
-                          {item.label}
+                          {itemLabel}
                         </motion.span>
                       )}
                     </NavLink>
@@ -287,7 +294,7 @@ function SupervisorSidebar({
               <span className="supervisor-sidebar-status-dot" />
 
               <div>
-                <strong>Système opérationnel</strong>
+                <strong>{t("navigation:sidebar.systemOperational")}</strong>
                 <span>FuelFlex Platform v1.0</span>
               </div>
             </motion.div>
@@ -299,13 +306,13 @@ function SupervisorSidebar({
             onClick={onToggleCollapse}
             aria-label={
               isCollapsed
-                ? "Développer le menu"
-                : "Réduire le menu"
+                ? t("navigation:sidebar.expandMenu")
+                : t("navigation:sidebar.collapseMenu")
             }
             title={
               isCollapsed
-                ? "Développer le menu"
-                : "Réduire le menu"
+                ? t("navigation:sidebar.expandMenu")
+                : t("navigation:sidebar.collapseMenu")
             }
           >
             {isCollapsed ? (
@@ -313,7 +320,7 @@ function SupervisorSidebar({
             ) : (
               <>
                 <ChevronLeft size={20} strokeWidth={1.8} />
-                <span>Réduire le menu</span>
+                <span>{t("navigation:sidebar.collapseMenu")}</span>
               </>
             )}
           </button>

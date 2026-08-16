@@ -1,0 +1,54 @@
+{
+  "entry": {
+    "eyebrow": "Configuration",
+    "title": "Create a station",
+    "description": "Check your organization’s prerequisites before starting the technical setup.",
+    "badge": "Setup assistant",
+    "loadingTitle": "Checking active products...",
+    "loadingDescription": "We are checking that your organization can start setting up a station.",
+    "verificationFailed": "The check could not be completed",
+    "verificationFallback": "Unable to check active products.",
+    "readyKicker": "PREREQUISITE MET",
+    "readyTitle": "Your organization is ready",
+    "readyDescription": "The catalog contains at least one active product. Next, select the products used by this station.",
+    "manageProducts": "Manage products",
+    "start": "Start setup",
+    "productKicker": "PRODUCT PREREQUISITE",
+    "productRequiredTitle": "You must configure at least one product before creating a station.",
+    "productRequiredDescription": "Categories and products form the organization’s permanent catalog and will be reused across all your stations.",
+    "backToDashboard": "Back to dashboard"
+  },
+  "stepper": {
+    "ariaLabel": "Station setup assistant steps",
+    "station": "Station",
+    "products": "Products used",
+    "review": "Review",
+    "commissioning": "Commissioning"
+  },
+  "wizard": {
+    "restoringTitle": "Resuming your setup...",
+    "restoringDescription": "We are reloading the station saved in this draft.",
+    "draftUnavailable": "The previous draft is no longer available. Please start creating the station again.",
+    "productsLoadFailed": "Unable to load active products.",
+    "configurationValidationFailed": "Unable to validate the configuration.",
+    "stationCreated": "The station was created successfully.",
+    "stationSaveFailed": "Unable to save the station.",
+    "productsSaved": "The product selection was saved.",
+    "productsSaveFailed": "Unable to save the product selection.",
+    "configurationChanged": "The configuration has changed and must be corrected before completion.",
+    "commissioningFailed": "Unable to complete the technical setup."
+  },
+  "steps": {
+    "progress": "STEP {{current}} OF {{total}}",
+    "retry": "Retry", "edit": "Edit", "add": "Add",
+    "station": { "title": "Station information", "description": "Create the station’s identity and main contact details.", "back": "Back to preparation", "saving": "Saving...", "updateContinue": "Update and continue", "createContinue": "Create and continue" },
+    "products": { "title": "Products used at this station", "description": "Select the products from the organization catalog that will be used at this station.", "help": "The catalog is managed from the Products dashboard. This step is only for selecting the products used at this station.", "loading": "Loading active products...", "emptyTitle": "No products have been configured in your catalog yet.", "emptyDescription": "Add categories and products to the organization’s permanent catalog, then return to this step.", "manage": "Manage products", "back": "Back to station", "save": "Save selection" },
+    "depots": { "description": "Depots organize the station’s tanks.", "loading": "Loading depots...", "emptyTitle": "No depot configured", "emptyDescription": "Create this station’s first depot so tanks can be attached to it.", "createFirst": "Create the first depot", "count_one": "{{count}} depot", "count_other": "{{count}} depots", "add": "Add a depot", "locationMissing": "Location not provided", "back": "Back to products", "continue": "Continue to tanks" },
+    "tanks": { "description": "Configure each depot’s tanks and their associated products.", "loading": "Loading tanks...", "grouped": "Tanks grouped by depot", "add": "Add a tank", "empty": "No tanks in this depot.", "back": "Back to depots", "continue": "Continue to pumps" },
+    "pumps": { "description": "Configure the station’s physical dispensers and their metering mode.", "help": "Pump-level metering is suitable for nozzles supplied by the same tank. Choose nozzle-level metering when each point must be tracked independently.", "loading": "Loading pumps...", "emptyTitle": "No pump configured", "emptyDescription": "Create this station’s first physical dispenser.", "createFirst": "Create the first pump", "count_one": "{{count}} pump", "count_other": "{{count}} pumps", "add": "Add a pump", "manufacturerMissing": "Manufacturer not provided", "back": "Back to tanks", "continue": "Continue to nozzles" },
+    "points": { "description": "Configure the physical dispensing points associated with the pumps.", "help": "Each nozzle belongs to a pump. The metering mode selected on the pump determines where its meter is configured.", "loading": "Loading nozzles...", "add": "Add a nozzle", "pumpMeterMessage": "This pump’s metering will be configured globally in the Meters step.", "pointMeterMessage": "This pump’s meters will be configured by nozzle in the Meters step.", "empty": "No nozzle configured for this pump.", "requirement": "Add at least one nozzle to each pump before continuing.", "back": "Back to pumps", "continue": "Continue to meters" },
+    "meters": { "description": "Configure the meters used to track dispensing readings.", "help": "The metering level set on each pump determines whether the meter is global to the pump or individual to each nozzle.", "loading": "Loading meters...", "currentIndex": "Current reading: {{value}}", "configurePump": "Configure the global meter for pump {{name}}.", "addPoint": "Add at least one nozzle to pump {{name}}.", "configurePoint": "Configure the meter for nozzle {{name}}.", "global": "Global meter", "configureGlobal": "Configure global meter", "globalMissing": "No global meter configured.", "configure": "Configure meter", "individualMissing": "No individual meter configured.", "back": "Back to nozzles", "continue": "Continue to review" },
+    "review": { "description": "Review the entire setup before commissioning.", "persisted": "The displayed data was reloaded from the persisted configuration.", "rerun": "Run review again", "loading": "Reviewing configuration...", "valid": "Validated", "warning": "Warning", "correct": "Needs correction", "selected_one": "{{count}} selected", "selected_other": "{{count}} selected", "noProduct": "No product selected in the wizard.", "depotsTanks": "Depots and tanks", "pumpsPointsMeters": "Pumps, nozzles and meters", "globalMissing": "Global meter missing", "meterMissing": "Meter missing", "issuesTitle": "Configuration needs correction", "issues_one": "{{count}} issue detected", "issues_other": "{{count}} issues detected", "correctAction": "Correct", "selectProduct": "Select at least one product for this station.", "ready": "The persisted configuration is complete and ready for commissioning.", "back": "Back to meters", "continue": "Proceed to commissioning" },
+    "commissioning": { "completeKicker": "TECHNICAL SETUP COMPLETED", "completeTitle": "Your station structure is ready.", "completeDescription": "Continue with pricing and operational setup before starting operations.", "pricingLater": "Pricing is the next setup step. Its interface will be available in a future release.", "dashboard": "Back to dashboard", "pricing": "Configure prices", "title": "Technical commissioning", "description": "Your station’s technical setup is complete.", "help": "FuelFlex checks the station structure, its depots, tanks, pumps, nozzles and meters. You can then continue with operational setup, including pricing and user assignments.", "loading": "Final configuration validation...", "validated": "Technical configuration validated", "depot_one": "{{count}} depot", "depot_other": "{{count}} depots", "tank_one": "{{count}} tank", "tank_other": "{{count}} tanks", "pump_one": "{{count}} pump", "pump_other": "{{count}} pumps", "point_one": "{{count}} nozzle", "point_other": "{{count}} nozzles", "meter_one": "{{count}} meter", "meter_other": "{{count}} meters", "cannotComplete": "Technical commissioning cannot be completed.", "back": "Back to review", "validating": "Final validation...", "finish": "Complete technical setup" }
+  }
+}

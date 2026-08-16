@@ -1,0 +1,27 @@
+{
+  "language": {
+    "fr": "French",
+    "en": "English"
+  },
+  "actions": {
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "retry": "Retry",
+    "close": "Close",
+    "confirm": "Confirm",
+    "confirming": "Confirming...",
+    "logout": "Log out"
+  },
+  "modal": {
+    "closeWindow": "Close dialog"
+  },
+  "brand": {
+    "logoAlt": "FuelFlex logo",
+    "slogan": "Smart Fuel Station Management",
+    "copyright": "© 2026 FuelFlex Platform. All rights reserved."
+  },
+  "feedback": {
+    "initializing": "Initializing FuelFlex Platform..."
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "groups": {
+    "general": "General",
+    "operations": "Operations",
+    "configuration": "Configuration",
+    "management": "Management",
+    "analytics": "Analytics"
+  },
+  "items": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "receipts": "Receipts",
+    "sales": "Sales",
+    "closing": "Day closing",
+    "company": "Company",
+    "stations": "Stations",
+    "products": "Products",
+    "depots": "Depots",
+    "tanks": "Tanks",
+    "pumps": "Pumps",
+    "dispensingPoints": "Dispensing points",
+    "fuelMeters": "Fuel meters",
+    "pricing": "Pricing",
+    "partnerCustomers": "Partner customers",
+    "employees": "Employees",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "sidebar": {
+    "closeMenu": "Close menu",
+    "supervisorNavigation": "Supervisor navigation",
+    "managerNavigation": "Manager navigation",
+    "comingSoon": "Coming soon",
+    "collapseMenu": "Collapse menu",
+    "expandMenu": "Expand menu",
+    "collapsePumpsSubmenu": "Collapse Pumps submenu",
+    "expandPumpsSubmenu": "Expand Pumps submenu",
+    "systemOperational": "System operational"
+  },
+  "topbar": {
+    "openMenu": "Open menu",
+    "searchPlaceholder": "Search FuelFlex...",
+    "searchLabel": "Search FuelFlex",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "notificationsUnavailable": "Notifications — coming soon",
+    "userMenu": "User menu",
+    "profile": "My profile",
+    "accountSettings": "Account settings",
+    "applicationSettings": "Application settings",
+    "comingSoon": "Coming soon",
+    "defaultUserName": "FuelFlex Supervisor",
+    "defaultUserRole": "Lead supervisor",
+    "language": "Language",
+    "languageDescription": "Choose the interface language.",
+    "morePreferencesSoon": "More preferences will be added soon.",
+    "roles": {
+      "SUPER_ADMIN": "Super administrator",
+      "SUPERVISOR": "Supervisor",
+      "MANAGER": "Manager",
+      "PUMP_ATTENDANT": "Pump attendant",
+      "ACCOUNTANT": "Accountant",
+      "AUDITOR": "Auditor",
+      "SUPPLIER_USER": "Supplier user",
+      "CREDIT_CUSTOMER_USER": "Partner customer"
+    }
+  }
+}

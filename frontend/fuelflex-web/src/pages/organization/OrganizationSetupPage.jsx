@@ -18,6 +18,7 @@ import {
   Warehouse,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import "./OrganizationSetupPage.css";
 import fuelFlexLogo from "../../assets/images/logofuelflex.png";
@@ -51,6 +52,7 @@ function getStoredSession() {
 
 function OrganizationSetupPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation(["organization", "common"]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -146,7 +148,7 @@ function OrganizationSetupPage() {
 
     if (!formData.name.trim()) {
       setErrorMessage(
-        "Veuillez renseigner le nom officiel de votre société."
+        t("organization:setup.nameRequired")
       );
 
       return;
@@ -257,7 +259,7 @@ function OrganizationSetupPage() {
             ? result
             : result?.message ||
               result?.error ||
-              "Impossible de créer la société.";
+              t("organization:setup.createFailed");
 
         throw new Error(message);
       }
@@ -296,7 +298,7 @@ function OrganizationSetupPage() {
     } catch (error) {
       setErrorMessage(
         error.message ||
-          "Une erreur est survenue pendant la création de la société."
+          t("organization:setup.unexpectedError")
       );
     } finally {
       setIsSubmitting(false);
@@ -325,37 +327,37 @@ function OrganizationSetupPage() {
           <nav>
             <div className="active">
               <LayoutDashboard size={19} />
-              Tableau de bord
+              {t("organization:setup.preview.dashboard")}
             </div>
 
             <div>
               <Building2 size={19} />
-              Stations
+              {t("organization:setup.preview.stations")}
             </div>
 
             <div>
               <Warehouse size={19} />
-              Stocks
+              {t("organization:setup.preview.stocks")}
             </div>
 
             <div>
               <Droplets size={19} />
-              Produits
+              {t("organization:setup.preview.products")}
             </div>
 
             <div>
               <Users size={19} />
-              Équipe
+              {t("organization:setup.preview.team")}
             </div>
 
             <div>
               <BarChart3 size={19} />
-              Rapports
+              {t("organization:setup.preview.reports")}
             </div>
 
             <div>
               <Settings size={19} />
-              Paramètres
+              {t("organization:setup.preview.settings")}
             </div>
           </nav>
         </aside>
@@ -367,10 +369,10 @@ function OrganizationSetupPage() {
             </button>
 
             <div>
-              <span>Vue d’ensemble</span>
+              <span>{t("organization:setup.preview.overview")}</span>
 
               <strong>
-                Tableau de bord superviseur
+                {t("organization:setup.preview.supervisorDashboard")}
               </strong>
             </div>
 
@@ -378,8 +380,8 @@ function OrganizationSetupPage() {
               <div>GM</div>
 
               <span>
-                <strong>Superviseur</strong>
-                <small>Compte principal</small>
+                <strong>{t("organization:setup.preview.supervisor")}</strong>
+                <small>{t("organization:setup.preview.mainAccount")}</small>
               </span>
             </div>
           </header>
@@ -387,20 +389,19 @@ function OrganizationSetupPage() {
           <div className="organization-preview-content">
             <div className="organization-preview-heading">
               <div>
-                <p>APERÇU GLOBAL</p>
+                <p>{t("organization:setup.preview.globalOverview")}</p>
 
                 <h1>
-                  Bonjour, bienvenue sur FuelFlex
+                  {t("organization:setup.preview.welcome")}
                 </h1>
 
                 <span>
-                  Suivez les performances de votre
-                  réseau de stations.
+                  {t("organization:setup.preview.network")}
                 </span>
               </div>
 
               <button type="button">
-                Cette semaine
+                {t("organization:setup.preview.thisWeek")}
                 <ChevronRight size={17} />
               </button>
             </div>
@@ -411,10 +412,10 @@ function OrganizationSetupPage() {
                   <Building2 size={22} />
                 </div>
 
-                <span>Stations actives</span>
+                <span>{t("organization:setup.preview.activeStations")}</span>
                 <strong>0</strong>
                 <small>
-                  Configuration requise
+                  {t("organization:setup.preview.configurationRequired")}
                 </small>
               </article>
 
@@ -423,10 +424,10 @@ function OrganizationSetupPage() {
                   <CircleDollarSign size={22} />
                 </div>
 
-                <span>Ventes du jour</span>
+                <span>{t("organization:setup.preview.todaySales")}</span>
                 <strong>0 USD</strong>
                 <small>
-                  Aucune donnée disponible
+                  {t("organization:setup.preview.noData")}
                 </small>
               </article>
 
@@ -435,10 +436,10 @@ function OrganizationSetupPage() {
                   <Droplets size={22} />
                 </div>
 
-                <span>Stock disponible</span>
+                <span>{t("organization:setup.preview.availableStock")}</span>
                 <strong>0 L</strong>
                 <small>
-                  Aucun produit configuré
+                  {t("organization:setup.preview.noProduct")}
                 </small>
               </article>
 
@@ -447,10 +448,10 @@ function OrganizationSetupPage() {
                   <Gauge size={22} />
                 </div>
 
-                <span>Pompes actives</span>
+                <span>{t("organization:setup.preview.activePumps")}</span>
                 <strong>0</strong>
                 <small>
-                  Aucune pompe configurée
+                  {t("organization:setup.preview.noPump")}
                 </small>
               </article>
             </div>
@@ -460,11 +461,11 @@ function OrganizationSetupPage() {
                 <div className="organization-preview-panel-title">
                   <div>
                     <strong>
-                      Évolution des ventes
+                      {t("organization:setup.preview.salesTrend")}
                     </strong>
 
                     <span>
-                      Activité des sept derniers jours
+                      {t("organization:setup.preview.lastSevenDays")}
                     </span>
                   </div>
                 </div>
@@ -484,11 +485,11 @@ function OrganizationSetupPage() {
                 <div className="organization-preview-panel-title">
                   <div>
                     <strong>
-                      État de configuration
+                      {t("organization:setup.preview.configurationStatus")}
                     </strong>
 
                     <span>
-                      Préparation de votre espace
+                      {t("organization:setup.preview.preparing")}
                     </span>
                   </div>
                 </div>
@@ -496,17 +497,17 @@ function OrganizationSetupPage() {
                 <div className="organization-preview-status">
                   <div>
                     <Check size={17} />
-                    Compte superviseur créé
+                    {t("organization:setup.preview.accountCreated")}
                   </div>
 
                   <div>
                     <Building2 size={17} />
-                    Société à configurer
+                    {t("organization:setup.preview.companyPending")}
                   </div>
 
                   <div>
                     <Warehouse size={17} />
-                    Stations à créer
+                    {t("organization:setup.preview.stationsPending")}
                   </div>
                 </div>
               </article>
@@ -522,14 +523,14 @@ function OrganizationSetupPage() {
           <div className="organization-modal-brand">
             <img
               src={fuelFlexLogo}
-              alt="Logo FuelFlex"
+              alt={t("common:brand.logoAlt")}
             />
 
             <div>
               <strong>FuelFlex Platform</strong>
 
               <span>
-                Configuration de l’organisation
+                {t("organization:setup.header")}
               </span>
             </div>
           </div>
@@ -540,7 +541,7 @@ function OrganizationSetupPage() {
             onClick={handleLogout}
           >
             <LogOut size={18} />
-            Déconnexion
+            {t("organization:setup.logout")}
           </button>
         </header>
 
@@ -551,24 +552,21 @@ function OrganizationSetupPage() {
             </div>
 
             <p className="organization-summary-kicker">
-              CONFIGURATION INITIALE
+              {t("organization:setup.kicker")}
             </p>
 
             <h1>
-              Créons votre espace professionnel
+              {t("organization:setup.title")}
             </h1>
 
             <p className="organization-summary-description">
-              Renseignez les informations essentielles
-              de votre société. Les autres éléments
-              pourront être complétés depuis votre
-              tableau de bord.
+              {t("organization:setup.description")}
             </p>
 
             <div className="organization-summary-progress">
               <div className="organization-progress-header">
                 <span>
-                  Progression du profil
+                  {t("organization:setup.progress")}
                 </span>
 
                 <strong>
@@ -590,9 +588,7 @@ function OrganizationSetupPage() {
               <ShieldCheck size={19} />
 
               <p>
-                Votre code société sera généré
-                automatiquement et toutes les
-                relations utiliseront un UUID unique.
+                {t("organization:setup.security")}
               </p>
             </div>
           </aside>
@@ -616,11 +612,11 @@ function OrganizationSetupPage() {
 
                 <div>
                   <strong>
-                    Identification
+                    {t("organization:setup.step1")}
                   </strong>
 
                   <small>
-                    Informations principales
+                    {t("organization:setup.step1Description")}
                   </small>
                 </div>
               </div>
@@ -637,10 +633,10 @@ function OrganizationSetupPage() {
                 <span>2</span>
 
                 <div>
-                  <strong>Coordonnées</strong>
+                  <strong>{t("organization:setup.step2")}</strong>
 
                   <small>
-                    Informations complémentaires
+                    {t("organization:setup.step2Description")}
                   </small>
                 </div>
               </div>
@@ -662,21 +658,20 @@ function OrganizationSetupPage() {
               {activeStep === 1 && (
                 <div className="organization-form-step">
                   <div className="organization-form-heading">
-                    <p>ÉTAPE 1 SUR 2</p>
+                    <p>{t("organization:setup.stepProgress", { current: 1, total: 2 })}</p>
 
                     <h2>
-                      Identité de la société
+                      {t("organization:setup.identityTitle")}
                     </h2>
 
                     <span>
-                      Seul le nom officiel de la société
-                      est obligatoire pour continuer.
+                      {t("organization:setup.identityDescription")}
                     </span>
                   </div>
 
                   <div className="organization-form-grid">
                     <label className="organization-field-full">
-                      Nom officiel de la société
+                      {t("organization:setup.officialName")}
 
                       <span className="organization-required">
                         *
@@ -687,7 +682,7 @@ function OrganizationSetupPage() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Ex. MITAS HOLDING SARL"
+                        placeholder={t("organization:setup.officialNamePlaceholder")}
                         autoFocus
                         required
                       />
@@ -703,27 +698,24 @@ function OrganizationSetupPage() {
                           }
                         />
 
-                        Ajouter un nom commercial
+                        {t("organization:setup.addTradeName")}
                       </span>
 
                       <small>
-                        Facultatif — activez cette option
-                        uniquement si votre société utilise
-                        une marque ou une appellation
-                        commerciale différente.
+                        {t("organization:setup.tradeNameHelp")}
                       </small>
                     </label>
 
                     {addTradeName && (
                       <label className="organization-field-full">
-                        Nom commercial
+                        {t("organization:fields.tradeName")}
 
                         <input
                           type="text"
                           name="tradeName"
                           value={formData.tradeName}
                           onChange={handleChange}
-                          placeholder="Ex. MITAS"
+                          placeholder={t("organization:setup.tradeNamePlaceholder")}
                         />
                       </label>
                     )}
@@ -743,41 +735,40 @@ function OrganizationSetupPage() {
                     </label>
 
                     <label>
-                      ID National
+                      {t("organization:fields.nationalId")}
 
                       <input
                         type="text"
                         name="nationalId"
                         value={formData.nationalId}
                         onChange={handleChange}
-                        placeholder="Identifiant national"
+                        placeholder={t("organization:setup.nationalIdPlaceholder")}
                       />
                     </label>
 
                     <label className="organization-field-full">
-                      Numéro fiscal
+                      {t("organization:setup.taxNumberLabel")}
 
                       <input
                         type="text"
                         name="taxNumber"
                         value={formData.taxNumber}
                         onChange={handleChange}
-                        placeholder="NIF de la société"
+                        placeholder={t("organization:setup.taxNumberPlaceholder")}
                       />
                     </label>
                   </div>
 
                   <div className="organization-form-actions">
                     <span>
-                      Vous pourrez compléter ou modifier
-                      ces informations plus tard.
+                      {t("organization:setup.later")}
                     </span>
 
                     <button
                       type="button"
                       onClick={goToNextStep}
                     >
-                      Continuer
+                      {t("organization:setup.continue")}
                       <ArrowRight size={18} />
                     </button>
                   </div>
@@ -787,81 +778,80 @@ function OrganizationSetupPage() {
               {activeStep === 2 && (
                 <div className="organization-form-step">
                   <div className="organization-form-heading">
-                    <p>ÉTAPE 2 SUR 2</p>
+                    <p>{t("organization:setup.stepProgress", { current: 2, total: 2 })}</p>
 
                     <h2>
-                      Coordonnées et paramètres
+                      {t("organization:setup.contactTitle")}
                     </h2>
 
                     <span>
-                      Ces informations restent
-                      facultatives à cette étape.
+                      {t("organization:setup.contactDescription")}
                     </span>
                   </div>
 
                   <div className="organization-form-grid">
                     <label>
-                      Adresse e-mail
+                      {t("organization:fields.email")}
 
                       <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="contact@societe.com"
+                        placeholder={t("organization:setup.emailPlaceholder")}
                       />
                     </label>
 
                     <label>
-                      Téléphone
+                      {t("organization:fields.phone")}
 
                       <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+243..."
+                        placeholder={t("organization:setup.phonePlaceholder")}
                       />
                     </label>
 
                     <label>
-                      Province
+                      {t("organization:fields.province")}
 
                       <input
                         type="text"
                         name="province"
                         value={formData.province}
                         onChange={handleChange}
-                        placeholder="Ex. Kinshasa"
+                        placeholder={t("organization:setup.provincePlaceholder")}
                       />
                     </label>
 
                     <label>
-                      Ville
+                      {t("organization:fields.city")}
 
                       <input
                         type="text"
                         name="city"
                         value={formData.city}
                         onChange={handleChange}
-                        placeholder="Ex. Kinshasa"
+                        placeholder={t("organization:setup.cityPlaceholder")}
                       />
                     </label>
 
                     <label className="organization-field-full">
-                      Adresse physique
+                      {t("organization:fields.address")}
 
                       <input
                         type="text"
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
-                        placeholder="Commune, avenue et numéro"
+                        placeholder={t("organization:setup.addressPlaceholder")}
                       />
                     </label>
 
                     <label>
-                      Devise principale
+                      {t("organization:setup.currency")}
 
                       <select
                         name="defaultCurrency"
@@ -871,17 +861,17 @@ function OrganizationSetupPage() {
                         onChange={handleChange}
                       >
                         <option value="USD">
-                          Dollar américain (USD)
+                          {t("organization:options.usd")}
                         </option>
 
                         <option value="CDF">
-                          Franc congolais (CDF)
+                          {t("organization:options.cdf")}
                         </option>
                       </select>
                     </label>
 
                     <label>
-                      Fuseau horaire
+                      {t("organization:setup.timezone")}
 
                       <select
                         name="timezone"
@@ -906,7 +896,7 @@ function OrganizationSetupPage() {
                       onClick={goToPreviousStep}
                       disabled={isSubmitting}
                     >
-                      Retour
+                      {t("organization:setup.back")}
                     </button>
 
                     <button
@@ -920,11 +910,11 @@ function OrganizationSetupPage() {
                             className="organization-spinner"
                           />
 
-                          Création en cours...
+                          {t("organization:setup.creating")}
                         </>
                       ) : (
                         <>
-                          Créer ma société
+                          {t("organization:setup.create")}
                           <ArrowRight size={18} />
                         </>
                       )}

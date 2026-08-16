@@ -8,4 +8,7 @@ public interface EmailService {
             String verificationCode
     );
 
+    void sendEmployeeInvitation(String email, String firstName, String lastName,
+            String activationCode, java.time.OffsetDateTime expiresAt);
+
 }

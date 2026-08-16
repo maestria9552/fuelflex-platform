@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { getStoredUser } from "../../services/auth/authStorage";
 import SupervisorSidebar from "./SupervisorSidebar";
 import SupervisorTopbar from "./SupervisorTopbar";
 import "./SupervisorLayout.css";
@@ -7,6 +8,7 @@ import "./SupervisorLayout.css";
 function SupervisorLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [currentUser, setCurrentUser] = useState(() => getStoredUser());
 
   const handleOpenSidebar = () => {
     setIsSidebarOpen(true);
@@ -39,7 +41,11 @@ function SupervisorLayout({ children }) {
       />
 
       <div className="supervisor-layout-body">
-        <SupervisorTopbar onOpenSidebar={handleOpenSidebar} />
+        <SupervisorTopbar
+          onOpenSidebar={handleOpenSidebar}
+          user={currentUser}
+          onUserUpdated={setCurrentUser}
+        />
 
         <div className="supervisor-layout-content">
           {children}

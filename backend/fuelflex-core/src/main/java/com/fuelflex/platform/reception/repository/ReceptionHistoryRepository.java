@@ -1,0 +1,1 @@
+package com.fuelflex.platform.reception.repository; import java.util.*; import org.springframework.data.jpa.repository.JpaRepository; import com.fuelflex.platform.reception.entity.ReceptionHistory; public interface ReceptionHistoryRepository extends JpaRepository<ReceptionHistory,UUID>{ List<ReceptionHistory> findByReceptionIdOrderByPerformedAtAscIdAsc(UUID id); }

@@ -1,0 +1,109 @@
+{
+  "page": {
+    "eyebrow": "NETWORK CONFIGURATION",
+    "title": "Fuel meters",
+    "description": "Manage fuel meters according to the metering mode set on each pump.",
+    "station": "Station",
+    "pump": "Pump",
+    "selectStation": "Select a station",
+    "selectPump": "Select a pump",
+    "loading": "Loading...",
+    "loadingStations": "Loading stations...",
+    "loadingPumps": "Loading pumps...",
+    "loadingGlobalMeter": "Loading the global pump meter...",
+    "loadingPoints": "Loading dispensing points...",
+    "loadingIndividualMeters": "Loading dispensing-point meters...",
+    "noStationTitle": "No station configured",
+    "noStationDescription": "Create a station before managing its fuel meters.",
+    "noStationSelectedTitle": "No station selected",
+    "noStationSelectedDescription": "Select the station whose fuel meters you want to manage.",
+    "noPumpTitle": "No pump configured",
+    "noPumpDescription": "Create a pump in this station first.",
+    "noPumpSelectedTitle": "No pump selected",
+    "noPumpSelectedDescription": "Select the pump whose fuel meters you want to manage.",
+    "pumpNumber": "Pump no. {{number}}",
+    "globalConfigured": "GLOBAL PUMP METER CONFIGURED",
+    "globalMissingTitle": "Global pump meter not configured",
+    "globalMissingDescription": "Add the single global meter required for this pump.",
+    "addMeter": "Add meter",
+    "noPointsTitle": "No dispensing point is configured for this pump.",
+    "noPointsDescription": "Configure dispensing points before adding their meters.",
+    "managePoints": "Manage dispensing points",
+    "searchPlaceholder": "Search by dispensing point or meter",
+    "searchAriaLabel": "Search for a dispensing point or meter",
+    "pointCount_one": "{{count}} dispensing point",
+    "pointCount_other": "{{count}} dispensing points",
+    "noResultTitle": "No results",
+    "noResultDescription": "Try another name, code, or number.",
+    "nozzleNumber": "Nozzle no. {{number}}",
+    "tank": "Tank: {{name}}",
+    "tankUnknown": "Not provided",
+    "configured": "Meter configured",
+    "missing": "Meter not configured",
+    "missingDescription": "No active meter is associated with this dispensing point.",
+    "addIndividualMeter": "Add meter",
+    "edit": "Edit",
+    "code": "Code",
+    "technology": "Technology",
+    "currentIndex": "Current reading"
+  },
+  "meteringLevel": {
+    "PUMP": {
+      "title": "Global pump metering",
+      "detail": "A single active meter tracks all dispensing from this pump."
+    },
+    "DISPENSING_POINT": {
+      "title": "Dispensing-point metering",
+      "detail": "Each active dispensing point has its own individual meter."
+    }
+  },
+  "technology": {
+    "MECHANICAL": "Mechanical",
+    "ELECTRONIC": "Electronic",
+    "MANUAL": "Manual"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "MAINTENANCE": "Maintenance",
+    "OUT_OF_SERVICE": "Out of service"
+  },
+  "availability": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "feedback": {
+    "organizationMissing": "No company is associated with this account.",
+    "stationsLoadFailed": "Unable to load stations.",
+    "pumpsLoadFailed": "Unable to load pumps.",
+    "configurationLoadFailed": "Unable to load the fuel-meter configuration.",
+    "created": "The fuel meter was created successfully.",
+    "updated": "The fuel meter was updated successfully.",
+    "saveFailed": "Unable to save the fuel meter."
+  },
+  "modal": {
+    "editTitle": "Edit fuel meter",
+    "createTitle": "Configure fuel meter",
+    "pumpDescription": "This meter will be attached directly to the pump.",
+    "pointDescription": "This meter will be attached to the selected dispensing point.",
+    "pump": "Pump",
+    "point": "Dispensing point",
+    "globalMeter": "Global pump meter",
+    "name": "Name",
+    "code": "Code",
+    "technology": "Technology",
+    "currentIndex": "Current reading",
+    "initialIndex": "Initial reading",
+    "additionalInformation": "Additional information",
+    "displayOrder": "Display order",
+    "status": "Status",
+    "activeUsable": "Meter active and available for use",
+    "saving": "Saving..."
+  },
+  "validation": {
+    "invalidParentType": "The meter parent type is invalid.",
+    "parentMissing": "The meter parent could not be found.",
+    "nonNegativeIndex": "The current reading must be a number greater than or equal to zero.",
+    "indexRegression": "The new reading cannot be lower than the current reading."
+  }
+}

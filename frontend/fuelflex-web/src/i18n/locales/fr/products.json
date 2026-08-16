@@ -1,0 +1,37 @@
+{
+  "page": {
+    "eyebrow": "CATALOGUE ORGANISATION", "title": "Catalogue produits", "description": "Configurez ici les produits disponibles dans votre organisation. Ils pourront ensuite être utilisés dans vos différentes stations.",
+    "returnToStationSetup": "Retour à la création de station", "loading": "Chargement du catalogue..."
+  },
+  "categories": {
+    "title": "Catégories", "count_one": "{{count}} catégorie", "count_other": "{{count}} catégories", "add": "Ajouter une catégorie",
+    "emptyTitle": "Aucune catégorie configurée", "emptyDescription": "Créez une catégorie avant d’ajouter les produits du catalogue.", "create": "Créer une catégorie",
+    "productCount_one": "{{count}} produit", "productCount_other": "{{count}} produits"
+  },
+  "products": {
+    "title": "Produits", "count_one": "{{count}} produit", "count_other": "{{count}} produits", "add": "Ajouter un produit",
+    "categoryRequired": "Une catégorie active doit être créée avant d’ajouter un produit.",
+    "searchPlaceholder": "Rechercher par nom, code ou catégorie", "searchAriaLabel": "Rechercher un produit", "filterAriaLabel": "Filtrer par catégorie", "allCategories": "Toutes les catégories",
+    "emptyTitle": "Aucun produit configuré", "emptyDescription": "Ajoutez autant de produits que nécessaire à votre catalogue permanent.",
+    "noResultTitle": "Aucun produit trouvé", "noResultDescription": "Modifiez la recherche ou le filtre de catégorie."
+  },
+  "actions": { "edit": "Modifier" },
+  "availability": { "activeFeminine": "Active", "inactiveFeminine": "Inactive", "activeMasculine": "Actif", "inactiveMasculine": "Inactif" },
+  "feedback": {
+    "organizationMissing": "Aucune société n’est associée à ce compte.", "loadFailed": "Impossible de charger le catalogue de produits.",
+    "categoryCreated": "La catégorie a été créée avec succès.", "categoryUpdated": "La catégorie a été modifiée avec succès.",
+    "productCreated": "Le produit a été créé avec succès.", "productUpdated": "Le produit a été modifié avec succès."
+  },
+  "commonForm": { "name": "Nom", "code": "Code", "description": "Description", "additionalInformation": "Informations complémentaires", "administration": "Administration", "saving": "Enregistrement..." },
+  "categoryModal": {
+    "createTitle": "Créer une catégorie", "editTitle": "Modifier la catégorie", "createDescription": "Ajoutez une catégorie de produits à votre organisation.", "editDescription": "Mettez à jour cette catégorie du catalogue.",
+    "activeUsable": "Catégorie active et utilisable", "createFailed": "Impossible de créer la catégorie.", "updateFailed": "Impossible de modifier la catégorie."
+  },
+  "productModal": {
+    "createTitle": "Créer un produit", "editTitle": "Modifier le produit", "createDescription": "Ajoutez un produit actif réutilisable dans vos stations.", "editDescription": "Mettez à jour ce produit du catalogue permanent.",
+    "category": "Catégorie", "selectCategory": "Sélectionner une catégorie", "categoryRequired": "Sélectionnez une catégorie avant d’enregistrer le produit.",
+    "unit": "Unité", "shortName": "Nom court", "barcode": "Code-barres", "color": "Couleur", "colorPlaceholder": "Ex. #F59E0B", "displayOrder": "Ordre d’affichage",
+    "activeUsable": "Produit actif et utilisable", "createFailed": "Impossible de créer le produit.", "updateFailed": "Impossible de modifier le produit."
+  },
+  "units": { "LITRE": "Litre", "KILOGRAM": "Kilogramme", "PIECE": "Pièce", "BIDON": "Bidon", "BOUTEILLE": "Bouteille", "CARTON": "Carton", "BARIL": "Baril" }
+}

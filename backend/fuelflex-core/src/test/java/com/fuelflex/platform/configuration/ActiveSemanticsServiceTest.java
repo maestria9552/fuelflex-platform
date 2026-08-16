@@ -29,6 +29,7 @@ import com.fuelflex.platform.station.entity.StationType;
 import com.fuelflex.platform.station.mapper.StationMapper;
 import com.fuelflex.platform.station.repository.StationRepository;
 import com.fuelflex.platform.station.service.impl.StationServiceImpl;
+import com.fuelflex.platform.assignment.service.EmployeeAssignmentService;
 import com.fuelflex.platform.user.entity.User;
 import com.fuelflex.platform.user.repository.UserRepository;
 
@@ -94,7 +95,8 @@ class ActiveSemanticsServiceTest {
         stationService = new StationServiceImpl(
                 stationRepository,
                 new StationMapper(),
-                userRepository
+                userRepository,
+                mock(EmployeeAssignmentService.class)
         );
         depotService = new DepotServiceImpl(
                 depotRepository,

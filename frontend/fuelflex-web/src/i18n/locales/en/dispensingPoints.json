@@ -1,0 +1,21 @@
+{
+  "page": {
+    "eyebrow": "NETWORK CONFIGURATION", "title": "Dispensing points", "description": "Manage the dispensing points connected to your stations’ pumps.", "add": "Add dispensing point",
+    "station": "Station", "pump": "Pump", "selectStation": "Select a station", "selectPump": "Select a pump", "loading": "Loading...",
+    "loadingStations": "Loading stations...", "loadingPumps": "Loading pumps...", "loadingTanks": "Loading tanks...", "loadingPoints": "Loading dispensing points...",
+    "noStationTitle": "No station configured", "noStationDescription": "Create a station before managing its dispensing points.", "noStationSelectedTitle": "No station selected", "noStationSelectedDescription": "Choose the station whose dispensing points you want to manage.",
+    "noPumpTitle": "No pump configured", "noPumpDescription": "Create a pump at this station before adding a dispensing point.", "noPumpSelectedTitle": "No pump selected", "noPumpSelectedDescription": "Choose the pump whose dispensing points you want to manage.",
+    "noActiveTank": "No active tank is available at this station.", "searchPlaceholder": "Search by name, code, number, or tank", "searchAriaLabel": "Search for a dispensing point",
+    "count_one": "{{count}} dispensing point", "count_other": "{{count}} dispensing points", "emptyTitle": "No dispensing point configured", "emptyDescription": "Add the first dispensing point for pump {{pumpName}}.",
+    "noResultTitle": "No dispensing point found", "noResultDescription": "Try another name, code, number, or tank name.", "nozzleNumber": "Dispensing point no. {{number}}", "edit": "Edit"
+  },
+  "status": { "ACTIVE": "Active", "INACTIVE": "Inactive", "MAINTENANCE": "Maintenance", "OUT_OF_SERVICE": "Out of service" },
+  "availability": { "active": "Active", "inactive": "Inactive" },
+  "meteringLevel": {
+    "PUMP": { "title": "Pump-level metering", "detail": "This pump uses one global meter. Its dispensing points must follow the pump’s shared configuration." },
+    "DISPENSING_POINT": { "title": "Dispensing-point metering", "detail": "Individual meters are managed from the Fuel meters submenu." }
+  },
+  "feedback": { "organizationMissing": "No company is associated with this account.", "stationsLoadFailed": "Unable to load stations.", "pumpsLoadFailed": "Unable to load pumps.", "tanksLoadFailed": "Unable to load the station tanks.", "pointsLoadFailed": "Unable to load dispensing points.", "created": "The dispensing point was created successfully.", "updated": "The dispensing point was updated successfully.", "saveFailed": "Unable to save the dispensing point." },
+  "modal": { "createTitle": "Add dispensing point", "editTitle": "Edit dispensing point", "description": "Connect this dispensing point to a tank at the station.", "pump": "Pump", "pumpNumber": "Pump no. {{number}}", "name": "Name", "code": "Code", "nozzleNumber": "Dispensing point number", "tank": "Tank", "selectTank": "Select a tank", "displayOrder": "Display order", "status": "Status", "activeUsable": "Dispensing point active and available", "saving": "Saving..." },
+  "validation": { "tankRequired": "Select the tank supplying this dispensing point." }
+}

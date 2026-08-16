@@ -677,3 +677,4 @@
     animation: none;
   }
 }
+.supervisor-sidebar-pending-badge{margin-left:auto;min-width:23px;padding:3px 6px;border-radius:999px;background:#f97316;color:#fff;text-align:center;font-size:.68rem}

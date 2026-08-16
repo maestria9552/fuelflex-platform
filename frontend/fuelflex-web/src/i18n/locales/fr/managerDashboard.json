@@ -1,0 +1,16 @@
+{
+  "brand": "ESPACE GESTIONNAIRE",
+  "role": "Gestionnaire",
+  "logout": "Déconnexion",
+  "eyebrow": "GESTION DE STATION",
+  "title": "Tableau de bord Gestionnaire",
+  "welcome": "Bienvenue dans votre espace de gestion.",
+  "readyTitle": "Votre espace de gestion est prêt.",
+  "readyDescription": "Les fonctionnalités opérationnelles seront ajoutées progressivement.",
+  "navigationLabel": "Navigation gestionnaire",
+  "dashboardNav": "Tableau de bord",
+  "ordersNav": "Commandes",
+  "receiptsNav": "Réceptions",
+  "salesNav": "Ventes",
+  "soon": "Bientôt disponible"
+}

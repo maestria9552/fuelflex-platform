@@ -1,0 +1,37 @@
+{
+  "page": {
+    "eyebrow": "ORGANIZATION CATALOG", "title": "Product catalog", "description": "Configure the products available in your organization. They can then be used across your different stations.",
+    "returnToStationSetup": "Return to station setup", "loading": "Loading catalog..."
+  },
+  "categories": {
+    "title": "Categories", "count_one": "{{count}} category", "count_other": "{{count}} categories", "add": "Add a category",
+    "emptyTitle": "No category configured", "emptyDescription": "Create a category before adding products to the catalog.", "create": "Create a category",
+    "productCount_one": "{{count}} product", "productCount_other": "{{count}} products"
+  },
+  "products": {
+    "title": "Products", "count_one": "{{count}} product", "count_other": "{{count}} products", "add": "Add a product",
+    "categoryRequired": "An active category must be created before adding a product.",
+    "searchPlaceholder": "Search by name, code, or category", "searchAriaLabel": "Search for a product", "filterAriaLabel": "Filter by category", "allCategories": "All categories",
+    "emptyTitle": "No product configured", "emptyDescription": "Add as many products as needed to your permanent catalog.",
+    "noResultTitle": "No product found", "noResultDescription": "Change the search or category filter."
+  },
+  "actions": { "edit": "Edit" },
+  "availability": { "activeFeminine": "Active", "inactiveFeminine": "Inactive", "activeMasculine": "Active", "inactiveMasculine": "Inactive" },
+  "feedback": {
+    "organizationMissing": "No company is associated with this account.", "loadFailed": "Unable to load the product catalog.",
+    "categoryCreated": "The category was created successfully.", "categoryUpdated": "The category was updated successfully.",
+    "productCreated": "The product was created successfully.", "productUpdated": "The product was updated successfully."
+  },
+  "commonForm": { "name": "Name", "code": "Code", "description": "Description", "additionalInformation": "Additional information", "administration": "Administration", "saving": "Saving..." },
+  "categoryModal": {
+    "createTitle": "Create category", "editTitle": "Edit category", "createDescription": "Add a product category to your organization.", "editDescription": "Update this catalog category.",
+    "activeUsable": "Category active and available for use", "createFailed": "Unable to create the category.", "updateFailed": "Unable to update the category."
+  },
+  "productModal": {
+    "createTitle": "Create product", "editTitle": "Edit product", "createDescription": "Add an active product that can be reused across your stations.", "editDescription": "Update this product in the permanent catalog.",
+    "category": "Category", "selectCategory": "Select a category", "categoryRequired": "Select a category before saving the product.",
+    "unit": "Unit", "shortName": "Short name", "barcode": "Barcode", "color": "Color", "colorPlaceholder": "E.g. #F59E0B", "displayOrder": "Display order",
+    "activeUsable": "Product active and available for use", "createFailed": "Unable to create the product.", "updateFailed": "Unable to update the product."
+  },
+  "units": { "LITRE": "Litre", "KILOGRAM": "Kilogram", "PIECE": "Piece", "BIDON": "Can", "BOUTEILLE": "Bottle", "CARTON": "Carton", "BARIL": "Barrel" }
+}

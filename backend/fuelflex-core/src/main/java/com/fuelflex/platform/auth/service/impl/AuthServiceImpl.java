@@ -9,11 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fuelflex.platform.auth.dto.request.LoginRequest;
 import com.fuelflex.platform.auth.dto.request.RegisterRequest;
 import com.fuelflex.platform.auth.dto.request.ResendVerificationCodeRequest;
 import com.fuelflex.platform.auth.dto.request.VerifyEmailRequest;
+import com.fuelflex.platform.auth.dto.request.EmployeeActivationVerifyRequest;
+import com.fuelflex.platform.auth.dto.request.EmployeeActivationSetPasswordRequest;
 import com.fuelflex.platform.auth.dto.response.LoginResponse;
 import com.fuelflex.platform.auth.dto.response.RegisterResponse;
 import com.fuelflex.platform.auth.service.AuthService;
@@ -27,6 +30,7 @@ import com.fuelflex.platform.role.repository.RoleRepository;
 import com.fuelflex.platform.security.jwt.JwtService;
 import com.fuelflex.platform.user.entity.User;
 import com.fuelflex.platform.user.repository.UserRepository;
+import com.fuelflex.platform.user.service.EmployeeRolePolicy;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -275,6 +279,59 @@ public class AuthServiceImpl implements AuthService {
                 user.getFirstName(),
                 user.getVerificationCode()
         );
+    }
+
+    @Override
+    @Transactional
+    public void verifyEmployeeInvitation(EmployeeActivationVerifyRequest request) {
+        User user = findPendingEmployee(request.getEmail());
+        validateEmployeeCode(user, request.getCode());
+    }
+
+    @Override
+    @Transactional
+    public void activateEmployee(EmployeeActivationSetPasswordRequest request) {
+        User user = findPendingEmployee(request.getEmail());
+        validateEmployeeCode(user, request.getCode());
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            throw new BusinessException("Passwords do not match.");
+        }
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setPasswordChangedAt(OffsetDateTime.now());
+        user.setEmailVerified(true);
+        user.setEnabled(true);
+        user.setVerificationCode(null);
+        user.setVerificationCodeExpiration(null);
+        user.setVerificationCodeAttempts(0);
+        userRepository.save(user);
+    }
+
+    private User findPendingEmployee(String emailValue) {
+        String email = emailValue.trim().toLowerCase();
+        User user = userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new BusinessException("Invitation is invalid or expired."));
+        boolean employee = user.getRoles().stream().filter(Role::isActive)
+                .map(Role::getCode).filter(EmployeeRolePolicy::isAssignable).count() == 1
+                && user.getRoles().stream().filter(Role::isActive)
+                .allMatch(role -> EmployeeRolePolicy.isAssignable(role.getCode()));
+        if (!employee || user.isEnabled() || user.isEmailVerified()) {
+            throw new BusinessException("Invitation is invalid or expired.");
+        }
+        return user;
+    }
+
+    private void validateEmployeeCode(User user, String submittedCode) {
+        if (user.getVerificationCodeAttempts() >= MAX_VERIFICATION_ATTEMPTS) {
+            throw new BusinessException("Maximum activation attempts reached. Request a new invitation.");
+        }
+        if (otpService.isExpired(user.getVerificationCodeExpiration())) {
+            throw new BusinessException("The activation code has expired. Request a new invitation.");
+        }
+        if (user.getVerificationCode() == null || !user.getVerificationCode().equals(submittedCode.trim())) {
+            user.setVerificationCodeAttempts(user.getVerificationCodeAttempts() + 1);
+            userRepository.save(user);
+            throw new BusinessException("Invalid activation code.");
+        }
     }
 
     @Override

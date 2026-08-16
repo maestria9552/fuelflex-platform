@@ -1,0 +1,5 @@
+{
+  "navigation": { "features": "Features", "benefits": "Benefits", "contact": "Contact", "createAccount": "Create an account" },
+  "hero": { "badge": "Smart service station management", "title": "Manage all your stations from", "highlight": "one unified platform.", "description": "FuelFlex centralizes your inventory, sales, pumps, tanks, teams and reports to give you a complete view of your operations.", "start": "Get started now", "workspace": "Access my workspace", "quickSetup": "Quick setup", "realTime": "Real-time monitoring", "secureData": "Secure data" },
+  "dashboard": { "overview": "Overview", "title": "Dashboard", "online": "Online", "activeStations": "Active stations", "activePumps": "Active pumps", "availableStock": "Available inventory", "stockValue": "{{value}} L", "todaySales": "Today’s sales", "salesValue": "USD {{value}}", "days": { "monday": "Mon", "tuesday": "Tue", "wednesday": "Wed", "thursday": "Thu", "friday": "Fri", "saturday": "Sat", "sunday": "Sun" } }
+}

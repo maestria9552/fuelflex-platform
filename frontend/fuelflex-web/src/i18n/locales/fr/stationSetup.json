@@ -1,0 +1,54 @@
+{
+  "entry": {
+    "eyebrow": "Configuration",
+    "title": "Créer une station",
+    "description": "Vérifiez les prérequis de votre organisation avant de commencer la configuration technique.",
+    "badge": "Assistant de préparation",
+    "loadingTitle": "Vérification des produits actifs...",
+    "loadingDescription": "Nous vérifions que votre organisation peut commencer la configuration d’une station.",
+    "verificationFailed": "La vérification n’a pas abouti",
+    "verificationFallback": "Impossible de vérifier les produits actifs.",
+    "readyKicker": "PRÉREQUIS VALIDÉ",
+    "readyTitle": "Votre organisation est prête",
+    "readyDescription": "Le catalogue contient au moins un produit actif. Sélectionnez ensuite les produits utilisés par cette station.",
+    "manageProducts": "Gérer les produits",
+    "start": "Commencer la configuration",
+    "productKicker": "PRÉREQUIS PRODUIT",
+    "productRequiredTitle": "Vous devez configurer au moins un produit avant de créer une station.",
+    "productRequiredDescription": "Les catégories et produits forment le catalogue permanent de l’organisation et seront réutilisés dans toutes vos stations.",
+    "backToDashboard": "Retour au tableau de bord"
+  },
+  "stepper": {
+    "ariaLabel": "Étapes de l’assistant de configuration de station",
+    "station": "Station",
+    "products": "Produits utilisés",
+    "review": "Vérification",
+    "commissioning": "Mise en service"
+  },
+  "wizard": {
+    "restoringTitle": "Reprise de votre configuration...",
+    "restoringDescription": "Nous rechargeons la station enregistrée dans ce brouillon.",
+    "draftUnavailable": "Le brouillon précédent n’est plus disponible. Reprenez la création de la station.",
+    "productsLoadFailed": "Impossible de charger les produits actifs.",
+    "configurationValidationFailed": "Impossible de valider la configuration.",
+    "stationCreated": "La station a été créée avec succès.",
+    "stationSaveFailed": "Impossible d’enregistrer la station.",
+    "productsSaved": "La sélection des produits a été enregistrée.",
+    "productsSaveFailed": "Impossible d’enregistrer la sélection des produits.",
+    "configurationChanged": "La configuration a changé et doit être corrigée avant de terminer.",
+    "commissioningFailed": "Impossible de terminer la configuration technique."
+  },
+  "steps": {
+    "progress": "ÉTAPE {{current}} SUR {{total}}",
+    "retry": "Réessayer", "edit": "Modifier", "add": "Ajouter",
+    "station": { "title": "Informations de la station", "description": "Créez l’identité et les coordonnées principales de la station.", "back": "Retour vers la préparation", "saving": "Enregistrement...", "updateContinue": "Mettre à jour et continuer", "createContinue": "Créer et continuer" },
+    "products": { "title": "Produits utilisés dans cette station", "description": "Sélectionnez les produits du catalogue organisationnel qui seront utilisés dans cette station.", "help": "Le catalogue est administré depuis le dashboard Produits. Cette étape sert uniquement à sélectionner les produits concernés par cette station.", "loading": "Chargement des produits actifs...", "emptyTitle": "Aucun produit n’est encore configuré dans votre catalogue.", "emptyDescription": "Ajoutez vos catégories et produits dans le catalogue permanent de l’organisation, puis revenez à cette étape.", "manage": "Gérer les produits", "back": "Retour à la station", "save": "Enregistrer la sélection" },
+    "depots": { "description": "Les dépôts permettent d’organiser les citernes de la station.", "loading": "Chargement des dépôts...", "emptyTitle": "Aucun dépôt configuré", "emptyDescription": "Créez le premier dépôt de cette station pour pouvoir y rattacher des citernes.", "createFirst": "Créer le premier dépôt", "count_one": "{{count}} dépôt", "count_other": "{{count}} dépôts", "add": "Ajouter un dépôt", "locationMissing": "Emplacement non renseigné", "back": "Retour aux produits", "continue": "Continuer vers les citernes" },
+    "tanks": { "description": "Configurez les citernes de chaque dépôt et leur produit associé.", "loading": "Chargement des citernes...", "grouped": "Citernes organisées par dépôt", "add": "Ajouter une citerne", "empty": "Aucune citerne dans ce dépôt.", "back": "Retour aux dépôts", "continue": "Continuer vers les pompes" },
+    "pumps": { "description": "Configurez les distributeurs physiques de la station et leur mode de comptage.", "help": "Le comptage global convient aux pistolets alimentés par la même citerne. Choisissez le comptage par pistolet lorsque chaque point doit être suivi indépendamment.", "loading": "Chargement des pompes...", "emptyTitle": "Aucune pompe configurée", "emptyDescription": "Créez le premier distributeur physique de cette station.", "createFirst": "Créer la première pompe", "count_one": "{{count}} pompe", "count_other": "{{count}} pompes", "add": "Ajouter une pompe", "manufacturerMissing": "Fabricant non renseigné", "back": "Retour aux citernes", "continue": "Continuer vers les pistolets" },
+    "points": { "description": "Configurez les points de distribution physiques associés aux pompes.", "help": "Chaque pistolet appartient à une pompe. Le mode de comptage choisi sur la pompe déterminera ensuite où son compteur sera configuré.", "loading": "Chargement des pistolets...", "add": "Ajouter un pistolet", "pumpMeterMessage": "Le comptage de cette pompe sera configuré globalement à l’étape Compteurs.", "pointMeterMessage": "Les compteurs de cette pompe seront configurés par pistolet à l’étape Compteurs.", "empty": "Aucun pistolet configuré pour cette pompe.", "requirement": "Ajoutez au moins un pistolet à chaque pompe avant de continuer.", "back": "Retour aux pompes", "continue": "Continuer vers les compteurs" },
+    "meters": { "description": "Configurez les compteurs utilisés pour suivre les index de distribution.", "help": "Le niveau de comptage défini sur chaque pompe détermine si le compteur est global à la pompe ou individuel à chaque pistolet.", "loading": "Chargement des compteurs...", "currentIndex": "Index actuel : {{value}}", "configurePump": "Configurez le compteur global de la pompe {{name}}.", "addPoint": "Ajoutez au moins un pistolet à la pompe {{name}}.", "configurePoint": "Configurez le compteur du pistolet {{name}}.", "global": "Compteur global", "configureGlobal": "Configurer le compteur global", "globalMissing": "Aucun compteur global configuré.", "configure": "Configurer le compteur", "individualMissing": "Aucun compteur individuel configuré.", "back": "Retour aux pistolets", "continue": "Continuer vers la vérification" },
+    "review": { "description": "Contrôlez l’ensemble de la configuration avant la mise en service.", "persisted": "Les données affichées ont été relues depuis la configuration persistée.", "rerun": "Relancer la vérification", "loading": "Vérification de la configuration...", "valid": "Validé", "warning": "Avertissement", "correct": "À corriger", "selected_one": "{{count}} sélectionné", "selected_other": "{{count}} sélectionnés", "noProduct": "Aucun produit sélectionné dans le wizard.", "depotsTanks": "Dépôts et citernes", "pumpsPointsMeters": "Pompes, pistolets et compteurs", "globalMissing": "Compteur global manquant", "meterMissing": "Compteur manquant", "issuesTitle": "Configuration à corriger", "issues_one": "{{count}} anomalie détectée", "issues_other": "{{count}} anomalies détectées", "correctAction": "Corriger", "selectProduct": "Sélectionnez au moins un produit pour cette station.", "ready": "La configuration persistée est complète et prête pour la mise en service.", "back": "Retour aux compteurs", "continue": "Passer à la mise en service" },
+    "commissioning": { "completeKicker": "CONFIGURATION TECHNIQUE TERMINÉE", "completeTitle": "La structure de votre station est prête.", "completeDescription": "Poursuivez avec la tarification et la configuration opérationnelle avant de commencer l’exploitation.", "pricingLater": "La tarification constitue la prochaine étape de configuration. Son interface sera disponible dans un prochain bloc.", "dashboard": "Retour au tableau de bord", "pricing": "Configurer les prix", "title": "Mise en service technique", "description": "La configuration technique de votre station est complète.", "help": "FuelFlex vérifie la structure de la station, ses dépôts, citernes, pompes, pistolets et compteurs. Vous pourrez ensuite poursuivre la configuration opérationnelle, notamment la tarification et l’affectation des utilisateurs.", "loading": "Validation finale de la configuration...", "validated": "Configuration technique validée", "depot_one": "{{count}} dépôt", "depot_other": "{{count}} dépôts", "tank_one": "{{count}} citerne", "tank_other": "{{count}} citernes", "pump_one": "{{count}} pompe", "pump_other": "{{count}} pompes", "point_one": "{{count}} pistolet", "point_other": "{{count}} pistolets", "meter_one": "{{count}} compteur", "meter_other": "{{count}} compteurs", "cannotComplete": "La mise en service technique ne peut pas être terminée.", "back": "Retour à la vérification", "validating": "Validation finale...", "finish": "Terminer la configuration technique" }
+  }
+}

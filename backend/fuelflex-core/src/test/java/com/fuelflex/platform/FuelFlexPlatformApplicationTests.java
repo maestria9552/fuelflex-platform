@@ -3,11 +3,14 @@ package com.fuelflex.platform;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "spring.jpa.hibernate.ddl-auto=validate",
+        "spring.flyway.enabled=false",
+        "fuelflex.data-initialization.enabled=false"
+})
 class FuelFlexPlatformApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+    }
 }

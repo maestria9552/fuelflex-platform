@@ -1,0 +1,61 @@
+{
+  "title": "Notifications",
+  "description": "Suivez les événements importants de votre activité.",
+  "actions": {
+    "markRead": "Marquer comme lue",
+    "markAllRead": "Tout marquer comme lu"
+  },
+  "category": {
+    "information": "Information",
+    "actionRequired": "Action requise"
+  },
+  "status": {
+    "unread": "Non lue"
+  },
+  "empty": {
+    "title": "Aucune notification",
+    "description": "Les nouvelles notifications métier apparaîtront ici."
+  },
+  "feedback": {
+    "loading": "Chargement des notifications...",
+    "loadError": "Impossible de charger les notifications.",
+    "countError": "Impossible de charger le nombre de notifications non lues.",
+    "markReadError": "Impossible de marquer la notification comme lue.",
+    "markAllReadError": "Impossible de marquer toutes les notifications comme lues."
+  },
+  "accessibility": {
+    "open": "Ouvrir les notifications",
+    "unreadCount_one": "{{count}} notification non lue",
+    "unreadCount_other": "{{count}} notifications non lues"
+  },
+  "fallback": {
+    "title": "Événement FuelFlex",
+    "message": "Un événement métier a été enregistré."
+  },
+  "events": {
+    "dayOpened": {
+      "title": "Journée ouverte",
+      "message": "Une journée d’exploitation a été ouverte."
+    },
+    "dayClosed": {
+      "title": "Journée clôturée",
+      "message": "Une journée d’exploitation a été clôturée."
+    },
+    "orderSubmitted": {
+      "title": "Commande à valider",
+      "message": "Une commande attend votre intervention."
+    },
+    "orderApproved": {
+      "title": "Commande approuvée",
+      "message": "Votre commande a été approuvée et poursuit son traitement."
+    },
+    "orderRejected": {
+      "title": "Commande refusée",
+      "message": "Votre commande a été refusée."
+    },
+    "receptionCompleted": {
+      "title": "Réception terminée",
+      "message": "Une réception de carburant a été terminée."
+    }
+  }
+}

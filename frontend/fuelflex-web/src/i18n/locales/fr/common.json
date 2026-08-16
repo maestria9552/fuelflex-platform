@@ -1,0 +1,27 @@
+{
+  "language": {
+    "fr": "Français",
+    "en": "Anglais"
+  },
+  "actions": {
+    "save": "Enregistrer",
+    "saving": "Enregistrement…",
+    "cancel": "Annuler",
+    "retry": "Réessayer",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "confirming": "Confirmation...",
+    "logout": "Se déconnecter"
+  },
+  "modal": {
+    "closeWindow": "Fermer la fenêtre"
+  },
+  "brand": {
+    "logoAlt": "Logo FuelFlex",
+    "slogan": "Gestion intelligente des stations-service",
+    "copyright": "© 2026 FuelFlex Platform. Tous droits réservés."
+  },
+  "feedback": {
+    "initializing": "Initialisation de FuelFlex Platform..."
+  }
+}

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { X } from "lucide-react";
 
 import "./AppModal.css";
@@ -14,6 +15,8 @@ function AppModal({
   closeOnEscape = true,
   onClose,
 }) {
+  const { t } = useTranslation("common");
+
   useEffect(() => {
     if (!isOpen) {
       return undefined;
@@ -78,7 +81,7 @@ function AppModal({
           <button
             type="button"
             className="app-modal-close"
-            aria-label="Fermer la fenêtre"
+            aria-label={t("modal.closeWindow")}
             onClick={onClose}
           >
             <X size={20} />

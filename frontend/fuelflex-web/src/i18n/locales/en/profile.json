@@ -1,0 +1,24 @@
+{
+  "title": "My profile",
+  "description": "View and update your personal information.",
+  "fields": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email address",
+    "emailReadOnly": "The email address cannot be changed from the profile.",
+    "phoneNumber": "Phone number",
+    "phonePlaceholder": "E.g. +243 000 000 000"
+  },
+  "actions": {
+    "saving": "Saving..."
+  },
+  "feedback": {
+    "loading": "Loading profile...",
+    "loadError": "Unable to load your profile.",
+    "saveError": "Unable to save your profile.",
+    "saved": "Your profile has been updated."
+  },
+  "validation": {
+    "requiredFields": "First name, last name and phone number are required."
+  }
+}

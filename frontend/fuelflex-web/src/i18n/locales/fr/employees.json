@@ -1,0 +1,123 @@
+{
+  "list": {
+    "eyebrow": "Équipe",
+    "title": "Employés",
+    "description": "Gérez les comptes internes et leurs affectations aux stations.",
+    "new": "Nouvel employé",
+    "filters": "Filtres des employés",
+    "search": "Rechercher par nom, email ou téléphone",
+    "allRoles": "Tous les rôles",
+    "allStatuses": "Tous les statuts",
+    "loading": "Chargement des employés…",
+    "emptyTitle": "Aucun employé trouvé",
+    "emptyDescription": "Aucun employé ne correspond aux critères actuels.",
+    "total_one": "{{count}} employé",
+    "total_other": "{{count}} employés",
+    "pagination": "Pagination des employés",
+    "page": "Page {{current}} sur {{total}}",
+    "previous": "Page précédente",
+    "next": "Page suivante"
+  },
+  "fields": {
+    "employee": "Employé",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "role": "Rôle",
+    "status": "Statut",
+    "createdAt": "Créé le",
+    "actions": "Actions"
+  },
+  "roles": {
+    "MANAGER": "Gestionnaire",
+    "PUMP_ATTENDANT": "Pompiste",
+    "ACCOUNTANT": "Comptable",
+    "AUDITOR": "Auditeur"
+  },
+  "status": {
+    "active": "Actif",
+    "inactive": "Désactivé",
+    "pending": "En attente d’activation"
+  },
+  "actions": {
+    "view": "Consulter",
+    "edit": "Modifier",
+    "disable": "Désactiver",
+    "enable": "Réactiver",
+    "dismiss": "Fermer le message",
+    "resendInvitation": "Renvoyer l’invitation"
+  },
+  "form": {
+    "createTitle": "Créer un employé",
+    "createDescription": "L’organisation est déterminée automatiquement par votre compte superviseur.",
+    "editTitle": "Modifier l’employé",
+    "editDescription": "Seules les informations autorisées seront mises à jour.",
+    "chooseRole": "Choisir un rôle",
+    "emailImmutable": "L’email est immuable dans cette version.",
+    "accessNote": "Le compte est créé sans mot de passe permanent communiqué par le superviseur. Le workflow de premier accès sera traité séparément."
+  },
+  "statusConfirm": {
+    "disableTitle": "Désactiver cet employé ?",
+    "disableDescription": "{{name}} ne pourra plus se connecter. Ses affectations actives seront terminées, mais leur historique sera conservé.",
+    "enableTitle": "Réactiver cet employé ?",
+    "enableDescription": "{{name}} pourra de nouveau accéder à son compte. Aucune ancienne affectation ne sera restaurée automatiquement."
+  },
+  "detail": {
+    "back": "Retour aux employés",
+    "loading": "Chargement de l’employé…",
+    "information": "Informations",
+    "informationDescription": "Identité, rôle et état du compte."
+  },
+  "assignments": {
+    "title": "Affectations",
+    "description": "Stations actuelles et historique administratif.",
+    "assign": "Affecter à une station",
+    "createTitle": "Nouvelle affectation",
+    "createDescription": "Choisissez une station active de votre organisation.",
+    "endTitle": "Retirer de la station",
+    "transferTitle": "Muter vers une station",
+    "source": "Affectation source : {{station}}",
+    "station": "Station",
+    "destination": "Station destination",
+    "chooseStation": "Choisir une station",
+    "effectiveDate": "Date effective (facultative)",
+    "endDate": "Date de fin (facultative)",
+    "reason": "Motif (facultatif)",
+    "managerTransferNote": "Seule cette affectation sera mutée. Les autres stations actives du gestionnaire resteront inchangées.",
+    "disabledNote": "L’historique reste consultable, mais un employé désactivé ne peut être affecté ni muté.",
+    "noActive": "Aucune affectation active",
+    "since": "Depuis {{date}}",
+    "end": "Retirer",
+    "transfer": "Muter",
+    "history": "Historique",
+    "filterStatus": "Filtrer l’historique",
+    "all": "Toutes",
+    "active": "Active",
+    "ended": "Terminée",
+    "noHistory": "Aucune affectation dans cet historique"
+  },
+  "feedback": {
+    "created": "Employé créé. Une invitation d’activation lui a été envoyée.",
+    "updated": "Employé mis à jour.",
+    "disabled": "Employé désactivé et affectations actives terminées.",
+    "enabled": "Employé réactivé sans restauration automatique des affectations.",
+    "assigned": "Affectation créée.",
+    "ended": "Affectation terminée. L’historique est conservé.",
+    "transferred": "Mutation effectuée.",
+    "createdNoEmail": "Employé créé, mais l’invitation n’a pas pu être envoyée. Renvoyez-la depuis sa fiche.",
+    "invitationResent": "Invitation renvoyée.",
+    "invitationNotSent": "L’invitation n’a pas pu être envoyée."
+  },
+  "errors": {
+    "load": "Impossible de charger les employés.",
+    "detailLoad": "Impossible de charger la fiche employé.",
+    "save": "Impossible d’enregistrer l’employé.",
+    "conflict": "Cette opération entre en conflit avec l’état actuel de l’employé ou une donnée existante.",
+    "status": "Impossible de modifier le statut.",
+    "statusConflict": "Le statut ne peut pas être modifié dans l’état actuel.",
+    "assignmentSave": "Impossible d’enregistrer l’affectation.",
+    "assignmentConflict": "Cette affectation est impossible : vérifiez le statut, le rôle et les stations déjà actives.",
+    "invitationResend": "Impossible de renvoyer l’invitation."
+  }
+}

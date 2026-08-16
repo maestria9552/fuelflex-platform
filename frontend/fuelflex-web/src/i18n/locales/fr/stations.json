@@ -1,0 +1,27 @@
+{
+  "page": {
+    "eyebrow": "CONFIGURATION DU RÉSEAU", "title": "Stations", "description": "Gérez les stations rattachées à votre organisation.",
+    "new": "Nouvelle station", "searchPlaceholder": "Rechercher par nom, code ou ville", "searchAriaLabel": "Rechercher une station",
+    "count_one": "{{count}} station", "count_other": "{{count}} stations",
+    "loading": "Chargement des stations...", "emptyTitle": "Aucune station configurée", "emptyDescription": "Créez votre première station avec l’assistant de configuration.",
+    "create": "Créer une station", "noResultTitle": "Aucune station trouvée", "noResultDescription": "Essayez un autre nom, code ou ville.",
+    "open": "Ouvrir", "edit": "Modifier", "openUnavailable": "Le tableau de bord de station sera disponible dans un prochain bloc"
+  },
+  "feedback": {
+    "organizationMissing": "Aucune société n’est associée à ce compte.", "loadFailed": "Impossible de charger les stations.",
+    "updated": "La station a été modifiée avec succès.", "updateFailed": "Impossible de modifier la station."
+  },
+  "modal": { "title": "Modifier la station", "description": "Mettez à jour les informations générales et l’état opérationnel de la station.", "saving": "Enregistrement..." },
+  "form": {
+    "name": "Nom", "code": "Code", "type": "Type", "additionalInformation": "Informations complémentaires", "shortName": "Nom court",
+    "city": "Ville", "address": "Adresse", "province": "Province", "country": "Pays", "phone": "Téléphone", "email": "Adresse e-mail",
+    "latitude": "Latitude", "longitude": "Longitude", "displayOrder": "Ordre d’affichage", "administration": "Administration", "status": "Statut",
+    "activeUsable": "Station active et utilisable"
+  },
+  "types": {
+    "SERVICE_STATION": "Station-service", "DEPOT": "Dépôt", "AIRPORT": "Aéroport", "PORT": "Port", "MINE": "Mine",
+    "LOGISTICS_CENTER": "Centre logistique", "DISTRIBUTION_CENTER": "Centre de distribution"
+  },
+  "status": { "ACTIVE": "Active", "INACTIVE": "Inactive", "MAINTENANCE": "Maintenance", "SUSPENDED": "Suspendue", "CLOSED": "Fermée" },
+  "availability": { "active": "Active", "inactive": "Inactive" }
+}

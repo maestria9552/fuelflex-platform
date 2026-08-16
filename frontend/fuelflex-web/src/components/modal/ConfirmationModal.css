@@ -1,0 +1,117 @@
+.confirmation-modal-content {
+  display: flex;
+  justify-content: center;
+}
+
+.confirmation-modal-icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.confirmation-modal-warning .confirmation-modal-icon {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.confirmation-modal-danger .confirmation-modal-icon {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.confirmation-modal-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.confirmation-modal-error svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+.confirmation-modal-cancel,
+.confirmation-modal-confirm {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.confirmation-modal-cancel {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+}
+
+.confirmation-modal-cancel:hover:not(:disabled) {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.confirmation-modal-confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid transparent;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.confirmation-modal-confirm:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.confirmation-modal-confirm-warning {
+  background: #d97706;
+}
+
+.confirmation-modal-confirm-warning:hover:not(:disabled) {
+  background: #b45309;
+}
+
+.confirmation-modal-confirm-danger {
+  background: #dc2626;
+}
+
+.confirmation-modal-confirm-danger:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+.confirmation-modal-cancel:disabled,
+.confirmation-modal-confirm:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.confirmation-modal-cancel:focus-visible,
+.confirmation-modal-confirm:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.24);
+  outline-offset: 2px;
+}
+
+.confirmation-modal-spinner {
+  animation: confirmationModalSpin 0.8s linear infinite;
+}
+
+@keyframes confirmationModalSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}

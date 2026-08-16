@@ -1,0 +1,68 @@
+{
+  "groups": {
+    "general": "Général",
+    "operations": "Opérations",
+    "configuration": "Configuration",
+    "management": "Gestion",
+    "analytics": "Analyse"
+  },
+  "items": {
+    "dashboard": "Tableau de bord",
+    "orders": "Commandes",
+    "receipts": "Réceptions",
+    "sales": "Ventes",
+    "closing": "Clôture de journée",
+    "company": "Société",
+    "stations": "Stations",
+    "products": "Produits",
+    "depots": "Dépôts",
+    "tanks": "Citernes",
+    "pumps": "Pompes",
+    "dispensingPoints": "Pistolets",
+    "fuelMeters": "Compteurs",
+    "pricing": "Tarification",
+    "partnerCustomers": "Clients partenaires",
+    "employees": "Employés",
+    "reports": "Rapports",
+    "settings": "Paramètres"
+  },
+  "sidebar": {
+    "closeMenu": "Fermer le menu",
+    "supervisorNavigation": "Navigation superviseur",
+    "managerNavigation": "Navigation gestionnaire",
+    "comingSoon": "Bientôt disponible",
+    "collapseMenu": "Réduire le menu",
+    "expandMenu": "Développer le menu",
+    "collapsePumpsSubmenu": "Replier le sous-menu Pompes",
+    "expandPumpsSubmenu": "Développer le sous-menu Pompes",
+    "systemOperational": "Système opérationnel"
+  },
+  "topbar": {
+    "openMenu": "Ouvrir le menu",
+    "searchPlaceholder": "Rechercher dans FuelFlex...",
+    "searchLabel": "Rechercher dans FuelFlex",
+    "settings": "Paramètres",
+    "notifications": "Notifications",
+    "notificationsUnavailable": "Notifications — bientôt disponible",
+    "userMenu": "Menu utilisateur",
+    "profile": "Mon profil",
+    "accountSettings": "Paramètres du compte",
+    "applicationSettings": "Paramètres de l’application",
+    "comingSoon": "Bientôt disponible",
+    "defaultUserName": "Superviseur FuelFlex",
+    "defaultUserRole": "Superviseur principal",
+    "language": "Langue",
+    "languageDescription": "Choisissez la langue de l’interface.",
+    "morePreferencesSoon": "D’autres préférences seront ajoutées prochainement.",
+    "roles": {
+      "SUPER_ADMIN": "Super administrateur",
+      "SUPERVISOR": "Superviseur",
+      "MANAGER": "Gestionnaire",
+      "PUMP_ATTENDANT": "Pompiste",
+      "ACCOUNTANT": "Comptable",
+      "AUDITOR": "Auditeur",
+      "SUPPLIER_USER": "Utilisateur fournisseur",
+      "CREDIT_CUSTOMER_USER": "Client partenaire"
+    }
+  }
+}

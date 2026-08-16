@@ -6,6 +6,8 @@ import com.fuelflex.platform.auth.dto.request.ResendVerificationCodeRequest;
 import com.fuelflex.platform.auth.dto.request.VerifyEmailRequest;
 import com.fuelflex.platform.auth.dto.response.LoginResponse;
 import com.fuelflex.platform.auth.dto.response.RegisterResponse;
+import com.fuelflex.platform.auth.dto.request.EmployeeActivationSetPasswordRequest;
+import com.fuelflex.platform.auth.dto.request.EmployeeActivationVerifyRequest;
 
 public interface AuthService {
 
@@ -16,6 +18,10 @@ public interface AuthService {
     void resendVerificationCode(
             ResendVerificationCodeRequest request
     );
+
+    void verifyEmployeeInvitation(EmployeeActivationVerifyRequest request);
+
+    void activateEmployee(EmployeeActivationSetPasswordRequest request);
 
     LoginResponse login(LoginRequest request);
 }

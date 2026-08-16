@@ -1,0 +1,79 @@
+.employee-activation-page {
+  position: relative;
+  display: grid;
+  min-height: 100vh;
+  overflow: hidden;
+  place-items: center;
+  padding: 32px 20px;
+  color: #10233f;
+  background:
+    radial-gradient(circle at 15% 12%, rgba(46, 205, 228, 0.18), transparent 28%),
+    radial-gradient(circle at 86% 88%, rgba(255, 107, 0, 0.14), transparent 30%),
+    linear-gradient(145deg, #02172c 0%, #032746 55%, #03192f 100%);
+}
+
+.employee-activation-page::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0.1;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.employee-activation-orbit { position: absolute; border: 1px solid rgba(46, 205, 228, 0.2); border-radius: 50%; pointer-events: none; }
+.employee-activation-orbit-one { right: -180px; bottom: -220px; width: 560px; height: 560px; box-shadow: 0 0 0 48px rgba(46, 205, 228, 0.04), 0 0 0 96px rgba(255, 107, 0, 0.03); }
+.employee-activation-orbit-two { top: -180px; left: -160px; width: 390px; height: 390px; border-color: rgba(255, 255, 255, 0.1); }
+
+.employee-activation-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 500px);
+  padding: 34px 38px 27px;
+  border: 1px solid rgba(210, 225, 237, 0.72);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 30px 85px rgba(0, 0, 0, 0.27);
+}
+
+.employee-activation-brand { justify-content: center; margin: 0 auto 24px; }
+.employee-activation-heading { text-align: center; }
+.employee-activation-kicker { margin: 0 0 8px; color: #0aaabc; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.18em; }
+.employee-activation-heading h1, .employee-activation-success h1 { margin: 0; color: #10233f; font-family: "Manrope", sans-serif; font-size: clamp(1.75rem, 4vw, 2.2rem); letter-spacing: -0.05em; }
+.employee-activation-heading > p:last-child, .employee-activation-success p { max-width: 390px; margin: 10px auto 0; color: #718096; font-size: 0.9rem; line-height: 1.6; }
+.employee-activation-message { margin: 20px 0 0; padding: 11px 13px; border-radius: 12px; font-size: 0.8rem; line-height: 1.5; }
+.employee-activation-message.error { border: 1px solid #f2c6c8; color: #b4232b; background: #fff2f2; }
+.employee-activation-message.success { border: 1px solid #b9e7d0; color: #167149; background: #effbf4; }
+.employee-activation-form { display: grid; gap: 16px; margin-top: 24px; }
+.employee-activation-field { display: grid; gap: 7px; }
+.employee-activation-field-label { color: #2b4365; font-size: 0.8rem; font-weight: 700; }
+.employee-activation-input-wrap { position: relative; display: flex; align-items: center; }
+.employee-activation-input-icon { position: absolute; left: 14px; color: #8aa0b8; pointer-events: none; }
+.employee-activation-input-wrap input { width: 100%; min-height: 48px; padding: 0 44px; border: 1px solid #d7e1eb; border-radius: 12px; outline: none; color: #10233f; background: #fbfdff; font: inherit; font-size: 0.9rem; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+.employee-activation-input-wrap input::placeholder { color: #a6b3c2; }
+.employee-activation-input-wrap input:focus { border-color: #18b9ca; box-shadow: 0 0 0 4px rgba(24, 185, 202, 0.13); }
+.employee-activation-input-wrap input:disabled { cursor: not-allowed; opacity: 0.72; background: #f2f6f9; }
+.employee-activation-otp { display: flex; justify-content: center; gap: clamp(7px, 2vw, 12px); }
+.employee-activation-otp-input { width: clamp(42px, 11vw, 54px); height: clamp(48px, 12vw, 58px); padding: 0; border: 1px solid #d7e1eb; border-radius: 12px; outline: none; color: #10233f; background: #fbfdff; font: inherit; font-size: clamp(1.35rem, 4vw, 1.7rem); font-weight: 800; line-height: 1; text-align: center; transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+.employee-activation-otp-input:focus { border-color: #18b9ca; box-shadow: 0 0 0 4px rgba(24, 185, 202, 0.15); background: #ffffff; }
+.employee-activation-otp-input:disabled { cursor: not-allowed; opacity: 0.72; background: #f2f6f9; }
+.employee-activation-passwords { display: grid; gap: 16px; }
+.employee-activation-password-toggle { position: absolute; right: 9px; display: grid; width: 32px; height: 32px; padding: 0; place-items: center; border: 0; border-radius: 8px; color: #6f849b; background: transparent; cursor: pointer; }
+.employee-activation-password-toggle:hover, .employee-activation-password-toggle:focus-visible { color: #079bad; background: #eaf9fb; }
+.employee-activation-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 9px; width: 100%; margin-top: 4px; padding: 0 18px; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(135deg, #0ba9bb, #087f99); box-shadow: 0 12px 24px rgba(8, 127, 153, 0.2); cursor: pointer; font: inherit; font-size: 0.87rem; font-weight: 800; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.employee-activation-button:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 15px 28px rgba(8, 127, 153, 0.28); }
+.employee-activation-button:focus-visible, .employee-activation-login-link:focus-visible { outline: 3px solid rgba(255, 107, 0, 0.45); outline-offset: 3px; }
+.employee-activation-button:disabled { cursor: not-allowed; opacity: 0.65; }
+.employee-activation-spinner { width: 16px; height: 16px; border: 2px solid rgba(255, 255, 255, 0.38); border-top-color: #fff; border-radius: 50%; animation: employee-activation-spin 0.75s linear infinite; }
+@keyframes employee-activation-spin { to { transform: rotate(360deg); } }
+.employee-activation-login-link { display: block; margin-top: 20px; color: #0a9bad; font-size: 0.82rem; font-weight: 800; text-align: center; text-decoration: none; }
+.employee-activation-login-link:hover { color: #076f85; text-decoration: underline; }
+.employee-activation-success { padding: 13px 0 2px; text-align: center; }
+.employee-activation-success-icon { display: grid; width: 64px; height: 64px; margin: 0 auto 17px; place-items: center; border-radius: 20px; color: #158153; background: #eaf9f0; }
+.employee-activation-success .employee-activation-button { margin-top: 24px; }
+
+@media (max-width: 560px) {
+  .employee-activation-page { padding: 18px 12px; }
+  .employee-activation-card { padding: 27px 20px 22px; border-radius: 20px; }
+  .employee-activation-brand { margin-bottom: 20px; }
+}

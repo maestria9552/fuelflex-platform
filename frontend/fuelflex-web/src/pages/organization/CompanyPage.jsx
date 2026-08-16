@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   AlertCircle,
   Building2,
@@ -30,76 +31,51 @@ function buildUserOrganizationData(currentUser, organization) {
     organizationId: organization.id,
     organizationCode: organization.code,
 
-    organizationName:
-      organization.tradeName ||
-      organization.name,
+    organizationName: organization.tradeName || organization.name,
 
-    organizationOfficialName:
-      organization.name,
+    organizationOfficialName: organization.name,
 
-    organizationTradeName:
-      organization.tradeName || null,
+    organizationTradeName: organization.tradeName || null,
 
-    registrationNumber:
-      organization.registrationNumber || null,
+    registrationNumber: organization.registrationNumber || null,
 
-    nationalId:
-      organization.nationalId || null,
+    nationalId: organization.nationalId || null,
 
-    taxNumber:
-      organization.taxNumber || null,
+    taxNumber: organization.taxNumber || null,
 
-    organizationAddress:
-      organization.address || null,
+    organizationAddress: organization.address || null,
 
-    organizationPhone:
-      organization.phone || null,
+    organizationPhone: organization.phone || null,
 
-    organizationEmail:
-      organization.email || null,
+    organizationEmail: organization.email || null,
 
-    organizationLogo:
-      organization.logoUrl || null,
+    organizationLogo: organization.logoUrl || null,
   };
 }
 
-function getDisplayValue(value) {
-  if (
-    value === null ||
-    value === undefined ||
-    String(value).trim() === ""
-  ) {
-    return "Non renseigné";
+function getDisplayValue(value, fallback) {
+  if (value === null || value === undefined || String(value).trim() === "") {
+    return fallback;
   }
 
   return value;
 }
 
 function CompanyPage() {
-  const [user, setUser] = useState(
-    () => getStoredUser() || {}
+  const { t } = useTranslation("organization");
+  const [user, setUser] = useState(() => getStoredUser() || {});
+
+  const [organization, setOrganization] = useState(null);
+
+  const organizationId = user.organizationId || null;
+
+  const [isLoading, setIsLoading] = useState(Boolean(organizationId));
+
+  const [errorMessage, setErrorMessage] = useState(
+    organizationId ? "" : t("feedback.noOrganization"),
   );
 
-  const [organization, setOrganization] =
-    useState(null);
-
-  const organizationId =
-    user.organizationId || null;
-
-  const [isLoading, setIsLoading] =
-    useState(Boolean(organizationId));
-
-  const [errorMessage, setErrorMessage] =
-    useState(
-      organizationId
-        ? ""
-        : "Aucune société n’est associée à ce compte."
-    );
-
-  const [
-    isOrganizationModalOpen,
-    setIsOrganizationModalOpen,
-  ] = useState(false);
+  const [isOrganizationModalOpen, setIsOrganizationModalOpen] = useState(false);
 
   useEffect(() => {
     if (!organizationId) {
@@ -113,10 +89,7 @@ function CompanyPage() {
       setErrorMessage("");
 
       try {
-        const result =
-          await getOrganizationById(
-            organizationId
-          );
+        const result = await getOrganizationById(organizationId);
 
         if (isCancelled) {
           return;
@@ -125,11 +98,7 @@ function CompanyPage() {
         setOrganization(result);
 
         setUser((currentUser) => {
-          const refreshedUser =
-            buildUserOrganizationData(
-              currentUser,
-              result
-            );
+          const refreshedUser = buildUserOrganizationData(currentUser, result);
 
           return mergeStoredUser(refreshedUser);
         });
@@ -138,15 +107,12 @@ function CompanyPage() {
           return;
         }
 
-        console.error(
-          "Impossible de charger la société :",
-          error
-        );
+        console.error("Impossible de charger la société :", error);
 
         setErrorMessage(
           error?.response?.data?.message ||
             error?.message ||
-            "Impossible de charger les informations de la société."
+            t("feedback.loadError"),
         );
       } finally {
         if (!isCancelled) {
@@ -160,7 +126,7 @@ function CompanyPage() {
     return () => {
       isCancelled = true;
     };
-  }, [organizationId]);
+  }, [organizationId, t]);
 
   const handleOpenOrganizationModal = () => {
     setIsOrganizationModalOpen(true);
@@ -170,15 +136,11 @@ function CompanyPage() {
     setIsOrganizationModalOpen(false);
   };
 
-  const handleOrganizationSaved = (
-    updatedOrganization,
-    updatedUser
-  ) => {
+  const handleOrganizationSaved = (updatedOrganization, updatedUser) => {
     setOrganization(updatedOrganization);
 
     if (updatedUser) {
-      const storedUser =
-        mergeStoredUser(updatedUser);
+      const storedUser = mergeStoredUser(updatedUser);
 
       setUser(storedUser);
       setIsOrganizationModalOpen(false);
@@ -186,11 +148,10 @@ function CompanyPage() {
     }
 
     setUser((currentUser) => {
-      const refreshedUser =
-        buildUserOrganizationData(
-          currentUser,
-          updatedOrganization
-        );
+      const refreshedUser = buildUserOrganizationData(
+        currentUser,
+        updatedOrganization,
+      );
 
       mergeStoredUser(refreshedUser);
 
@@ -212,28 +173,19 @@ function CompanyPage() {
     administrativeFields.filter(Boolean).length;
 
   const completionPercentage = Math.round(
-    (completedAdministrativeFields /
-      administrativeFields.length) *
-      100
+    (completedAdministrativeFields / administrativeFields.length) * 100,
   );
 
-  const isComplete =
-    completionPercentage === 100;
+  const isComplete = completionPercentage === 100;
 
   if (isLoading) {
     return (
       <SupervisorLayout>
         <main className="company-page">
           <section className="company-page-loading">
-            <LoaderCircle
-              size={34}
-              className="company-page-spinner"
-            />
+            <LoaderCircle size={34} className="company-page-spinner" />
 
-            <p>
-              Chargement des informations de la
-              société...
-            </p>
+            <p>{t("feedback.loadingPage")}</p>
           </section>
         </main>
       </SupervisorLayout>
@@ -248,7 +200,7 @@ function CompanyPage() {
             <AlertCircle size={34} />
 
             <div>
-              <h1>Société</h1>
+              <h1>{t("page.title")}</h1>
               <p>{errorMessage}</p>
             </div>
           </section>
@@ -262,17 +214,11 @@ function CompanyPage() {
       <main className="company-page">
         <section className="company-page-header">
           <div>
-            <span className="company-page-eyebrow">
-              Administration
-            </span>
+            <span className="company-page-eyebrow">{t("page.eyebrow")}</span>
 
-            <h1>Société</h1>
+            <h1>{t("page.title")}</h1>
 
-            <p>
-              Consultez et gérez les informations
-              administratives et professionnelles de
-              votre organisation.
-            </p>
+            <p>{t("page.description")}</p>
           </div>
 
           <button
@@ -281,7 +227,7 @@ function CompanyPage() {
             onClick={handleOpenOrganizationModal}
           >
             <Pencil size={18} />
-            Modifier les informations
+            {t("page.edit")}
           </button>
         </section>
 
@@ -290,10 +236,9 @@ function CompanyPage() {
             {organization?.logoUrl ? (
               <img
                 src={organization.logoUrl}
-                alt={`Logo ${
-                  organization.tradeName ||
-                  organization.name
-                }`}
+                alt={t("accessibility.logoAlt", {
+                  name: organization.tradeName || organization.name,
+                })}
               />
             ) : (
               <Building2 size={40} />
@@ -301,29 +246,26 @@ function CompanyPage() {
           </div>
 
           <div className="company-page-identity">
-            <span>Société enregistrée</span>
+            <span>{t("page.registered")}</span>
 
             <h2>
               {getDisplayValue(
-                organization?.tradeName ||
-                  organization?.name
+                organization?.tradeName || organization?.name,
+                t("feedback.noValue"),
               )}
             </h2>
 
-            {organization?.tradeName &&
-              organization?.name && (
-                <p>{organization.name}</p>
-              )}
+            {organization?.tradeName && organization?.name && (
+              <p>{organization.name}</p>
+            )}
 
             <div className="company-page-code">
               <ShieldCheck size={17} />
 
-              <span>Code FuelFlex</span>
+              <span>{t("page.fuelFlexCode")}</span>
 
               <strong>
-                {getDisplayValue(
-                  organization?.code
-                )}
+                {getDisplayValue(organization?.code, t("feedback.noValue"))}
               </strong>
             </div>
           </div>
@@ -343,13 +285,9 @@ function CompanyPage() {
             )}
 
             <div>
-              <span>
-                Profil administratif
-              </span>
+              <span>{t("page.administrativeProfile")}</span>
 
-              <strong>
-                {completionPercentage} %
-              </strong>
+              <strong>{completionPercentage} %</strong>
             </div>
           </div>
         </section>
@@ -360,61 +298,59 @@ function CompanyPage() {
               <div>
                 <FileText size={20} />
 
-                <span>
-                  Informations administratives
-                </span>
+                <span>{t("page.administrativeInformation")}</span>
               </div>
             </header>
 
             <div className="company-page-information-list">
               <div>
-                <span>
-                  Dénomination officielle
-                </span>
+                <span>{t("page.officialName")}</span>
+
+                <strong>
+                  {getDisplayValue(organization?.name, t("feedback.noValue"))}
+                </strong>
+              </div>
+
+              <div>
+                <span>{t("fields.tradeName")}</span>
 
                 <strong>
                   {getDisplayValue(
-                    organization?.name
+                    organization?.tradeName,
+                    t("feedback.noValue"),
                   )}
                 </strong>
               </div>
 
               <div>
-                <span>Nom commercial</span>
+                <span>{t("fields.rccm")}</span>
 
                 <strong>
                   {getDisplayValue(
-                    organization?.tradeName
+                    organization?.registrationNumber,
+                    t("feedback.noValue"),
                   )}
                 </strong>
               </div>
 
               <div>
-                <span>RCCM</span>
+                <span>{t("fields.nationalId")}</span>
 
                 <strong>
                   {getDisplayValue(
-                    organization?.registrationNumber
+                    organization?.nationalId,
+                    t("feedback.noValue"),
                   )}
                 </strong>
               </div>
 
               <div>
-                <span>ID National</span>
+                <span>{t("fields.nif")}</span>
 
                 <strong>
                   {getDisplayValue(
-                    organization?.nationalId
-                  )}
-                </strong>
-              </div>
-
-              <div>
-                <span>NIF</span>
-
-                <strong>
-                  {getDisplayValue(
-                    organization?.taxNumber
+                    organization?.taxNumber,
+                    t("feedback.noValue"),
                   )}
                 </strong>
               </div>
@@ -426,9 +362,7 @@ function CompanyPage() {
               <div>
                 <MapPin size={20} />
 
-                <span>
-                  Coordonnées et localisation
-                </span>
+                <span>{t("page.contactAndLocation")}</span>
               </div>
             </header>
 
@@ -439,11 +373,12 @@ function CompanyPage() {
                 </span>
 
                 <div>
-                  <span>Adresse</span>
+                  <span>{t("fields.addressShort")}</span>
 
                   <strong>
                     {getDisplayValue(
-                      organization?.address
+                      organization?.address,
+                      t("feedback.noValue"),
                     )}
                   </strong>
                 </div>
@@ -455,11 +390,12 @@ function CompanyPage() {
                 </span>
 
                 <div>
-                  <span>Téléphone</span>
+                  <span>{t("fields.phone")}</span>
 
                   <strong>
                     {getDisplayValue(
-                      organization?.phone
+                      organization?.phone,
+                      t("feedback.noValue"),
                     )}
                   </strong>
                 </div>
@@ -471,11 +407,12 @@ function CompanyPage() {
                 </span>
 
                 <div>
-                  <span>Adresse e-mail</span>
+                  <span>{t("fields.email")}</span>
 
                   <strong>
                     {getDisplayValue(
-                      organization?.email
+                      organization?.email,
+                      t("feedback.noValue"),
                     )}
                   </strong>
                 </div>
@@ -488,39 +425,40 @@ function CompanyPage() {
               <div>
                 <Globe2 size={20} />
 
-                <span>
-                  Paramètres régionaux
-                </span>
+                <span>{t("sections.regional.label")}</span>
               </div>
             </header>
 
             <div className="company-page-information-list">
               <div>
-                <span>Pays</span>
+                <span>{t("fields.country")}</span>
 
                 <strong>
                   {getDisplayValue(
-                    organization?.country
+                    organization?.country,
+                    t("feedback.noValue"),
                   )}
                 </strong>
               </div>
 
               <div>
-                <span>Devise</span>
+                <span>{t("fields.currency")}</span>
 
                 <strong>
                   {getDisplayValue(
-                    organization?.defaultCurrency
+                    organization?.defaultCurrency,
+                    t("feedback.noValue"),
                   )}
                 </strong>
               </div>
 
               <div>
-                <span>Fuseau horaire</span>
+                <span>{t("fields.timezone")}</span>
 
                 <strong>
                   {getDisplayValue(
-                    organization?.timezone
+                    organization?.timezone,
+                    t("feedback.noValue"),
                   )}
                 </strong>
               </div>
@@ -532,21 +470,19 @@ function CompanyPage() {
               <div>
                 <ShieldCheck size={20} />
 
-                <span>
-                  État de la configuration
-                </span>
+                <span>{t("page.configurationStatus")}</span>
               </div>
             </header>
 
             <div className="company-page-progress">
               <div>
-                <span>
-                  Informations essentielles
-                </span>
+                <span>{t("page.essentialInformation")}</span>
 
                 <strong>
-                  {completedAdministrativeFields} sur{" "}
-                  {administrativeFields.length}
+                  {t("progress.items", {
+                    completed: completedAdministrativeFields,
+                    count: administrativeFields.length,
+                  })}
                 </strong>
               </div>
 
@@ -558,11 +494,7 @@ function CompanyPage() {
                 />
               </div>
 
-              <p>
-                {isComplete
-                  ? "Les informations administratives essentielles de votre société sont complètes."
-                  : "Complétez le RCCM, l’ID National, le NIF, l’adresse et le logo de votre société."}
-              </p>
+              <p>{isComplete ? t("page.complete") : t("page.incomplete")}</p>
             </div>
           </article>
         </section>

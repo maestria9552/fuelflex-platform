@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import fuelFlexLogo from "../../assets/images/logofuelflex.png";
 import "./FuelFlexLogo.css";
 
@@ -8,6 +10,7 @@ function FuelFlexLogo({
   variant = "default",
   className = "",
 }) {
+  const { t } = useTranslation("common");
   const showSlogan = variant === "splash";
 
   return (
@@ -20,7 +23,7 @@ function FuelFlexLogo({
       ]
         .filter(Boolean)
         .join(" ")}
-      aria-label="FuelFlex Platform"
+      aria-label={t("brand.logoAlt")}
     >
       <div
         className="fuelflex-brand-logo-wrapper"
@@ -31,7 +34,7 @@ function FuelFlexLogo({
       >
         <img
           src={fuelFlexLogo}
-          alt="Logo FuelFlex"
+          alt={t("brand.logoAlt")}
           className="fuelflex-brand-logo"
         />
       </div>
@@ -50,7 +53,7 @@ function FuelFlexLogo({
 
           {showSlogan && (
             <small className="fuelflex-brand-slogan">
-              Smart Fuel Station Management
+              {t("brand.slogan")}
             </small>
           )}
         </div>

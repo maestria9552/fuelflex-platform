@@ -1,0 +1,201 @@
+{
+  "eyebrow": "ORDERS",
+  "loading": "Loading…",
+  "common": {
+    "noSupplier": "No supplier"
+  },
+  "statuses": {
+    "draft": "Draft",
+    "pendingSupervisor": "Waiting for supervisor",
+    "supervisorRejected": "Rejected by supervisor",
+    "pendingSupplier": "Waiting for supplier",
+    "supplierRejected": "Rejected by supplier",
+    "awaitingReception": "Awaiting reception"
+  },
+  "errors": {
+    "forbidden": "Access denied.",
+    "notFound": "Order not found.",
+    "load": "Unable to load orders.",
+    "formRequired": "Choose a station and add at least one product.",
+    "conflict": "This order can no longer be modified."
+  },
+  "list": {
+    "title": "Orders",
+    "subtitle": "Follow your orders from creation through reception.",
+    "new": "New order",
+    "emptyTitle": "No orders",
+    "emptyDescription": "Create your first order.",
+    "view": "View",
+    "productCount": "{{count}} products",
+    "page": "Page {{current}} of {{total}}",
+    "previous": "Previous",
+    "next": "Next",
+    "columns": {
+      "number": "Order no.",
+      "station": "Station",
+      "supplier": "Supplier",
+      "products": "Products",
+      "date": "Date",
+      "status": "Status",
+      "action": "Action"
+    }
+  },
+  "new": {
+    "title": "New order",
+    "editTitle": "Edit draft",
+    "subtitle": "Prepare a basket and save it as a draft.",
+    "station": "Station",
+    "chooseStation": "Choose a station",
+    "supplier": "Supplier (optional)",
+    "availableEyebrow": "AVAILABLE PRODUCTS",
+    "availableTitle": "Add to basket",
+    "chooseStationHint": "Choose a station to see its products.",
+    "noProducts": "No products available for this station.",
+    "quantityFor": "Quantity for {{product}}",
+    "add": "Add",
+    "cartEyebrow": "BASKET",
+    "cartTitle": "Ordered products",
+    "emptyCart": "Your basket is empty.",
+    "decrease": "Decrease",
+    "increase": "Increase",
+    "remove": "Remove",
+    "saveDraft": "Save draft"
+  },
+  "detail": {
+    "back": "Back to orders",
+    "information": "Order information",
+    "station": "Station",
+    "supplier": "Supplier",
+    "created": "Created on",
+    "createdBy": "Created by",
+    "edit": "Edit",
+    "submit": "Submit order",
+    "submitTitle": "Submit order",
+    "submitConfirmAction": "Submit",
+    "submitConfirm": "Submit this order? It will be sent to the supervisor and cannot be modified afterwards.",
+    "items": "Ordered products",
+    "timelineEyebrow": "HISTORY",
+    "timeline": "Order tracking",
+    "noHistory": "No history yet.",
+    "supervisorRejected": "Order rejected by supervisor",
+    "supplierRejected": "Order rejected by supplier",
+    "noReason": "No reason provided."
+  },
+  "history": {
+    "created": "Order created",
+    "updated": "Order updated",
+    "submitted": "Order submitted",
+    "supervisorApproved": "Approved by supervisor",
+    "supervisorRejected": "Rejected by supervisor",
+    "supplierApproved": "Accepted by supplier",
+    "supplierRejected": "Rejected by supplier"
+  },
+  "next": {
+    "draft": "Draft can be edited",
+    "pendingSupervisor": "Waiting for supervisor approval",
+    "supervisorRejected": "The order is rejected and locked.",
+    "pendingSupplier": "Waiting for supplier approval",
+    "supplierRejected": "The order is rejected and locked.",
+    "awaitingReception": "Next step: reception"
+  },
+  "supervisor": {
+    "filters": {
+      "all": "All",
+      "pending": "To approve",
+      "approved": "Approved / transmitted",
+      "rejected": "Rejected"
+    },
+    "list": {
+      "title": "Orders",
+      "subtitle": "Review and process orders submitted by your managers.",
+      "empty": "No orders in this filter.",
+      "view": "View",
+      "columns": {
+        "number": "Order no.",
+        "station": "Station",
+        "manager": "Manager",
+        "supplier": "Supplier",
+        "products": "Products",
+        "date": "Submission date",
+        "status": "Status",
+        "action": "Action"
+      }
+    },
+    "detail": {
+      "heading": "Order {{number}}",
+      "back": "Back to orders",
+      "information": "Information",
+      "number": "Order no.",
+      "station": "Station",
+      "manager": "Manager",
+      "created": "Created on",
+      "submitted": "Submitted on",
+      "supplier": "Supplier",
+      "items": "Ordered products",
+      "history": "Order history",
+      "waitingForYou": "Awaiting your approval",
+      "approve": "Approve order",
+      "reject": "Reject",
+      "approveSuccess": "Order approved.",
+      "rejectSuccess": "Order rejected.",
+      "conflict": "This order was already processed or its state no longer allows this operation."
+    },
+    "modal": {
+      "approveTitle": "Approve this order?",
+      "approveText": "The order will automatically continue according to the selected supplier workflow.",
+      "rejectTitle": "Reject order",
+      "rejectText": "Provide a required reason to inform the manager.",
+      "confirmApprove": "Approve",
+      "confirmReject": "Confirm rejection",
+      "reasonLabel": "Rejection reason"
+    }
+  },
+  "document": {
+    "title": "Purchase order",
+    "back": "Back to order",
+    "print": "Print",
+    "orderInformation": "Order information",
+    "verifyAuthenticity": "Verify authenticity",
+    "reference": "Reference",
+    "draft": "Draft",
+    "organization": "Organization",
+    "station": "Station",
+    "manager": "Manager",
+    "supplier": "Supplier",
+    "date": "Date",
+    "items": "Ordered products",
+    "line": "No.",
+    "product": "Product",
+    "quantity": "Quantity",
+    "unit": "Unit",
+    "created": "Created on",
+    "submitted": "Submitted on",
+    "validated": "Validated on",
+    "view": "View purchase order",
+    "attachmentsCount": "Attachments: {{count}}",
+    "validatedBy": "Validated by",
+    "validation": "Validation",
+    "supervisor": "Supervisor",
+    "pendingValidation": "Pending validation",
+    "roleSupervisor": "Supervisor"
+  },
+  "attachments": {
+    "eyebrow": "ATTACHMENTS",
+    "title": "Attachments (optional)",
+    "none": "No attachments",
+    "label": "Title",
+    "labelPlaceholder": "E.g. Supplier proforma",
+    "add": "Add",
+    "download": "Download",
+    "remove": "Remove",
+    "labelRequired": "A title and a file are required.",
+    "invalidType": "Accepted formats: PDF, JPG or PNG.",
+    "tooLarge": "Maximum size is 2 MB.",
+    "limit": "Two attachments maximum.",
+    "uploadError": "Unable to add attachment.",
+    "deleteError": "Unable to delete attachment."
+  },
+  "reception": {
+    "start": "Start a receipt"
+  }
+}

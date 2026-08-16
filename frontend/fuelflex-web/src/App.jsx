@@ -6,12 +6,15 @@ import {
   Routes,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
+import EmployeeActivationPage from "./pages/EmployeeActivationPage";
 import SupervisorDashboardPage from "./pages/dashboards/SupervisorDashboardPage";
+import ManagerDashboardPage from "./pages/dashboards/ManagerDashboardPage";
 import OrganizationSetupPage from "./pages/organization/OrganizationSetupPage";
 import CompanyPage from "./pages/organization/CompanyPage";
 import StationSetupEntryPage from "./pages/stations/StationSetupEntryPage";
@@ -22,12 +25,26 @@ import TanksPage from "./pages/tanks/TanksPage";
 import PumpsPage from "./pages/pumps/PumpsPage";
 import DispensingPointsPage from "./pages/dispensing-points/DispensingPointsPage";
 import FuelMetersPage from "./pages/fuel-meters/FuelMetersPage";
+import PricingPage from "./pages/pricing/PricingPage";
+import EmployeesPage from "./pages/employees/EmployeesPage";
+import EmployeeDetailPage from "./pages/employees/EmployeeDetailPage";
+import SupplierPortalPage from "./pages/SupplierPortalPage";
+import ManagerOrdersPage from "./pages/orders/ManagerOrdersPage";
+import ManagerNewOrderPage from "./pages/orders/ManagerNewOrderPage";
+import ManagerOrderDetailPage from "./pages/orders/ManagerOrderDetailPage";
+import SupervisorOrdersPage from "./pages/orders/SupervisorOrdersPage";
+import SupervisorOrderDetailPage from "./pages/orders/SupervisorOrderDetailPage";
+import PurchaseOrderDocumentPage from "./pages/orders/PurchaseOrderDocumentPage";
+import ManagerReceptionsPage from "./pages/receptions/ManagerReceptionsPage";
+import ManagerReceptionFormPage from "./pages/receptions/ManagerReceptionFormPage";
+import ManagerReceptionDetailPage from "./pages/receptions/ManagerReceptionDetailPage";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import RoleBasedRedirect from "./components/auth/RoleBasedRedirect";
 import AppSplashScreen from "./components/feedback/AppSplashScreen";
 
 function App() {
+  const { t } = useTranslation("common");
   const [isAppLoading, setIsAppLoading] = useState(true);
 
   useEffect(() => {
@@ -67,6 +84,10 @@ function App() {
           />
 
           <Route
+            path="/activation-employe"
+            element={<EmployeeActivationPage />}
+          />
+          <Route
             path="/verification-email"
             element={<VerifyEmailPage />}
           />
@@ -78,6 +99,26 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/fournisseur/dashboard" element={<ProtectedRoute allowedRoles={["SUPPLIER_USER"]}><SupplierPortalPage /></ProtectedRoute>} />
+          <Route
+            path="/gerant/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["MANAGER"]}>
+                <ManagerDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/gerant/commandes" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerOrdersPage /></ProtectedRoute>} />
+          <Route path="/gerant/receptions" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerReceptionsPage /></ProtectedRoute>} />
+          <Route path="/gerant/receptions/nouvelle" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerReceptionFormPage /></ProtectedRoute>} />
+          <Route path="/gerant/receptions/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerReceptionDetailPage /></ProtectedRoute>} />
+          <Route path="/gerant/commandes/nouvelle" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerNewOrderPage /></ProtectedRoute>} />
+          <Route path="/gerant/commandes/:id/bon-de-commande" element={<ProtectedRoute allowedRoles={["MANAGER"]}><PurchaseOrderDocumentPage /></ProtectedRoute>} />
+          <Route path="/gerant/commandes/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerOrderDetailPage /></ProtectedRoute>} />
+          <Route path="/gerant/commandes/:id/modifier" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerNewOrderPage /></ProtectedRoute>} />
+          <Route path="/superviseur/commandes" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorOrdersPage /></ProtectedRoute>} />
+          <Route path="/superviseur/commandes/:id/bon-de-commande" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><PurchaseOrderDocumentPage /></ProtectedRoute>} />
+          <Route path="/superviseur/commandes/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorOrderDetailPage /></ProtectedRoute>} />
           <Route
             path="/superviseur/dashboard"
             element={
@@ -143,6 +184,14 @@ function App() {
             }
           />
           <Route
+            path="/superviseur/tarification"
+            element={
+              <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
+                <PricingPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/superviseur/stations"
             element={
               <ProtectedRoute allowedRoles={["SUPERVISOR"]}>
@@ -158,6 +207,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/superviseur/employes" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><EmployeesPage /></ProtectedRoute>} />
+          <Route path="/superviseur/employes/:employeeId" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><EmployeeDetailPage /></ProtectedRoute>} />
           <Route
             path="/dashboard"
             element={
@@ -176,7 +227,7 @@ function App() {
           {isAppLoading && (
             <AppSplashScreen
               key="fuelflex-splash-screen"
-              message="Initialisation de FuelFlex Platform..."
+              message={t("feedback.initializing")}
             />
           )}
         </AnimatePresence>

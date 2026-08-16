@@ -1,0 +1,575 @@
+/* =========================================================
+   FUELFLEX PLATFORM
+   Manager - Reception Form
+   ========================================================= */
+
+.reception-form-page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 28px 40px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.reception-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.reception-form-header > div {
+  min-width: 0;
+}
+
+.reception-form-header h1 {
+  margin: 6px 0 0;
+  color: #0f2747;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.reception-form-header p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+/* =========================
+   CARDS
+   ========================= */
+
+.reception-form-card {
+  margin-bottom: 16px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(15, 39, 71, 0.04);
+}
+
+.reception-form-card h2 {
+  margin: 0 0 18px;
+  color: #0f2747;
+  font-size: 1rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+/* =========================
+   GENERAL FORM
+   ========================= */
+
+.reception-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.reception-form-field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.reception-form-field.full {
+  grid-column: 1 / -1;
+}
+
+.reception-form-field label,
+.reception-form-field span {
+  color: #52637a;
+  font-size: 0.78rem;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+/* All main form controls */
+.reception-form-field input,
+.reception-form-field select,
+.reception-form-field textarea {
+  width: 100%;
+  min-height: 42px;
+  box-sizing: border-box;
+  padding: 9px 11px;
+
+  background: #ffffff;
+  color: #1e293b;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+
+  font: inherit;
+  font-size: 0.9rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.reception-form-field input:hover,
+.reception-form-field select:hover,
+.reception-form-field textarea:hover {
+  border-color: #94a3b8;
+}
+
+.reception-form-field input:focus,
+.reception-form-field select:focus,
+.reception-form-field textarea:focus {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.reception-form-field input:disabled,
+.reception-form-field select:disabled,
+.reception-form-field textarea:disabled {
+  background: #f8fafc;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.reception-form-field textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+/* Prevent browser/global dark styles */
+.reception-form-page input,
+.reception-form-page textarea,
+.reception-form-page select {
+  color-scheme: light;
+}
+
+/* =========================
+   PRODUCT CARD
+   ========================= */
+
+.reception-item {
+  margin-bottom: 14px;
+  padding: 16px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.reception-item:last-child {
+  margin-bottom: 0;
+}
+
+.reception-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.reception-item-head h3 {
+  margin: 0;
+  color: #0f2747;
+  font-size: 1rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.reception-item-head span {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* =========================
+   METRICS
+   ========================= */
+
+.reception-item-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.reception-metric {
+  min-width: 0;
+  padding: 10px 12px;
+
+  text-align: center;
+
+  background: #f8fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 8px;
+}
+
+.reception-metric small {
+  display: block;
+
+  color: #64748b;
+
+  font-size: 0.7rem;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.reception-metric strong {
+  display: block;
+  margin-top: 5px;
+
+  color: #1e293b;
+
+  font-size: 0.9rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+/* =========================
+   PRODUCT INPUTS
+   ========================= */
+
+.reception-line-form {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr)
+    120px;
+
+  gap: 12px;
+  align-items: end;
+}
+
+/* =========================
+   ALERTS
+   ========================= */
+
+.reception-alert {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 10px;
+  padding: 9px 11px;
+
+  border-radius: 8px;
+
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.reception-alert.partial {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.reception-alert.over {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+/* =========================
+   TANK ALLOCATIONS
+   ========================= */
+
+.reception-allocations {
+  margin-top: 15px;
+  padding-top: 14px;
+
+  border-top: 1px solid #edf2f7;
+
+  color: #334155;
+  font-size: 0.86rem;
+}
+
+.reception-allocations > strong {
+  display: block;
+  margin-bottom: 8px;
+
+  color: #0f2747;
+
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.reception-allocation-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 140px;
+  gap: 12px;
+  align-items: center;
+
+  margin-top: 8px;
+}
+
+.reception-allocation-row label {
+  color: #475569;
+  font-size: 0.84rem;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+/*
+ * Explicit styling is important here.
+ * Global/browser rules must never turn tank inputs dark.
+ */
+.reception-allocation-row input {
+  width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
+
+  padding: 8px 10px;
+
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+
+  font: inherit;
+  font-size: 0.86rem;
+
+  outline: none;
+
+  -webkit-text-fill-color: #1e293b;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.reception-allocation-row input:hover {
+  background-color: #ffffff !important;
+  border-color: #94a3b8;
+}
+
+.reception-allocation-row input:focus {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+
+  border-color: #3b82f6;
+
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.reception-allocation-row input:disabled {
+  background-color: #f8fafc !important;
+  color: #64748b !important;
+
+  -webkit-text-fill-color: #64748b;
+
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.reception-allocation-row input::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+.reception-allocations small {
+  display: block;
+
+  margin-top: 10px;
+
+  color: #64748b;
+
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+/* =========================
+   ACTION BAR
+   ========================= */
+
+.reception-form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  padding: 12px 0;
+
+  background: rgba(248, 251, 253, 0.96);
+
+  backdrop-filter: blur(6px);
+}
+
+/* =========================
+   SUBMISSION MODAL
+   ========================= */
+
+.reception-submit-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+
+  display: grid;
+  place-items: center;
+
+  padding: 20px;
+
+  background: rgba(15, 39, 71, 0.48);
+}
+
+.reception-submit-dialog {
+  width: 100%;
+  max-width: 520px;
+  box-sizing: border-box;
+
+  padding: 22px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  box-shadow: 0 20px 50px rgba(15, 39, 71, 0.2);
+}
+
+.reception-submit-dialog h2 {
+  margin: 0;
+
+  color: #0f2747;
+
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+
+.reception-submit-dialog h3 {
+  margin: 16px 0 8px;
+
+  color: #0f2747;
+
+  font-size: 0.95rem;
+}
+
+.reception-submit-dialog p {
+  color: #475569;
+
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.reception-submit-dialog textarea {
+  width: 100%;
+  min-height: 90px;
+  box-sizing: border-box;
+
+  padding: 10px;
+
+  background: #ffffff;
+  color: #1e293b;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+
+  font: inherit;
+  font-size: 0.88rem;
+
+  outline: none;
+  resize: vertical;
+}
+
+.reception-submit-dialog textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.reception-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 900px) {
+  .reception-form-page {
+    padding: 22px 20px 36px;
+  }
+
+  .reception-form-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .reception-item-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .reception-form-page {
+    padding: 18px 14px 30px;
+  }
+
+  .reception-form-header {
+    display: block;
+  }
+
+  .reception-form-header h1 {
+    font-size: 1.45rem;
+  }
+
+  .reception-form-grid,
+  .reception-line-form {
+    grid-template-columns: 1fr;
+  }
+
+  .reception-item-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reception-allocation-row {
+    grid-template-columns: minmax(0, 1fr) 110px;
+  }
+
+  .reception-form-actions {
+    flex-direction: column;
+  }
+
+  .reception-form-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .reception-form-page {
+    padding: 14px 10px 26px;
+  }
+
+  .reception-form-card {
+    padding: 15px;
+  }
+
+  .reception-item {
+    padding: 13px;
+  }
+
+  .reception-item-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .reception-allocation-row {
+    grid-template-columns: 1fr;
+  }
+}

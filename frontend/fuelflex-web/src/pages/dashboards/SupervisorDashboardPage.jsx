@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   Building2,
@@ -17,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import SupervisorLayout from "../../components/layout/SupervisorLayout";
+import { formatNumber } from "../../i18n/formatters";
 import OrganizationSettingsModal from "../../features/organization/OrganizationSettingsModal";
 import {
   getStoredUser,
@@ -30,42 +32,42 @@ function calculateOrganizationProgress(user) {
   const configurationFields = [
     {
       id: "organizationName",
-      label: "Nom de l’organisation",
+      labelKey: "organizationName",
       completed: Boolean(user.organizationName),
     },
     {
       id: "registrationNumber",
-      label: "RCCM",
+      labelKey: "registrationNumber",
       completed: Boolean(user.registrationNumber),
     },
     {
       id: "nationalId",
-      label: "ID National",
+      labelKey: "nationalId",
       completed: Boolean(user.nationalId),
     },
     {
       id: "taxNumber",
-      label: "Numéro fiscal",
+      labelKey: "taxNumber",
       completed: Boolean(user.taxNumber),
     },
     {
       id: "organizationAddress",
-      label: "Adresse",
+      labelKey: "organizationAddress",
       completed: Boolean(user.organizationAddress),
     },
     {
       id: "organizationPhone",
-      label: "Téléphone",
+      labelKey: "organizationPhone",
       completed: Boolean(user.organizationPhone),
     },
     {
       id: "organizationEmail",
-      label: "Adresse e-mail",
+      labelKey: "organizationEmail",
       completed: Boolean(user.organizationEmail),
     },
     {
       id: "organizationLogo",
-      label: "Logo",
+      labelKey: "organizationLogo",
       completed: Boolean(user.organizationLogo),
     },
   ];
@@ -130,7 +132,9 @@ function buildUserOrganizationData(
 }
 
 function SupervisorDashboardPage() {
+  const { t, i18n } = useTranslation("dashboard");
   const navigate = useNavigate();
+  const formatDashboardNumber = (value) => formatNumber(value, { language: i18n.resolvedLanguage });
 
   const [user, setUser] = useState(() => getStoredUser() || {});
   const [isOrganizationModalOpen, setIsOrganizationModalOpen] =
@@ -138,10 +142,10 @@ function SupervisorDashboardPage() {
 
   const organizationId = user.organizationId || null;
   const organizationName =
-    user.organizationName || "Votre organisation";
+    user.organizationName || t("fallback.organization");
 
   const organizationCode =
-    user.organizationCode || "Code non disponible";
+    user.organizationCode || t("fallback.organizationCode");
 
   const configuration = calculateOrganizationProgress(user);
 
@@ -180,10 +184,7 @@ function SupervisorDashboardPage() {
         return mergeStoredUser(refreshedUser);
       });
     } catch (error) {
-      console.error(
-        "Impossible de charger l’organisation :",
-        error
-      );
+      console.error(t("errors.loadOrganization"), error);
     }
   };
 
@@ -192,39 +193,39 @@ function SupervisorDashboardPage() {
   return () => {
     isCancelled = true;
   };
-}, [organizationId]);
+}, [organizationId, t]);
 
   const dashboardStats = [
     {
       id: "stations",
-      title: "Stations actives",
-      value: "0",
-      description: "Aucune station configurée",
-      evolution: "À configurer",
+      title: t("kpi.stations.title"),
+      value: formatDashboardNumber(0),
+      description: t("kpi.stations.description"),
+      evolution: t("kpi.stations.evolution"),
       icon: Building2,
     },
     {
       id: "stock",
-      title: "Stock disponible",
-      value: "0 L",
-      description: "Aucun stock enregistré",
-      evolution: "0 % de capacité",
+      title: t("kpi.stock.title"),
+      value: t("kpi.liters", { value: formatDashboardNumber(0) }),
+      description: t("kpi.stock.description"),
+      evolution: t("kpi.stock.evolution", { percentage: formatDashboardNumber(0) }),
       icon: Droplets,
     },
     {
       id: "sales",
-      title: "Ventes du jour",
-      value: "0 $",
-      description: "Aucune vente enregistrée",
-      evolution: "0 %",
+      title: t("kpi.sales.title"),
+      value: t("kpi.currencyAmount", { value: formatDashboardNumber(0) }),
+      description: t("kpi.sales.description"),
+      evolution: t("kpi.sales.evolution", { percentage: formatDashboardNumber(0) }),
       icon: CircleDollarSign,
     },
     {
       id: "volume",
-      title: "Volume vendu",
-      value: "0 L",
-      description: "Aucune opération aujourd’hui",
-      evolution: "0 %",
+      title: t("kpi.volume.title"),
+      value: t("kpi.liters", { value: formatDashboardNumber(0) }),
+      description: t("kpi.volume.description"),
+      evolution: t("kpi.volume.evolution", { percentage: formatDashboardNumber(0) }),
       icon: Fuel,
     },
   ];
@@ -274,14 +275,13 @@ function SupervisorDashboardPage() {
         <section className="supervisor-dashboard-header">
           <div>
             <span className="supervisor-dashboard-eyebrow">
-              Vue d’ensemble
+              {t("header.eyebrow")}
             </span>
 
             <h1>{organizationName}</h1>
 
             <p>
-              Configurez votre organisation, créez vos stations et suivez
-              progressivement toutes les opérations de votre réseau.
+              {t("header.description")}
             </p>
           </div>
 
@@ -289,7 +289,7 @@ function SupervisorDashboardPage() {
             <ShieldCheck size={18} />
 
             <div>
-              <span>Code organisation</span>
+              <span>{t("header.organizationCode")}</span>
               <strong>{organizationCode}</strong>
             </div>
           </div>
@@ -304,25 +304,26 @@ function SupervisorDashboardPage() {
 
               <div className="supervisor-configuration-content">
                 <span className="supervisor-configuration-eyebrow">
-                  CONFIGURATION DE L’ORGANISATION
+                  {t("configuration.eyebrow")}
                 </span>
 
-                <h2>Complétez votre profil professionnel</h2>
+                <h2>{t("configuration.title")}</h2>
 
                 <p>
-                  Certaines informations administratives et opérationnelles
-                  sont encore manquantes. Complétez-les pour profiter pleinement
-                  de FuelFlex Platform.
+                  {t("configuration.description")}
                 </p>
 
                 <div className="supervisor-configuration-progress">
                   <div className="supervisor-configuration-progress-header">
                     <span>
-                      {configuration.completedCount} éléments complétés sur{" "}
-                      {configuration.totalCount}
+                      {t("configuration.progress", {
+                        count: configuration.completedCount,
+                        completed: formatDashboardNumber(configuration.completedCount),
+                        total: formatDashboardNumber(configuration.totalCount),
+                      })}
                     </span>
 
-                    <strong>{configuration.percentage} %</strong>
+                    <strong>{formatDashboardNumber(configuration.percentage)} %</strong>
                   </div>
 
                   <div className="supervisor-configuration-progress-track">
@@ -351,7 +352,7 @@ function SupervisorDashboardPage() {
                       {field.completed ? <Check size={14} /> : null}
                     </span>
 
-                    {field.label}
+                    {t(`configuration.fields.${field.labelKey}`)}
                   </div>
                 ))}
               </div>
@@ -360,7 +361,7 @@ function SupervisorDashboardPage() {
                 type="button"
                 onClick={handleCompleteConfiguration}
               >
-                Compléter la configuration
+                {t("configuration.complete")}
                 <ArrowRight size={18} />
               </button>
             </div>
@@ -369,7 +370,7 @@ function SupervisorDashboardPage() {
 
         <section
           className="supervisor-dashboard-stats"
-          aria-label="Indicateurs principaux"
+          aria-label={t("kpi.ariaLabel")}
         >
           {dashboardStats.map((stat) => {
             const Icon = stat.icon;
@@ -403,12 +404,12 @@ function SupervisorDashboardPage() {
           <article className="supervisor-dashboard-panel supervisor-dashboard-empty-panel">
             <div className="supervisor-dashboard-panel-header">
               <div>
-                <span>Analyse des ventes</span>
-                <h2>Évolution hebdomadaire</h2>
+                <span>{t("salesAnalysis.eyebrow")}</span>
+                <h2>{t("salesAnalysis.title")}</h2>
               </div>
 
               <button type="button" disabled>
-                Cette semaine
+                {t("salesAnalysis.period")}
               </button>
             </div>
 
@@ -417,11 +418,10 @@ function SupervisorDashboardPage() {
                 <TrendingUp size={30} />
               </div>
 
-              <h3>Aucune donnée de vente</h3>
+              <h3>{t("salesAnalysis.emptyTitle")}</h3>
 
               <p>
-                Le graphique des ventes apparaîtra après la création d’une
-                station et l’enregistrement des premières opérations.
+                {t("salesAnalysis.emptyDescription")}
               </p>
             </div>
           </article>
@@ -429,8 +429,8 @@ function SupervisorDashboardPage() {
           <article className="supervisor-dashboard-panel supervisor-dashboard-stock-panel">
             <div className="supervisor-dashboard-panel-header">
               <div>
-                <span>Capacité globale</span>
-                <h2>Niveau des stocks</h2>
+                <span>{t("stock.eyebrow")}</span>
+                <h2>{t("stock.title")}</h2>
               </div>
 
               <Gauge size={20} />
@@ -439,21 +439,21 @@ function SupervisorDashboardPage() {
             <div className="supervisor-dashboard-stock-gauge">
               <div className="supervisor-dashboard-stock-ring">
                 <div>
-                  <strong>0 %</strong>
-                  <span>Disponible</span>
+                  <strong>{formatDashboardNumber(0)} %</strong>
+                  <span>{t("stock.available")}</span>
                 </div>
               </div>
             </div>
 
             <div className="supervisor-dashboard-stock-details">
               <div>
-                <span>Essence</span>
-                <strong>0 L</strong>
+                <span>{t("stock.gasoline")}</span>
+                <strong>{t("kpi.liters", { value: formatDashboardNumber(0) })}</strong>
               </div>
 
               <div>
-                <span>Gasoil</span>
-                <strong>0 L</strong>
+                <span>{t("stock.diesel")}</span>
+                <strong>{t("kpi.liters", { value: formatDashboardNumber(0) })}</strong>
               </div>
             </div>
           </article>
@@ -463,8 +463,8 @@ function SupervisorDashboardPage() {
           <article className="supervisor-dashboard-panel">
             <div className="supervisor-dashboard-panel-header">
               <div>
-                <span>Réseau FuelFlex</span>
-                <h2>Vos stations</h2>
+                <span>{t("stations.eyebrow")}</span>
+                <h2>{t("stations.title")}</h2>
               </div>
             </div>
 
@@ -473,18 +473,17 @@ function SupervisorDashboardPage() {
                 <Building2 size={30} />
               </div>
 
-              <h3>Aucune station enregistrée</h3>
+              <h3>{t("stations.emptyTitle")}</h3>
 
               <p>
-                Créez votre première station pour commencer à gérer les
-                produits, citernes, pompes et équipes.
+                {t("stations.emptyDescription")}
               </p>
 
               <button
                 type="button"
                 onClick={handleCreateStation}
               >
-                Créer une station
+                {t("stations.create")}
                 <ArrowRight size={17} />
               </button>
             </div>
@@ -493,8 +492,8 @@ function SupervisorDashboardPage() {
           <article className="supervisor-dashboard-panel">
             <div className="supervisor-dashboard-panel-header">
               <div>
-                <span>Démarrage</span>
-                <h2>Prochaines étapes</h2>
+                <span>{t("onboarding.eyebrow")}</span>
+                <h2>{t("onboarding.title")}</h2>
               </div>
             </div>
 
@@ -505,8 +504,8 @@ function SupervisorDashboardPage() {
                 </span>
 
                 <div>
-                  <strong>Compte superviseur créé</strong>
-                  <p>Votre accès principal est opérationnel.</p>
+                  <strong>{t("onboarding.accountTitle")}</strong>
+                  <p>{t("onboarding.accountDescription")}</p>
                 </div>
               </div>
 
@@ -516,7 +515,7 @@ function SupervisorDashboardPage() {
                 </span>
 
                 <div>
-                  <strong>Organisation créée</strong>
+                  <strong>{t("onboarding.organizationTitle")}</strong>
                   <p>{organizationName}</p>
                 </div>
               </div>
@@ -541,13 +540,13 @@ function SupervisorDashboardPage() {
 
                 <div>
                   <strong>
-                    Compléter les informations
+                    {t("onboarding.informationTitle")}
                   </strong>
 
                   <p>
                     {isOrganizationInformationComplete
-                      ? "Informations administratives complètes."
-                      : "RCCM, ID National, NIF, adresse et logo."}
+                      ? t("onboarding.informationComplete")
+                      : t("onboarding.informationMissing")}
                   </p>
                 </div>
               </div>
@@ -558,8 +557,8 @@ function SupervisorDashboardPage() {
                 </span>
 
                 <div>
-                  <strong>Créer votre première station</strong>
-                  <p>Configurez son emplacement et ses paramètres.</p>
+                  <strong>{t("onboarding.stationTitle")}</strong>
+                  <p>{t("onboarding.stationDescription")}</p>
                 </div>
               </div>
 
@@ -569,8 +568,8 @@ function SupervisorDashboardPage() {
                 </span>
 
                 <div>
-                  <strong>Ajouter votre équipe</strong>
-                  <p>Créez les gestionnaires et les pompistes.</p>
+                  <strong>{t("onboarding.teamTitle")}</strong>
+                  <p>{t("onboarding.teamDescription")}</p>
                 </div>
               </div>
             </div>

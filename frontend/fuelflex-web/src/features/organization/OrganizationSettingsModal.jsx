@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Building2,
   CheckCircle2,
@@ -51,38 +52,26 @@ const EMPTY_FORM = {
 const SECTIONS = [
   {
     id: "general",
-    label: "Informations générales",
-    description: "Identité officielle et commerciale",
     icon: Building2,
   },
   {
     id: "legal",
-    label: "Informations juridiques",
-    description: "RCCM, ID National et NIF",
     icon: FileBadge,
   },
   {
     id: "contact",
-    label: "Coordonnées",
-    description: "Téléphone, e-mail et site web",
     icon: Contact,
   },
   {
     id: "location",
-    label: "Localisation",
-    description: "Pays, province, ville et adresse",
     icon: MapPin,
   },
   {
     id: "regional",
-    label: "Paramètres régionaux",
-    description: "Devise, langue et fuseau horaire",
     icon: Globe2,
   },
   {
     id: "appearance",
-    label: "Identité visuelle",
-    description: "Logo et couleurs de la société",
     icon: Image,
   },
 ];
@@ -104,9 +93,7 @@ function mapOrganizationToForm(organization) {
   return {
     name: normalizeValue(organization.name),
     tradeName: normalizeValue(organization.tradeName),
-    registrationNumber: normalizeValue(
-      organization.registrationNumber
-    ),
+    registrationNumber: normalizeValue(organization.registrationNumber),
     nationalId: normalizeValue(organization.nationalId),
     taxNumber: normalizeValue(organization.taxNumber),
     email: normalizeValue(organization.email),
@@ -119,17 +106,11 @@ function mapOrganizationToForm(organization) {
     province: normalizeValue(organization.province),
     city: normalizeValue(organization.city),
     address: normalizeValue(organization.address),
-    defaultCurrency:
-      normalizeValue(organization.defaultCurrency) || "USD",
-    timezone:
-      normalizeValue(organization.timezone) ||
-      "Africa/Kinshasa",
-    defaultLanguage:
-      normalizeValue(organization.defaultLanguage) || "fr",
-    primaryColor:
-      normalizeValue(organization.primaryColor) || "#059669",
-    secondaryColor:
-      normalizeValue(organization.secondaryColor) || "#0f172a",
+    defaultCurrency: normalizeValue(organization.defaultCurrency) || "USD",
+    timezone: normalizeValue(organization.timezone) || "Africa/Kinshasa",
+    defaultLanguage: normalizeValue(organization.defaultLanguage) || "fr",
+    primaryColor: normalizeValue(organization.primaryColor) || "#059669",
+    secondaryColor: normalizeValue(organization.secondaryColor) || "#0f172a",
   };
 }
 
@@ -137,8 +118,7 @@ function buildPayload(formData) {
   return {
     name: formData.name.trim(),
     tradeName: formData.tradeName.trim() || null,
-    registrationNumber:
-      formData.registrationNumber.trim() || null,
+    registrationNumber: formData.registrationNumber.trim() || null,
     nationalId: formData.nationalId.trim() || null,
     taxNumber: formData.taxNumber.trim() || null,
     email: formData.email.trim() || null,
@@ -170,15 +150,13 @@ function calculateProgress(formData) {
   ];
 
   const completed = fields.filter((value) =>
-    Boolean(String(value || "").trim())
+    Boolean(String(value || "").trim()),
   ).length;
 
   return {
     completed,
     total: fields.length,
-    percentage: Math.round(
-      (completed / fields.length) * 100
-    ),
+    percentage: Math.round((completed / fields.length) * 100),
   };
 }
 
@@ -188,28 +166,22 @@ function OrganizationSettingsModal({
   onClose,
   onSaved,
 }) {
+  const { t } = useTranslation(["organization", "common"]);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [organization, setOrganization] = useState(null);
-  const [activeSection, setActiveSection] =
-    useState("general");
+  const [activeSection, setActiveSection] = useState("general");
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const [selectedLogoFile, setSelectedLogoFile] =
-  useState(null);
+  const [selectedLogoFile, setSelectedLogoFile] = useState(null);
 
-  const [logoPreviewUrl, setLogoPreviewUrl] =
-  useState("");
+  const [logoPreviewUrl, setLogoPreviewUrl] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] =
-    useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const progress = useMemo(
-    () => calculateProgress(formData),
-    [formData]
-  );
+  const progress = useMemo(() => calculateProgress(formData), [formData]);
 
   useEffect(() => {
     if (!isOpen || !organizationId) {
@@ -224,12 +196,9 @@ function OrganizationSettingsModal({
       setSuccessMessage("");
 
       try {
-        const result = await getOrganizationById(
-          organizationId,
-          {
-            signal: controller.signal,
-          }
-        );
+        const result = await getOrganizationById(organizationId, {
+          signal: controller.signal,
+        });
 
         setOrganization(result);
         setFormData(mapOrganizationToForm(result));
@@ -238,10 +207,7 @@ function OrganizationSettingsModal({
           return;
         }
 
-        setErrorMessage(
-          error?.message ||
-            "Impossible de charger les informations de la société."
-        );
+        setErrorMessage(error?.message || t("feedback.loadError"));
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);
@@ -254,7 +220,7 @@ function OrganizationSettingsModal({
     return () => {
       controller.abort();
     };
-  }, [isOpen, organizationId]);
+  }, [isOpen, organizationId, t]);
 
   const resetModalState = () => {
     if (logoPreviewUrl) {
@@ -274,12 +240,12 @@ function OrganizationSettingsModal({
   };
 
   useEffect(() => {
-  return () => {
-    if (logoPreviewUrl) {
-      URL.revokeObjectURL(logoPreviewUrl);
-    }
-  };
-}, [logoPreviewUrl]);
+    return () => {
+      if (logoPreviewUrl) {
+        URL.revokeObjectURL(logoPreviewUrl);
+      }
+    };
+  }, [logoPreviewUrl]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -293,60 +259,54 @@ function OrganizationSettingsModal({
   };
 
   const handleLogoSelection = (event) => {
-  const file = event.target.files?.[0];
+    const file = event.target.files?.[0];
 
-  setErrorMessage("");
-  setSuccessMessage("");
+    setErrorMessage("");
+    setSuccessMessage("");
 
-  if (!file) {
-    setSelectedLogoFile(null);
-    setLogoPreviewUrl("");
-    return;
-  }
+    if (!file) {
+      setSelectedLogoFile(null);
+      setLogoPreviewUrl("");
+      return;
+    }
 
-  if (!ALLOWED_LOGO_TYPES.includes(file.type)) {
-    event.target.value = "";
+    if (!ALLOWED_LOGO_TYPES.includes(file.type)) {
+      event.target.value = "";
 
-    setSelectedLogoFile(null);
-    setLogoPreviewUrl("");
+      setSelectedLogoFile(null);
+      setLogoPreviewUrl("");
 
-    setErrorMessage(
-      "Format non autorisé. Sélectionnez un fichier PNG, JPG, WEBP ou SVG."
-    );
+      setErrorMessage(t("feedback.invalidLogoType"));
 
-    setActiveSection("appearance");
-    return;
-  }
+      setActiveSection("appearance");
+      return;
+    }
 
-  if (file.size > MAX_LOGO_SIZE) {
-    event.target.value = "";
+    if (file.size > MAX_LOGO_SIZE) {
+      event.target.value = "";
 
-    setSelectedLogoFile(null);
-    setLogoPreviewUrl("");
+      setSelectedLogoFile(null);
+      setLogoPreviewUrl("");
 
-    setErrorMessage(
-      "Le logo ne doit pas dépasser 2 Mo."
-    );
+      setErrorMessage(t("feedback.logoTooLarge"));
 
-    setActiveSection("appearance");
-    return;
-  }
+      setActiveSection("appearance");
+      return;
+    }
 
-  if (logoPreviewUrl) {
-    URL.revokeObjectURL(logoPreviewUrl);
-  }
+    if (logoPreviewUrl) {
+      URL.revokeObjectURL(logoPreviewUrl);
+    }
 
-  const previewUrl = URL.createObjectURL(file);
+    const previewUrl = URL.createObjectURL(file);
 
-  setSelectedLogoFile(file);
-  setLogoPreviewUrl(previewUrl);
-};
+    setSelectedLogoFile(file);
+    setLogoPreviewUrl(previewUrl);
+  };
 
   const handleSectionToggle = (sectionId) => {
     setActiveSection((currentSection) =>
-      currentSection === sectionId
-        ? ""
-        : sectionId
+      currentSection === sectionId ? "" : sectionId,
     );
   };
 
@@ -354,16 +314,12 @@ function OrganizationSettingsModal({
     event.preventDefault();
 
     if (!organizationId) {
-      setErrorMessage(
-        "L’identifiant de l’organisation est indisponible."
-      );
+      setErrorMessage(t("feedback.missingId"));
       return;
     }
 
     if (!formData.name.trim()) {
-      setErrorMessage(
-        "Le nom officiel de la société est obligatoire."
-      );
+      setErrorMessage(t("feedback.nameRequired"));
       setActiveSection("general");
       return;
     }
@@ -374,25 +330,22 @@ function OrganizationSettingsModal({
 
     try {
       let updatedOrganization = await updateOrganization(
-      organizationId,
-      buildPayload(formData)
-    );
+        organizationId,
+        buildPayload(formData),
+      );
 
-    if (selectedLogoFile) {
-      updatedOrganization =
-        await uploadOrganizationLogo(
+      if (selectedLogoFile) {
+        updatedOrganization = await uploadOrganizationLogo(
           organizationId,
-          selectedLogoFile
+          selectedLogoFile,
         );
-    }
+      }
 
-    setOrganization(updatedOrganization);
-    setFormData(
-      mapOrganizationToForm(updatedOrganization)
-    );
+      setOrganization(updatedOrganization);
+      setFormData(mapOrganizationToForm(updatedOrganization));
 
-    setSelectedLogoFile(null);
-    setLogoPreviewUrl("");
+      setSelectedLogoFile(null);
+      setLogoPreviewUrl("");
 
       const currentUser = getStoredUser() || {};
 
@@ -401,40 +354,25 @@ function OrganizationSettingsModal({
         organizationId: updatedOrganization.id,
         organizationCode: updatedOrganization.code,
         organizationName:
-          updatedOrganization.tradeName ||
-          updatedOrganization.name,
-        organizationOfficialName:
-          updatedOrganization.name,
-        organizationTradeName:
-          updatedOrganization.tradeName || null,
-        registrationNumber:
-          updatedOrganization.registrationNumber || null,
-        nationalId:
-          updatedOrganization.nationalId || null,
-        taxNumber:
-          updatedOrganization.taxNumber || null,
-        organizationAddress:
-          updatedOrganization.address || null,
-        organizationPhone:
-          updatedOrganization.phone || null,
-        organizationEmail:
-          updatedOrganization.email || null,
-        organizationLogo:
-          updatedOrganization.logoUrl || null,
+          updatedOrganization.tradeName || updatedOrganization.name,
+        organizationOfficialName: updatedOrganization.name,
+        organizationTradeName: updatedOrganization.tradeName || null,
+        registrationNumber: updatedOrganization.registrationNumber || null,
+        nationalId: updatedOrganization.nationalId || null,
+        taxNumber: updatedOrganization.taxNumber || null,
+        organizationAddress: updatedOrganization.address || null,
+        organizationPhone: updatedOrganization.phone || null,
+        organizationEmail: updatedOrganization.email || null,
+        organizationLogo: updatedOrganization.logoUrl || null,
       });
 
       setSuccessMessage(
-      selectedLogoFile
-        ? "Les informations et le logo de la société ont été enregistrés."
-        : "Les informations de la société ont été enregistrées."
-    );
+        selectedLogoFile ? t("feedback.savedWithLogo") : t("feedback.saved"),
+      );
 
       onSaved?.(updatedOrganization, updatedUser);
     } catch (error) {
-      setErrorMessage(
-        error?.message ||
-          "Impossible d’enregistrer les informations."
-      );
+      setErrorMessage(error?.message || t("feedback.saveError"));
     } finally {
       setIsSaving(false);
     }
@@ -448,7 +386,7 @@ function OrganizationSettingsModal({
         onClick={handleClose}
         disabled={isSaving}
       >
-        Annuler
+        {t("common:actions.cancel")}
       </button>
 
       <button
@@ -459,16 +397,13 @@ function OrganizationSettingsModal({
       >
         {isSaving ? (
           <>
-            <LoaderCircle
-              size={18}
-              className="organization-settings-spinner"
-            />
-            Enregistrement...
+            <LoaderCircle size={18} className="organization-settings-spinner" />
+            {t("modal.saving")}
           </>
         ) : (
           <>
             <Save size={18} />
-            Enregistrer
+            {t("common:actions.save")}
           </>
         )}
       </button>
@@ -478,8 +413,8 @@ function OrganizationSettingsModal({
   return (
     <AppModal
       isOpen={isOpen}
-      title="Paramètres de l’organisation"
-      description="Complétez et actualisez les informations administratives de votre société."
+      title={t("modal.title")}
+      description={t("modal.description")}
       size="lg"
       footer={modalFooter}
       closeOnOverlay={!isSaving}
@@ -488,16 +423,11 @@ function OrganizationSettingsModal({
     >
       {isLoading ? (
         <div className="organization-settings-loading">
-          <LoaderCircle
-            size={30}
-            className="organization-settings-spinner"
-          />
+          <LoaderCircle size={30} className="organization-settings-spinner" />
 
-          <strong>Chargement de la société...</strong>
+          <strong>{t("modal.loading")}</strong>
 
-          <span>
-            Nous récupérons les informations enregistrées.
-          </span>
+          <span>{t("modal.loadingDescription")}</span>
         </div>
       ) : (
         <form
@@ -512,10 +442,13 @@ function OrganizationSettingsModal({
 
             <div className="organization-settings-summary-content">
               <div>
-                <span>Progression de la configuration</span>
+                <span>{t("modal.configurationProgress")}</span>
 
                 <strong>
-                  {progress.completed} sur {progress.total} éléments
+                  {t("progress.items", {
+                    completed: progress.completed,
+                    count: progress.total,
+                  })}
                 </strong>
               </div>
 
@@ -536,12 +469,12 @@ function OrganizationSettingsModal({
           {organization && (
             <section className="organization-settings-metadata">
               <div>
-                <span>Code organisation</span>
+                <span>{t("modal.organizationCode")}</span>
                 <strong>{organization.code}</strong>
               </div>
 
               <div>
-                <span>Statut</span>
+                <span>{t("fields.status")}</span>
                 <strong
                   className={
                     organization.active
@@ -551,27 +484,23 @@ function OrganizationSettingsModal({
                 >
                   <CheckCircle2 size={15} />
                   {organization.active
-                    ? "Organisation active"
-                    : organization.status || "Inactive"}
+                    ? t("modal.active")
+                    : t(`status.${organization.status}`, {
+                        defaultValue: t("modal.inactive"),
+                      })}
                 </strong>
               </div>
             </section>
           )}
 
           {errorMessage && (
-            <div
-              className="organization-settings-alert error"
-              role="alert"
-            >
+            <div className="organization-settings-alert error" role="alert">
               {errorMessage}
             </div>
           )}
 
           {successMessage && (
-            <div
-              className="organization-settings-alert success"
-              role="status"
-            >
+            <div className="organization-settings-alert success" role="status">
               <CheckCircle2 size={18} />
               {successMessage}
             </div>
@@ -580,8 +509,7 @@ function OrganizationSettingsModal({
           <div className="organization-settings-sections">
             {SECTIONS.map((section) => {
               const Icon = section.icon;
-              const isActive =
-                activeSection === section.id;
+              const isActive = activeSection === section.id;
 
               return (
                 <section
@@ -596,18 +524,19 @@ function OrganizationSettingsModal({
                   <button
                     type="button"
                     className="organization-settings-section-header"
-                    onClick={() =>
-                      handleSectionToggle(section.id)
-                    }
+                    onClick={() => handleSectionToggle(section.id)}
                     aria-expanded={isActive}
+                    aria-label={t("accessibility.sectionToggle", {
+                      section: t(`sections.${section.id}.label`),
+                    })}
                   >
                     <span className="organization-settings-section-icon">
                       <Icon size={20} />
                     </span>
 
                     <span className="organization-settings-section-title">
-                      <strong>{section.label}</strong>
-                      <small>{section.description}</small>
+                      <strong>{t(`sections.${section.id}.label`)}</strong>
+                      <small>{t(`sections.${section.id}.description`)}</small>
                     </span>
 
                     {isActive ? (
@@ -623,7 +552,7 @@ function OrganizationSettingsModal({
                         <div className="organization-settings-grid">
                           <label className="organization-settings-field-full">
                             <span>
-                              Nom officiel
+                              {t("fields.officialName")}
                               <strong>*</strong>
                             </span>
 
@@ -632,26 +561,23 @@ function OrganizationSettingsModal({
                               name="name"
                               value={formData.name}
                               onChange={handleChange}
-                              placeholder="Nom légal de la société"
+                              placeholder={t("placeholders.officialName")}
                               required
                             />
                           </label>
 
                           <label className="organization-settings-field-full">
-                            <span>Nom commercial</span>
+                            <span>{t("fields.tradeName")}</span>
 
                             <input
                               type="text"
                               name="tradeName"
                               value={formData.tradeName}
                               onChange={handleChange}
-                              placeholder="Marque ou enseigne commerciale"
+                              placeholder={t("placeholders.tradeName")}
                             />
 
-                            <small>
-                              Facultatif. Ce nom sera utilisé dans
-                              l’interface lorsque renseigné.
-                            </small>
+                            <small>{t("help.tradeName")}</small>
                           </label>
                         </div>
                       )}
@@ -659,40 +585,38 @@ function OrganizationSettingsModal({
                       {section.id === "legal" && (
                         <div className="organization-settings-grid">
                           <label>
-                            <span>RCCM</span>
+                            <span>{t("fields.rccm")}</span>
 
                             <input
                               type="text"
                               name="registrationNumber"
-                              value={
-                                formData.registrationNumber
-                              }
+                              value={formData.registrationNumber}
                               onChange={handleChange}
                               placeholder="CD/KIN/RCCM/..."
                             />
                           </label>
 
                           <label>
-                            <span>ID National</span>
+                            <span>{t("fields.nationalId")}</span>
 
                             <input
                               type="text"
                               name="nationalId"
                               value={formData.nationalId}
                               onChange={handleChange}
-                              placeholder="Numéro d’identification nationale"
+                              placeholder={t("placeholders.nationalId")}
                             />
                           </label>
 
                           <label className="organization-settings-field-full">
-                            <span>Numéro fiscal — NIF</span>
+                            <span>{t("fields.taxNumber")}</span>
 
                             <input
                               type="text"
                               name="taxNumber"
                               value={formData.taxNumber}
                               onChange={handleChange}
-                              placeholder="Numéro d’identification fiscale"
+                              placeholder={t("placeholders.taxNumber")}
                             />
                           </label>
                         </div>
@@ -701,7 +625,7 @@ function OrganizationSettingsModal({
                       {section.id === "contact" && (
                         <div className="organization-settings-grid">
                           <label>
-                            <span>Téléphone</span>
+                            <span>{t("fields.phone")}</span>
 
                             <input
                               type="tel"
@@ -713,7 +637,7 @@ function OrganizationSettingsModal({
                           </label>
 
                           <label>
-                            <span>Adresse e-mail</span>
+                            <span>{t("fields.email")}</span>
 
                             <input
                               type="email"
@@ -725,7 +649,7 @@ function OrganizationSettingsModal({
                           </label>
 
                           <label className="organization-settings-field-full">
-                            <span>Site web</span>
+                            <span>{t("fields.website")}</span>
 
                             <input
                               type="url"
@@ -741,50 +665,50 @@ function OrganizationSettingsModal({
                       {section.id === "location" && (
                         <div className="organization-settings-grid">
                           <label>
-                            <span>Pays</span>
+                            <span>{t("fields.country")}</span>
 
                             <input
                               type="text"
                               name="country"
                               value={formData.country}
                               onChange={handleChange}
-                              placeholder="Pays"
+                              placeholder={t("placeholders.country")}
                             />
                           </label>
 
                           <label>
-                            <span>Province</span>
+                            <span>{t("fields.province")}</span>
 
                             <input
                               type="text"
                               name="province"
                               value={formData.province}
                               onChange={handleChange}
-                              placeholder="Province"
+                              placeholder={t("placeholders.province")}
                             />
                           </label>
 
                           <label>
-                            <span>Ville</span>
+                            <span>{t("fields.city")}</span>
 
                             <input
                               type="text"
                               name="city"
                               value={formData.city}
                               onChange={handleChange}
-                              placeholder="Ville"
+                              placeholder={t("placeholders.city")}
                             />
                           </label>
 
                           <label>
-                            <span>Adresse physique</span>
+                            <span>{t("fields.address")}</span>
 
                             <input
                               type="text"
                               name="address"
                               value={formData.address}
                               onChange={handleChange}
-                              placeholder="Avenue, numéro, commune"
+                              placeholder={t("placeholders.address")}
                             />
                           </label>
                         </div>
@@ -793,41 +717,33 @@ function OrganizationSettingsModal({
                       {section.id === "regional" && (
                         <div className="organization-settings-grid">
                           <label>
-                            <span>Devise par défaut</span>
+                            <span>{t("fields.defaultCurrency")}</span>
 
                             <select
                               name="defaultCurrency"
                               value={formData.defaultCurrency}
                               onChange={handleChange}
                             >
-                              <option value="USD">
-                                Dollar américain — USD
-                              </option>
-                              <option value="CDF">
-                                Franc congolais — CDF
-                              </option>
+                              <option value="USD">{t("options.usd")}</option>
+                              <option value="CDF">{t("options.cdf")}</option>
                             </select>
                           </label>
 
                           <label>
-                            <span>Langue par défaut</span>
+                            <span>{t("fields.defaultLanguage")}</span>
 
                             <select
                               name="defaultLanguage"
                               value={formData.defaultLanguage}
                               onChange={handleChange}
                             >
-                              <option value="fr">
-                                Français
-                              </option>
-                              <option value="en">
-                                Anglais
-                              </option>
+                              <option value="fr">{t("options.fr")}</option>
+                              <option value="en">{t("options.en")}</option>
                             </select>
                           </label>
 
                           <label className="organization-settings-field-full">
-                            <span>Fuseau horaire</span>
+                            <span>{t("fields.timezone")}</span>
 
                             <select
                               name="timezone"
@@ -835,10 +751,10 @@ function OrganizationSettingsModal({
                               onChange={handleChange}
                             >
                               <option value="Africa/Kinshasa">
-                                Kinshasa — UTC+1
+                                {t("options.kinshasa")}
                               </option>
                               <option value="Africa/Lubumbashi">
-                                Lubumbashi — UTC+2
+                                {t("options.lubumbashi")}
                               </option>
                             </select>
                           </label>
@@ -848,7 +764,7 @@ function OrganizationSettingsModal({
                       {section.id === "appearance" && (
                         <div className="organization-settings-grid">
                           <label className="organization-settings-field-full">
-                            <span>Logo de la société</span>
+                            <span>{t("fields.logo")}</span>
 
                             <input
                               type="file"
@@ -857,21 +773,19 @@ function OrganizationSettingsModal({
                               disabled={isSaving}
                             />
 
-                            <small>
-                              Formats acceptés : PNG, JPG, WEBP et SVG.
-                              Taille maximale : 2 Mo.
-                            </small>
+                            <small>{t("help.logo")}</small>
 
                             {selectedLogoFile && (
                               <small>
-                                Fichier sélectionné :{" "}
-                                <strong>{selectedLogoFile.name}</strong>
+                                {t("help.selectedFile", {
+                                  name: selectedLogoFile.name,
+                                })}
                               </small>
                             )}
                           </label>
 
                           <label>
-                            <span>Couleur principale</span>
+                            <span>{t("fields.primaryColor")}</span>
 
                             <div className="organization-settings-color-field">
                               <input
@@ -892,7 +806,7 @@ function OrganizationSettingsModal({
                           </label>
 
                           <label>
-                            <span>Couleur secondaire</span>
+                            <span>{t("fields.secondaryColor")}</span>
 
                             <div className="organization-settings-color-field">
                               <input
@@ -922,7 +836,7 @@ function OrganizationSettingsModal({
                               {logoPreviewUrl || formData.logoUrl ? (
                                 <img
                                   src={logoPreviewUrl || formData.logoUrl}
-                                  alt="Aperçu du logo"
+                                  alt={t("accessibility.previewLogoAlt")}
                                 />
                               ) : (
                                 <Building2 size={26} />
@@ -932,7 +846,7 @@ function OrganizationSettingsModal({
                                 <strong>
                                   {formData.tradeName ||
                                     formData.name ||
-                                    "Votre société"}
+                                    t("accessibility.companyFallback")}
                                 </strong>
 
                                 <span

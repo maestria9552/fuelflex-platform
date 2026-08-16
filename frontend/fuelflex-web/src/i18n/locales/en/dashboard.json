@@ -1,0 +1,29 @@
+{
+  "fallback": { "organization": "Your organization", "organizationCode": "Code unavailable" },
+  "errors": { "loadOrganization": "Unable to load the organization:" },
+  "header": { "eyebrow": "Overview", "description": "Configure your organization, create your stations, and progressively monitor every operation across your network.", "organizationCode": "Organization code" },
+  "configuration": {
+    "eyebrow": "ORGANIZATION SETUP", "title": "Complete your business profile", "description": "Some administrative and operational information is still missing. Complete it to get the most from FuelFlex Platform.",
+    "progress_one": "{{completed}} item completed out of {{total}}", "progress_other": "{{completed}} items completed out of {{total}}", "complete": "Complete setup",
+    "fields": { "organizationName": "Organization name", "registrationNumber": "Business registration number", "nationalId": "National ID", "taxNumber": "Tax number", "organizationAddress": "Address", "organizationPhone": "Phone", "organizationEmail": "Email address", "organizationLogo": "Logo" }
+  },
+  "kpi": {
+    "ariaLabel": "Key performance indicators",
+    "stations": { "title": "Active stations", "description": "No station configured", "evolution": "Setup required" },
+    "stock": { "title": "Available stock", "description": "No stock recorded", "evolution": "{{percentage}}% of capacity" },
+    "sales": { "title": "Today's sales", "description": "No sales recorded", "evolution": "{{percentage}}%" },
+    "volume": { "title": "Volume sold", "description": "No operations today", "evolution": "{{percentage}}%" },
+    "liters": "{{value}} L", "currencyAmount": "${{value}}"
+  },
+  "salesAnalysis": { "eyebrow": "Sales analysis", "title": "Weekly trend", "period": "This week", "emptyTitle": "No sales data", "emptyDescription": "The sales chart will appear after a station is created and its first operations are recorded." },
+  "stock": { "eyebrow": "Total capacity", "title": "Stock levels", "available": "Available", "gasoline": "Gasoline", "diesel": "Diesel" },
+  "stations": { "eyebrow": "FuelFlex network", "title": "Your stations", "emptyTitle": "No stations registered", "emptyDescription": "Create your first station to start managing products, tanks, pumps, and teams.", "create": "Create a station" },
+  "onboarding": {
+    "eyebrow": "Getting started", "title": "Next steps",
+    "accountTitle": "Supervisor account created", "accountDescription": "Your primary access is ready.",
+    "organizationTitle": "Organization created",
+    "informationTitle": "Complete your information", "informationComplete": "Administrative information complete.", "informationMissing": "Business registration, National ID, tax number, address, and logo.",
+    "stationTitle": "Create your first station", "stationDescription": "Configure its location and settings.",
+    "teamTitle": "Add your team", "teamDescription": "Create managers and pump attendants."
+  }
+}

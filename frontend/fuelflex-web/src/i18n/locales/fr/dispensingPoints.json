@@ -1,0 +1,21 @@
+{
+  "page": {
+    "eyebrow": "CONFIGURATION DU RÉSEAU", "title": "Pistolets", "description": "Gérez les pistolets rattachés aux pompes de vos stations.", "add": "Ajouter un pistolet",
+    "station": "Station", "pump": "Pompe", "selectStation": "Sélectionner une station", "selectPump": "Sélectionner une pompe", "loading": "Chargement...",
+    "loadingStations": "Chargement des stations...", "loadingPumps": "Chargement des pompes...", "loadingTanks": "Chargement des citernes...", "loadingPoints": "Chargement des pistolets...",
+    "noStationTitle": "Aucune station configurée", "noStationDescription": "Créez d’abord une station avant de gérer ses pistolets.", "noStationSelectedTitle": "Aucune station sélectionnée", "noStationSelectedDescription": "Choisissez la station dont vous souhaitez gérer les pistolets.",
+    "noPumpTitle": "Aucune pompe configurée", "noPumpDescription": "Créez d’abord une pompe dans cette station avant d’ajouter un pistolet.", "noPumpSelectedTitle": "Aucune pompe sélectionnée", "noPumpSelectedDescription": "Choisissez la pompe dont vous souhaitez gérer les pistolets.",
+    "noActiveTank": "Aucune citerne active n’est disponible dans cette station.", "searchPlaceholder": "Rechercher par nom, code, numéro ou citerne", "searchAriaLabel": "Rechercher un pistolet",
+    "count_one": "{{count}} pistolet", "count_other": "{{count}} pistolets", "emptyTitle": "Aucun pistolet configuré", "emptyDescription": "Ajoutez le premier pistolet de la pompe {{pumpName}}.",
+    "noResultTitle": "Aucun pistolet trouvé", "noResultDescription": "Essayez un autre nom, code, numéro ou nom de citerne.", "nozzleNumber": "Pistolet n° {{number}}", "edit": "Modifier"
+  },
+  "status": { "ACTIVE": "Actif", "INACTIVE": "Inactif", "MAINTENANCE": "Maintenance", "OUT_OF_SERVICE": "Hors service" },
+  "availability": { "active": "Actif", "inactive": "Inactif" },
+  "meteringLevel": {
+    "PUMP": { "title": "Comptage global à la pompe", "detail": "Cette pompe utilise un compteur global. Les pistolets doivent respecter la configuration commune de la pompe." },
+    "DISPENSING_POINT": { "title": "Comptage par pistolet", "detail": "Les compteurs individuels seront gérés dans le sous-menu Compteurs." }
+  },
+  "feedback": { "organizationMissing": "Aucune société n’est associée à ce compte.", "stationsLoadFailed": "Impossible de charger les stations.", "pumpsLoadFailed": "Impossible de charger les pompes.", "tanksLoadFailed": "Impossible de charger les citernes de la station.", "pointsLoadFailed": "Impossible de charger les pistolets.", "created": "Le pistolet a été créé avec succès.", "updated": "Le pistolet a été modifié avec succès.", "saveFailed": "Impossible d’enregistrer le pistolet." },
+  "modal": { "createTitle": "Ajouter un pistolet", "editTitle": "Modifier le pistolet", "description": "Associez ce point de distribution à une citerne de la station.", "pump": "Pompe", "pumpNumber": "Pompe n° {{number}}", "name": "Nom", "code": "Code", "nozzleNumber": "Numéro du pistolet", "tank": "Citerne", "selectTank": "Sélectionner une citerne", "displayOrder": "Ordre d’affichage", "status": "Statut", "activeUsable": "Pistolet actif et utilisable", "saving": "Enregistrement..." },
+  "validation": { "tankRequired": "Sélectionnez la citerne alimentant ce pistolet." }
+}

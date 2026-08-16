@@ -1,0 +1,27 @@
+{
+  "page": {
+    "eyebrow": "NETWORK CONFIGURATION", "title": "Stations", "description": "Manage the stations associated with your organization.",
+    "new": "New station", "searchPlaceholder": "Search by name, code, or city", "searchAriaLabel": "Search for a station",
+    "count_one": "{{count}} station", "count_other": "{{count}} stations",
+    "loading": "Loading stations...", "emptyTitle": "No station configured", "emptyDescription": "Create your first station with the setup wizard.",
+    "create": "Create a station", "noResultTitle": "No station found", "noResultDescription": "Try another name, code, or city.",
+    "open": "Open", "edit": "Edit", "openUnavailable": "The station dashboard will be available in a future release"
+  },
+  "feedback": {
+    "organizationMissing": "No company is associated with this account.", "loadFailed": "Unable to load stations.",
+    "updated": "The station was updated successfully.", "updateFailed": "Unable to update the station."
+  },
+  "modal": { "title": "Edit station", "description": "Update the station's general information and operational state.", "saving": "Saving..." },
+  "form": {
+    "name": "Name", "code": "Code", "type": "Type", "additionalInformation": "Additional information", "shortName": "Short name",
+    "city": "City", "address": "Address", "province": "Province", "country": "Country", "phone": "Phone", "email": "Email address",
+    "latitude": "Latitude", "longitude": "Longitude", "displayOrder": "Display order", "administration": "Administration", "status": "Status",
+    "activeUsable": "Station active and available for use"
+  },
+  "types": {
+    "SERVICE_STATION": "Service station", "DEPOT": "Depot", "AIRPORT": "Airport", "PORT": "Port", "MINE": "Mine",
+    "LOGISTICS_CENTER": "Logistics center", "DISTRIBUTION_CENTER": "Distribution center"
+  },
+  "status": { "ACTIVE": "Active", "INACTIVE": "Inactive", "MAINTENANCE": "Maintenance", "SUSPENDED": "Suspended", "CLOSED": "Closed" },
+  "availability": { "active": "Active", "inactive": "Inactive" }
+}

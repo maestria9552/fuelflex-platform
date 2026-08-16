@@ -8,16 +8,20 @@ import {
   Warehouse,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import "./HomePage.css";
 import fuelFlexLogo from "../assets/images/logofuelflex.png";
+import { formatNumber } from "../i18n/formatters.js";
 
 function HomePage() {
+  const { t, i18n } = useTranslation(["home", "auth", "common"]);
+
   return (
     <main className="home-page">
       <header className="home-header">
         <Link to="/" className="home-brand">
-          <img src={fuelFlexLogo} alt="FuelFlex" />
+          <img src={fuelFlexLogo} alt={t("common:brand.logoAlt")} />
 
           <div className="home-brand-name">
             <span>FUEL</span>
@@ -26,18 +30,18 @@ function HomePage() {
         </Link>
 
         <nav className="home-navigation">
-          <a href="#fonctionnalites">Fonctionnalités</a>
-          <a href="#avantages">Avantages</a>
-          <a href="#contact">Contact</a>
+          <a href="#fonctionnalites">{t("home:navigation.features")}</a>
+          <a href="#avantages">{t("home:navigation.benefits")}</a>
+          <a href="#contact">{t("home:navigation.contact")}</a>
         </nav>
 
         <div className="home-actions">
           <Link to="/connexion" className="login-button">
-            Se connecter
+            {t("auth:register.login")}
           </Link>
 
           <Link to="/inscription" className="signup-button">
-            Créer un compte
+            {t("home:navigation.createAccount")}
             <ArrowRight size={17} />
           </Link>
         </div>
@@ -47,45 +51,43 @@ function HomePage() {
         <div className="hero-content">
           <div className="hero-badge">
             <ShieldCheck size={17} />
-            Gestion intelligente des stations-service
+            {t("home:hero.badge")}
           </div>
 
           <h1>
-            Pilotez toutes vos stations depuis
-            <span> une plateforme unique.</span>
+            {t("home:hero.title")}
+            <span> {t("home:hero.highlight")}</span>
           </h1>
 
           <p className="hero-description">
-            FuelFlex centralise vos stocks, vos ventes, vos pompes, vos
-            citernes, vos équipes et vos rapports pour vous offrir une vision
-            complète de votre activité.
+            {t("home:hero.description")}
           </p>
 
           <div className="hero-actions">
             <Link to="/inscription" className="hero-primary-button">
-              Commencer maintenant
+              {t("home:hero.start")}
               <ArrowRight size={19} />
             </Link>
 
             <Link to="/connexion" className="hero-secondary-button">
-              Accéder à mon espace
+              {t("home:hero.workspace")}
             </Link>
           </div>
 
           <div className="hero-benefits">
             <span>
               <CheckCircle2 size={17} />
-              Configuration rapide
+              {t("home:hero.quickSetup")}
             </span>
 
             <span>
               <CheckCircle2 size={17} />
-              Suivi en temps réel
+              {t("home:hero.realTime")}
             </span>
 
             <span>
               <CheckCircle2 size={17} />
-              Données sécurisées
+              {t("home:hero.secureData")}
             </span>
           </div>
         </div>
@@ -96,13 +98,13 @@ function HomePage() {
           <div className="dashboard-card">
             <div className="dashboard-header">
               <div>
-                <p>Vue d’ensemble</p>
-                <h2>Tableau de bord</h2>
+                <p>{t("home:dashboard.overview")}</p>
+                <h2>{t("home:dashboard.title")}</h2>
               </div>
 
               <div className="dashboard-status">
                 <span />
-                En ligne
+                {t("home:dashboard.online")}
               </div>
             </div>
 
@@ -113,7 +115,7 @@ function HomePage() {
                 </div>
 
                 <div>
-                  <span>Stations actives</span>
+                  <span>{t("home:dashboard.activeStations")}</span>
                   <strong>12</strong>
                 </div>
               </article>
@@ -124,7 +126,7 @@ function HomePage() {
                 </div>
 
                 <div>
-                  <span>Pompes actives</span>
+                  <span>{t("home:dashboard.activePumps")}</span>
                   <strong>48</strong>
                 </div>
               </article>
@@ -135,8 +137,14 @@ function HomePage() {
                 </div>
 
                 <div>
-                  <span>Stock disponible</span>
-                  <strong>184 500 L</strong>
+                  <span>{t("home:dashboard.availableStock")}</span>
+                  <strong>
+                    {t("home:dashboard.stockValue", {
+                      value: formatNumber(184500, {
+                        language: i18n.resolvedLanguage,
+                      }),
+                    })}
+                  </strong>
                 </div>
               </article>
             </div>
@@ -144,8 +152,14 @@ function HomePage() {
             <div className="dashboard-chart">
               <div className="chart-header">
                 <div>
-                  <span>Ventes du jour</span>
-                  <strong>24 850 USD</strong>
+                  <span>{t("home:dashboard.todaySales")}</span>
+                  <strong>
+                    {t("home:dashboard.salesValue", {
+                      value: formatNumber(24850, {
+                        language: i18n.resolvedLanguage,
+                      }),
+                    })}
+                  </strong>
                 </div>
 
                 <BarChart3 size={24} />
@@ -162,13 +176,13 @@ function HomePage() {
               </div>
 
               <div className="chart-labels">
-                <span>Lun</span>
-                <span>Mar</span>
-                <span>Mer</span>
-                <span>Jeu</span>
-                <span>Ven</span>
-                <span>Sam</span>
-                <span>Dim</span>
+                <span>{t("home:dashboard.days.monday")}</span>
+                <span>{t("home:dashboard.days.tuesday")}</span>
+                <span>{t("home:dashboard.days.wednesday")}</span>
+                <span>{t("home:dashboard.days.thursday")}</span>
+                <span>{t("home:dashboard.days.friday")}</span>
+                <span>{t("home:dashboard.days.saturday")}</span>
+                <span>{t("home:dashboard.days.sunday")}</span>
               </div>
             </div>
           </div>
