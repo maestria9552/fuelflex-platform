@@ -2,6 +2,7 @@ package com.fuelflex.platform.notification.repository;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -28,6 +29,9 @@ public interface NotificationRepository
     long countUnreadExcludingOrderSubmitted(@Param("recipientId") UUID recipientId, @Param("organizationId") UUID organizationId);
 
     boolean existsByRecipientIdAndEventTypeAndResourceId(UUID recipientId, String eventType, UUID resourceId);
+
+    List<Notification> findByOrganizationIdAndResourceTypeAndResourceIdAndRequiresActionTrue(
+            UUID organizationId, String resourceType, UUID resourceId);
 
     Optional<Notification> findByIdAndRecipientIdAndOrganizationId(
             UUID id,
