@@ -38,6 +38,8 @@ import PurchaseOrderDocumentPage from "./pages/orders/PurchaseOrderDocumentPage"
 import ManagerReceptionsPage from "./pages/receptions/ManagerReceptionsPage";
 import ManagerReceptionFormPage from "./pages/receptions/ManagerReceptionFormPage";
 import ManagerReceptionDetailPage from "./pages/receptions/ManagerReceptionDetailPage";
+import SupervisorReceptionsPage from "./pages/receptions/SupervisorReceptionsPage";
+import SupervisorReceptionDetailPage from "./pages/receptions/SupervisorReceptionDetailPage";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import RoleBasedRedirect from "./components/auth/RoleBasedRedirect";
@@ -117,6 +119,8 @@ function App() {
           <Route path="/gerant/commandes/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerOrderDetailPage /></ProtectedRoute>} />
           <Route path="/gerant/commandes/:id/modifier" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerNewOrderPage /></ProtectedRoute>} />
           <Route path="/superviseur/commandes" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorOrdersPage /></ProtectedRoute>} />
+          <Route path="/superviseur/receptions" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorReceptionsPage /></ProtectedRoute>} />
+          <Route path="/superviseur/receptions/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorReceptionDetailPage /></ProtectedRoute>} />
           <Route path="/superviseur/commandes/:id/bon-de-commande" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><PurchaseOrderDocumentPage /></ProtectedRoute>} />
           <Route path="/superviseur/commandes/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorOrderDetailPage /></ProtectedRoute>} />
           <Route

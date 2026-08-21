@@ -188,7 +188,7 @@ class NotificationServiceImplTest {
         arrangeCurrentUser();
         Notification older = notification(recipient, OffsetDateTime.now().minusHours(2));
         Notification newer = notification(recipient, OffsetDateTime.now());
-        when(notificationRepository.findByRecipientIdAndOrganizationId(
+        when(notificationRepository.findRequiringAttention(
                 any(), any(), any(Pageable.class)
         )).thenAnswer(invocation -> {
             Pageable pageable = invocation.getArgument(2);
@@ -204,7 +204,7 @@ class NotificationServiceImplTest {
         assertThat(response.getContent())
                 .extracting(NotificationResponse::getId)
                 .containsExactly(newer.getId(), older.getId());
-        verify(notificationRepository).findByRecipientIdAndOrganizationId(
+        verify(notificationRepository).findRequiringAttention(
                 eq(recipient.getId()), eq(organization.getId()), any(Pageable.class)
         );
     }

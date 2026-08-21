@@ -34,6 +34,7 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [unreadIndependentCount, setUnreadIndependentCount] = useState(0);
+  const [managerAttentionCount, setManagerAttentionCount] = useState(0);
   const [pendingOrderCount, setPendingOrderCount] = useState(0);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +55,7 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
     const controller = new AbortController();
 
     getMyUnreadNotificationCount({ signal: controller.signal })
-      .then((result) => { setUnreadCount(result?.unreadCount || 0); setUnreadIndependentCount((result?.unreadNonOrderSubmittedCount ?? result?.unreadCount ?? 0)); })
+      .then((result) => { setUnreadCount(result?.unreadCount || 0); setUnreadIndependentCount((result?.unreadNonOrderSubmittedCount ?? result?.unreadCount ?? 0)); setManagerAttentionCount(result?.attentionCount ?? result?.unreadCount ?? 0); })
       .catch((error) => {
         if (error?.name !== "AbortError") {
           setErrorMessage(
@@ -63,7 +64,7 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
         }
       });
 
-    const interval = window.setInterval(() => { getMyUnreadNotificationCount().then((result) => { setUnreadCount(result?.unreadCount || 0); setUnreadIndependentCount((result?.unreadNonOrderSubmittedCount ?? result?.unreadCount ?? 0)); }).catch(() => {}); }, 45000);
+    const interval = window.setInterval(() => { getMyUnreadNotificationCount().then((result) => { setUnreadCount(result?.unreadCount || 0); setUnreadIndependentCount((result?.unreadNonOrderSubmittedCount ?? result?.unreadCount ?? 0)); setManagerAttentionCount(result?.attentionCount ?? result?.unreadCount ?? 0); }).catch(() => {}); }, 45000);
     return () => { controller.abort(); window.clearInterval(interval); };
   }, [t]);
 
@@ -143,7 +144,10 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
   const handleNotificationClick = async (notification) => {
     if (!notification.read) await handleMarkAsRead(notification.id);
     if (notification.resourceType === "PURCHASE_ORDER" && notification.resourceId) {
-      navigate(`/superviseur/commandes/${notification.resourceId}`);
+      navigate("/superviseur/commandes/" + notification.resourceId);
+      onClose();
+    } else if (notification.resourceType === "RECEPTION" && notification.resourceId) {
+      navigate((isSupervisor ? "/superviseur/receptions/" : "/gerant/receptions/") + notification.resourceId);
       onClose();
     }
   };
@@ -158,7 +162,7 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
       setNotifications((current) => current.map((notification) => (
         notification.id === notificationId ? updated : notification
       )));
-      getMyUnreadNotificationCount().then((result) => { setUnreadCount(result?.unreadCount || 0); setUnreadIndependentCount(result?.unreadNonOrderSubmittedCount ?? result?.unreadCount ?? 0); }).catch(() => {});
+      getMyUnreadNotificationCount().then((result) => { setUnreadCount(result?.unreadCount || 0); setUnreadIndependentCount(result?.unreadNonOrderSubmittedCount ?? result?.unreadCount ?? 0); setManagerAttentionCount(result?.attentionCount ?? result?.unreadCount ?? 0); }).catch(() => {});
     } catch (error) {
       setErrorMessage(
         error?.message || t("notifications:feedback.markReadError"),
@@ -173,7 +177,7 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
     setErrorMessage("");
 
     try {
-      await markAllMyNotificationsAsRead();
+      const countResult = await markAllMyNotificationsAsRead();
       const readAt = new Date().toISOString();
       setNotifications((current) => current.map((notification) => ({
         ...notification,
@@ -182,6 +186,7 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
       })));
       setUnreadCount(0);
       setUnreadIndependentCount(0);
+      setManagerAttentionCount(countResult?.attentionCount ?? countResult?.actionRequiredCount ?? 0);
     } catch (error) {
       setErrorMessage(
         error?.message || t("notifications:feedback.markAllReadError"),
@@ -197,7 +202,8 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
 
   const visibleNotifications = (() => {
     const pendingByResource = new Map(pendingOrders.map((order) => [String(order.id), order]));
-    const merged = notifications.map((notification) => {
+    const activeNotifications = notifications.filter((notification) => !notification.read || notification.requiresAction);
+    const merged = activeNotifications.map((notification) => {
       if (notification.resourceType !== "PURCHASE_ORDER" || !pendingByResource.has(String(notification.resourceId))) return notification;
       return { ...notification, requiresAction: true, pendingOrder: pendingByResource.get(String(notification.resourceId)) };
     });
@@ -209,7 +215,7 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
     }));
     return [...synthetic, ...merged];
   })();
-  const badgeCount = isSupervisor ? pendingOrderCount + unreadIndependentCount : unreadCount;
+  const badgeCount = isSupervisor ? pendingOrderCount + unreadIndependentCount : managerAttentionCount;
 
   const badgeLabel = t("notifications:accessibility.unreadCount", {
     count: badgeCount,
@@ -297,7 +303,7 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
               {visibleNotifications.map((notification) => (
                 <li
                   key={notification.id}
-                  onClick={(event) => { if (!event.target.closest("button") && notification.resourceType === "PURCHASE_ORDER") handleNotificationClick(notification); }}
+                  onClick={(event) => { if (!event.target.closest("button") && ["PURCHASE_ORDER", "RECEPTION"].includes(notification.resourceType)) handleNotificationClick(notification); }}
                   className={[
                     "notification-item",
                     notification.read ? "read" : "unread",

@@ -10,7 +10,9 @@
     "supervisorRejected": "Rejected by supervisor",
     "pendingSupplier": "Waiting for supplier",
     "supplierRejected": "Rejected by supplier",
-    "awaitingReception": "Awaiting reception"
+    "awaitingReception": "Awaiting reception",
+    "partiallyReceived": "Partially received",
+    "received": "Received"
   },
   "errors": {
     "forbidden": "Access denied.",
@@ -88,7 +90,9 @@
     "supervisorApproved": "Approved by supervisor",
     "supervisorRejected": "Rejected by supervisor",
     "supplierApproved": "Accepted by supplier",
-    "supplierRejected": "Rejected by supplier"
+    "supplierRejected": "Rejected by supplier",
+    "partiallyReceived": "Partial receipt",
+    "received": "Order fully received"
   },
   "next": {
     "draft": "Draft can be edited",
@@ -96,7 +100,9 @@
     "supervisorRejected": "The order is rejected and locked.",
     "pendingSupplier": "Waiting for supplier approval",
     "supplierRejected": "The order is rejected and locked.",
-    "awaitingReception": "Next step: reception"
+    "awaitingReception": "Next step: reception",
+    "partiallyReceived": "Partial receipt: remaining quantities can still be received",
+    "received": "Order fully received"
   },
   "supervisor": {
     "filters": {

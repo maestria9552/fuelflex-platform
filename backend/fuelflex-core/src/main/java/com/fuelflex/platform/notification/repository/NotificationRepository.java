@@ -17,13 +17,20 @@ import com.fuelflex.platform.notification.entity.Notification;
 public interface NotificationRepository
         extends JpaRepository<Notification, UUID> {
 
-    Page<Notification> findByRecipientIdAndOrganizationId(
-            UUID recipientId,
-            UUID organizationId,
+    @Query(value = "select notification from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and (notification.read = false or notification.requiresAction = true)",
+            countQuery = "select count(notification) from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and (notification.read = false or notification.requiresAction = true)")
+    Page<Notification> findRequiringAttention(
+            @Param("recipientId") UUID recipientId,
+            @Param("organizationId") UUID organizationId,
             Pageable pageable
     );
 
     long countByRecipientIdAndOrganizationIdAndReadFalse(UUID recipientId, UUID organizationId);
+
+    long countByRecipientIdAndOrganizationIdAndRequiresActionTrue(UUID recipientId, UUID organizationId);
+
+    @Query("select count(notification) from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and (notification.read = false or notification.requiresAction = true)")
+    long countRequiringAttention(@Param("recipientId") UUID recipientId, @Param("organizationId") UUID organizationId);
 
     @Query("select count(notification) from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and notification.read = false and notification.eventType <> 'ORDER_SUBMITTED'")
     long countUnreadExcludingOrderSubmitted(@Param("recipientId") UUID recipientId, @Param("organizationId") UUID organizationId);

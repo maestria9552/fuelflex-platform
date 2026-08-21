@@ -29,7 +29,8 @@ class PurchaseOrderContractMatrixTest {
                 PurchaseOrderAction.ORDER_CREATED, PurchaseOrderAction.ORDER_UPDATED,
                 PurchaseOrderAction.ORDER_SUBMITTED, PurchaseOrderAction.SUPERVISOR_APPROVED,
                 PurchaseOrderAction.SUPERVISOR_REJECTED, PurchaseOrderAction.SUPPLIER_APPROVED,
-                PurchaseOrderAction.SUPPLIER_REJECTED);
+                PurchaseOrderAction.SUPPLIER_REJECTED, PurchaseOrderAction.PARTIALLY_RECEIVED,
+                PurchaseOrderAction.RECEIVED);
     }
     @Test void migrationHasSequenceAndStableConstraints() throws Exception {
         String sql=Files.readString(Path.of("src/main/resources/db/migration/V5__create_purchase_orders.sql"));

@@ -107,7 +107,7 @@ public class NotificationServiceImpl implements NotificationService {
                         .and(Sort.by(Sort.Direction.DESC, "id"))
         );
         Page<NotificationResponse> notifications = notificationRepository
-                .findByRecipientIdAndOrganizationId(
+                .findRequiringAttention(
                         currentUser.getId(),
                         currentUser.getOrganization().getId(),
                         pageable
@@ -123,7 +123,9 @@ public class NotificationServiceImpl implements NotificationService {
         User currentUser = getCurrentUserWithOrganization();
         long unread = countUnread(currentUser);
         long nonOrder = notificationRepository.countUnreadExcludingOrderSubmitted(currentUser.getId(), currentUser.getOrganization().getId());
-        return new UnreadNotificationCountResponse(unread, nonOrder);
+        long actions = notificationRepository.countByRecipientIdAndOrganizationIdAndRequiresActionTrue(currentUser.getId(), currentUser.getOrganization().getId());
+        long attention = notificationRepository.countRequiringAttention(currentUser.getId(), currentUser.getOrganization().getId());
+        return new UnreadNotificationCountResponse(unread, nonOrder, actions, attention);
     }
     @Override
     public NotificationResponse markMineAsRead(UUID notificationId) {
@@ -159,7 +161,8 @@ public class NotificationServiceImpl implements NotificationService {
                 currentUser.getOrganization().getId(),
                 OffsetDateTime.now()
         );
-        return new UnreadNotificationCountResponse(0);
+        long actions = notificationRepository.countByRecipientIdAndOrganizationIdAndRequiresActionTrue(currentUser.getId(), currentUser.getOrganization().getId());
+        return new UnreadNotificationCountResponse(0, 0, actions, actions);
     }
 
     private void validateCreateCommand(CreateNotificationCommand command) {

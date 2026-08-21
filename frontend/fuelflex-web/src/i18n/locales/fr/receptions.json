@@ -29,6 +29,7 @@
     "ordered": "Commandé",
     "already": "Déjà reçu",
     "backlog": "Reste à réceptionner",
+    "settled": "Soldé",
     "received": "Quantité reçue",
     "price": "Prix d’achat unitaire",
     "currency": "Devise",
@@ -51,6 +52,7 @@
     "resubmit": "Resoumettre",
     "status": "Statut",
     "returnedTitle": "Réception retournée pour modification",
+    "pendingSupervisor": "En attente de validation du superviseur. Cette réception est consultable mais verrouillée jusqu’à sa décision.",
     "required": "Ce champ est obligatoire",
     "invalidNumber": "Saisissez une valeur supérieure à zéro.",
     "loading": "Chargement…",
@@ -60,13 +62,16 @@
     "selectOrder": "Choisir une commande"
   },
   "modal": {
+    "resubmitTitle": "Confirmer la resoumission",
+    "resubmitText": "Cette réception corrigée sera resoumise au superviseur pour validation.",
     "normalTitle": "Confirmer la réception",
-    "normalText": "Cette opération enregistrera les informations de réception. Aucun stock réel ne sera crédité dans ce module.",
+    "normalText": "Après confirmation, le backend validera la réception et comptabilisera le stock. Le statut réel sera ensuite affiché.",
     "overTitle": "Autorisation du Superviseur requise",
     "overText": "La quantité saisie dépasse la quantité restant à réceptionner. En poursuivant, cette réception sera suspendue et transmise au Superviseur pour autorisation. Aucun mouvement de stock ne sera effectué avant sa décision.",
     "justification": "Motif / justification de la surlivraison",
     "return": "Retourner à la réception",
-    "confirm": "Demander l’autorisation",
+    "confirmNormal": "Valider la réception",
+    "confirmOver": "Demander l’autorisation",
     "cancel": "Annuler",
     "summary": "Résumé des dépassements"
   },
@@ -81,12 +86,21 @@
     "validated": "Validée",
     "resubmitted": "Resoumise"
   },
+  "supervisor": {
+    "list": { "title": "Réceptions", "subtitle": "Suivez les livraisons et traitez uniquement les surlivraisons nécessitant votre décision.", "manager": "Gestionnaire", "empty": "Aucune réception dans cette catégorie." },
+    "filters": { "action": "Action requise", "information": "Informations", "all": "Toutes" },
+    "actionRequired": "Décision requise",
+    "detail": { "back": "Retour aux réceptions", "information": "Informations de réception", "supervisorComment": "Commentaire du superviseur" },
+    "actions": { "approve": "Approuver", "return": "Retourner pour correction", "cancel": "Annuler" },
+    "modal": { "approveTitle": "Approuver la réception", "approveText": "L’approbation déclenchera la validation définitive et la comptabilisation du stock.", "returnTitle": "Retourner pour correction", "returnText": "Le gestionnaire pourra corriger puis soumettre à nouveau cette réception.", "cancelTitle": "Annuler définitivement", "cancelText": "Cette réception sera annulée sans mouvement de stock.", "reason": "Motif obligatoire", "optionalComment": "Commentaire facultatif", "confirm": "Confirmer" },
+    "feedback": { "approve": "Réception approuvée et validée.", "return": "Réception retournée pour correction.", "cancel": "Réception annulée." }
+  },
   "statuses": {
     "DRAFT": "Brouillon",
     "PENDING_SUPERVISOR_APPROVAL": "En attente du Superviseur",
     "RETURNED_FOR_CORRECTION": "Retournée pour correction",
     "APPROVED": "Approuvée",
-    "VALIDATED": "Terminée",
+    "VALIDATED": "Validée",
     "CANCELLED": "Annulée"
   },
   "errors": {
@@ -94,7 +108,8 @@
     "save": "Impossible d’enregistrer la réception.",
     "submit": "Impossible de soumettre la réception.",
     "forbidden": "Vous n’avez pas accès à cette réception.",
-    "conflict": "Les données ont changé. Rechargez la réception avant de réessayer."
+    "conflict": "Les données ont changé. Rechargez la réception avant de réessayer.",
+    "decision": "Impossible d’appliquer cette décision."
   },
   "timeline": {
     "performedBy": "Par {{name}}"

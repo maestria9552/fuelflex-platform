@@ -16,6 +16,19 @@ class ReceptionWorkflowContractTest {
                 "src/main/java/com/fuelflex/platform/reception/service/impl/ReceptionServiceImpl.java"));
     }
 
+    @Test void draftCreationPersistsReceptionBeforeItsItems() {
+        int parentPersist = source.indexOf("receptions.saveAndFlush(r)");
+        int childrenPersist = source.indexOf("replaceItems(r,req.items(),po,a)");
+        assertThat(parentPersist).isGreaterThanOrEqualTo(0);
+        assertThat(childrenPersist).isGreaterThan(parentPersist);
+        assertThat(source).contains("i.setReception(r)", "items.saveAll(built)");
+    }
+
+    @Test void updateKeepsUsingAlreadyPersistedReceptionWhenReplacingItems() {
+        assertThat(source).contains("Reception r=manager(id,a,true)",
+                "replaceItems(r,req.items(),r.getPurchaseOrder(),a)");
+    }
+
     @Test void submissionRecomputesBacklogWhileOrderIsLocked() {
         assertThat(source).contains("lockOrder(r)", "recomputeBacklogs(currentItems)",
                 "sumValidatedForPurchaseOrderItem");
@@ -58,5 +71,35 @@ class ReceptionWorkflowContractTest {
     @Test void terminalTransitionsRemainGuarded() {
         assertThat(source).contains("require(r,ReceptionStatus.PENDING_SUPERVISOR_APPROVAL)",
                 "Cette réception n’est plus modifiable", "Cette réception n’est pas soumettable");
+    }
+    @Test void availabilityComesFromTheValidatedCumulativeBackendQuery() { assertThat(source).contains("managerOrderAvailability", "validatedQuantity(orderItem)", "subtract(previous).max(BigDecimal.ZERO)"); }
+
+    @Test void purchaseOrderStatusUsesEveryLineBacklog() {
+        assertThat(source).contains(
+                "for(PurchaseOrderItem item:po.getItems())",
+                "validatedQuantity(item)",
+                "if(received.signum()>0)anyValidated=true",
+                "if(received.compareTo(item.getQuantity())<0)allComplete=false",
+                "PurchaseOrderStatus target=allComplete?PurchaseOrderStatus.RECEIVED:anyValidated?PurchaseOrderStatus.PARTIALLY_RECEIVED:previous",
+                "po.setStatus(target)",
+                "orders.saveAndFlush(po)");
+    }
+
+    @Test void validationHistoryKeepsCumulativeResultAndBacklog() { assertThat(source).contains("validationSummary(r)", "Reliquat :", "ReceptionHistoryAction.RECEPTION_VALIDATED"); }
+
+    @Test void managerDashboardReadsTheDefinitiveMovementLedger() throws Exception {
+        String stockSource = Files.readString(Path.of(
+                "src/main/java/com/fuelflex/platform/reception/repository/ReceptionStockBalanceRepository.java"));
+
+        assertThat(stockSource).contains(
+                "from Tank tank",
+                "left join ReceptionStockMovement movement on movement.tank.id = tank.id",
+                "sum(movement.quantity)",
+                "coalesce(sum(movement.quantity), 0) as currentStock",
+                "tank.maximumLevelLiters as capacity",
+                "group by tank.depot.station.id",
+                "tank.id, tank.name",
+                "tank.active = true",
+                "tank.depot.station.id in :stationIds");
     }
 }

@@ -10,7 +10,9 @@
     "supervisorRejected": "Refusée par le superviseur",
     "pendingSupplier": "En attente du fournisseur",
     "supplierRejected": "Refusée par le fournisseur",
-    "awaitingReception": "En attente de réception"
+    "awaitingReception": "En attente de réception",
+    "partiallyReceived": "Partiellement réceptionnée",
+    "received": "Réceptionnée"
   },
   "errors": {
     "forbidden": "Accès refusé.",
@@ -79,6 +81,8 @@
     "noHistory": "Aucun événement historique.",
     "supervisorRejected": "Commande refusée par le superviseur",
     "supplierRejected": "Commande refusée par le fournisseur",
+    "partiallyReceived": "Réception partielle",
+    "received": "Commande entièrement réceptionnée",
     "noReason": "Aucun motif fourni."
   },
   "history": {
@@ -96,7 +100,9 @@
     "supervisorRejected": "La commande est refusée et verrouillée.",
     "pendingSupplier": "En attente de validation du fournisseur",
     "supplierRejected": "La commande est refusée et verrouillée.",
-    "awaitingReception": "Prochaine étape : réception"
+    "awaitingReception": "Prochaine étape : réception",
+    "partiallyReceived": "Réception partielle : le reliquat reste à réceptionner",
+    "received": "Commande entièrement réceptionnée"
   },
   "supervisor": {
     "filters": {

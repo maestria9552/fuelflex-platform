@@ -53,6 +53,13 @@
       "title": "Order rejected",
       "message": "An order has been rejected."
     },
+    "receptionCreated": { "title": "Receipt created", "message": "A manager created a new receipt." },
+    "receptionUpdated": { "title": "Receipt updated", "message": "A manager updated a receipt." },
+    "receptionCorrected": { "title": "Receipt corrected", "message": "A returned receipt was corrected." },
+    "receptionValidated": { "title": "Receipt validated", "message": "A complete receipt was validated and posted to stock." },
+    "receptionPartial": { "title": "Partial receipt validated", "message": "A partial receipt was validated; a balance remains to be received." },
+    "receptionOverage": { "title": "Over-delivery requires action", "message": "An over-delivery receipt requires your decision." },
+    "receptionReturned": { "title": "Reception returned for correction", "message": "The Supervisor returned your reception. Open it to review the reason and make corrections." },
     "receptionCompleted": {
       "title": "Reception completed",
       "message": "A fuel reception has been completed."

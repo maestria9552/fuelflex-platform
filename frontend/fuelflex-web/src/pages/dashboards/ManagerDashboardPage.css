@@ -1,1 +1,59 @@
-.manager-dashboard { max-width: 760px; }.manager-dashboard-kicker { display: inline-flex; align-items: center; gap: 7px; color: #2563eb; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }.manager-dashboard h1 { margin: 14px 0 8px; color: #0f172a; font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -.04em; }.manager-dashboard-welcome { margin: 0; color: #64748b; font-size: .98rem; }.manager-dashboard-card { display: flex; align-items: flex-start; gap: 14px; margin-top: 34px; padding: 22px; border: 1px solid #dbeafe; border-radius: 16px; background: #fff; box-shadow: 0 12px 30px rgba(15,23,42,.05); color: #16a34a; }.manager-dashboard-card h2 { margin: 0; color: #172033; font-size: 1.05rem; }.manager-dashboard-card p { margin: 7px 0 0; color: #64748b; font-size: .82rem; line-height: 1.6; }
+.manager-dashboard { width: 100%; max-width: 1180px; margin: 0 auto; }
+.manager-dashboard-kicker { display: inline-flex; align-items: center; gap: 7px; color: #2563eb; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.manager-dashboard > h1 { margin: 14px 0 8px; color: #0f172a; font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -.04em; }
+.manager-dashboard-welcome { margin: 0; color: #64748b; font-size: .98rem; }
+.manager-dashboard-stock { margin-top: 30px; padding: clamp(18px, 3vw, 26px); border: 1px solid #dbeafe; border-radius: 18px; background: #fff; box-shadow: 0 16px 40px rgba(15,23,42,.06); }
+.manager-dashboard-stock-header { display: flex; justify-content: space-between; gap: 16px; color: #2563eb; }
+.manager-dashboard-stock-header h2 { margin: 0; color: #172033; font-size: 1.1rem; }
+.manager-dashboard-stock-header p { margin: 6px 0 0; color: #64748b; font-size: .84rem; }
+.manager-dashboard-stock-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 16px; margin-top: 22px; }
+.manager-stock-card { padding: 18px; border: 1px solid #e2e8f0; border-radius: 15px; background: linear-gradient(145deg,#fff,#f8fafc); }
+.manager-stock-card > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.manager-stock-card h3 { margin: 4px 0 0; color: #0f2747; font-size: 1.05rem; }
+.manager-stock-card header small { color: #64748b; }
+.manager-stock-tank { padding: 5px 9px; border-radius: 999px; background: #eff6ff; color: #1d4ed8; font-size: .72rem; font-weight: 700; }
+.manager-stock-primary { display: flex; flex-direction: column; margin-top: 20px; }
+.manager-stock-primary strong { color: #0f2747; font-size: clamp(1.45rem,3vw,1.9rem); letter-spacing: -.03em; }
+.manager-stock-primary small { margin-top: 3px; color: #64748b; }
+.manager-stock-progress { height: 11px; margin-top: 17px; overflow: hidden; border-radius: 999px; background: #e2e8f0; }
+.manager-stock-progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#2563eb,#16a34a); transition: width .25s ease; }
+.manager-stock-progress-label { display: flex; justify-content: space-between; margin-top: 7px; color: #64748b; font-size: .76rem; }
+.manager-stock-progress-label strong { color: #334155; }
+.manager-stock-card dl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 17px 0 0; }
+.manager-stock-card dl div { padding: 11px; border-radius: 10px; background: #fff; border: 1px solid #edf2f7; }
+.manager-stock-card dt { color: #64748b; font-size: .72rem; }
+.manager-stock-card dd { margin: 5px 0 0; color: #172033; font-size: .9rem; font-weight: 750; }
+.manager-dashboard-empty,.manager-dashboard-error { margin: 22px 0 0; padding: 18px; border-radius: 12px; background: #f8fafc; color: #64748b; text-align: center; }
+.manager-dashboard-error { background: #fef2f2; color: #b91c1c; }
+@media (max-width: 640px) { .manager-dashboard-stock-grid { grid-template-columns: 1fr; } .manager-stock-card dl { grid-template-columns: 1fr; } }
+
+.manager-stock-product-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:22px; }
+.manager-product-stock { --stock-color:#2563eb; --stock-soft:#eff6ff; padding:22px; border:1px solid #e2e8f0; border-top:4px solid var(--stock-color); border-radius:16px; background:linear-gradient(145deg,#fff,#f8fafc); }
+.stock-level-low { --stock-color:#dc2626; --stock-soft:#fef2f2; }
+.stock-level-normal { --stock-color:#2563eb; --stock-soft:#eff6ff; }
+.stock-level-high { --stock-color:#16a34a; --stock-soft:#f0fdf4; }
+.manager-product-header { display:flex; justify-content:space-between; gap:12px; color:var(--stock-color); }
+.manager-product-header h3 { margin:4px 0 0; color:#0f2747; font-size:1.2rem; }
+.manager-product-header small { color:#64748b; }
+.manager-product-total { display:flex; flex-direction:column; margin-top:20px; }
+.manager-product-total > span { color:#64748b; font-size:.72rem; font-weight:700; text-transform:uppercase; }
+.manager-product-total strong { color:#0f2747; font-size:clamp(2rem,4vw,2.7rem); letter-spacing:-.05em; }
+.manager-product-total small { color:#64748b; }
+.manager-product-stock .manager-stock-progress span,.manager-tank-card .manager-stock-progress span { background:var(--stock-color); }
+.manager-stock-progress.global { height:12px; margin-top:20px; }
+.manager-product-metrics { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:17px 0 0; }
+.manager-product-metrics div { padding:11px; border:1px solid #edf2f7; border-radius:10px; background:#fff; }
+.manager-product-metrics dt { color:#64748b; font-size:.72rem; }
+.manager-product-metrics dd { margin:5px 0 0; color:#172033; font-weight:750; }
+.manager-tank-details { margin-top:22px; padding-top:18px; border-top:1px solid #e2e8f0; }
+.manager-tank-details h4 { margin:0 0 12px; color:#334155; font-size:.82rem; }
+.manager-tank-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; }
+.manager-tank-card { --stock-color:#2563eb; --stock-soft:#eff6ff; padding:12px; border:1px solid #e2e8f0; border-radius:11px; background:#fff; }
+.manager-tank-card header { display:flex; justify-content:space-between; gap:8px; }
+.manager-tank-card header div { display:flex; flex-direction:column; }
+.manager-tank-card header small { color:#94a3b8; font-size:.65rem; }
+.manager-tank-card header > span { padding:3px 7px; border-radius:999px; background:var(--stock-soft); color:var(--stock-color); font-size:.68rem; font-weight:750; }
+.manager-tank-card p { color:#64748b; font-size:.76rem; white-space:nowrap; }
+.manager-tank-card p strong { color:#172033; }
+@media (max-width:900px) { .manager-stock-product-grid { grid-template-columns:1fr; } }
+@media (max-width:520px) { .manager-product-metrics,.manager-tank-grid { grid-template-columns:1fr; } }

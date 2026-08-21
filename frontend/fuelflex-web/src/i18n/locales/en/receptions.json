@@ -29,6 +29,7 @@
     "ordered": "Ordered",
     "already": "Already received",
     "backlog": "Remaining",
+    "settled": "Settled",
     "received": "Received quantity",
     "price": "Purchase unit price",
     "currency": "Currency",
@@ -46,6 +47,7 @@
     "resubmit": "Resubmit",
     "status": "Status",
     "returnedTitle": "Receipt returned for correction",
+    "pendingSupervisor": "Waiting for Supervisor approval. This receipt is read-only until a decision is made.",
     "required": "This field is required",
     "invalidNumber": "Enter a value greater than zero.",
     "loading": "Loading…",
@@ -55,13 +57,16 @@
     "selectOrder": "Choose an order"
   },
   "modal": {
+    "resubmitTitle": "Confirm resubmission",
+    "resubmitText": "This corrected receipt will be resubmitted to the supervisor for validation.",
     "normalTitle": "Confirm receipt",
-    "normalText": "This operation will save the receipt information. No physical stock will be credited in this module.",
+    "normalText": "After confirmation, the backend will validate the receipt and post the stock. The returned status will then be displayed.",
     "overTitle": "Supervisor authorization required",
     "overText": "The entered quantity exceeds the remaining quantity. Continuing will suspend this receipt and send it to the Supervisor. No stock movement will occur before a decision.",
     "justification": "Over-delivery reason",
     "return": "Back to receipt",
-    "confirm": "Request authorization",
+    "confirmNormal": "Validate receipt",
+    "confirmOver": "Request authorization",
     "cancel": "Cancel",
     "summary": "Over-delivery summary"
   },
@@ -76,12 +81,21 @@
     "validated": "Validated",
     "resubmitted": "Resubmitted"
   },
+  "supervisor": {
+    "list": { "title": "Receipts", "subtitle": "Track deliveries and process only over-deliveries requiring your decision.", "manager": "Manager", "empty": "No receipt in this category." },
+    "filters": { "action": "Action required", "information": "Information", "all": "All" },
+    "actionRequired": "Decision required",
+    "detail": { "back": "Back to receipts", "information": "Receipt information", "supervisorComment": "Supervisor comment" },
+    "actions": { "approve": "Approve", "return": "Return for correction", "cancel": "Cancel" },
+    "modal": { "approveTitle": "Approve receipt", "approveText": "Approval triggers final validation and stock posting.", "returnTitle": "Return for correction", "returnText": "The manager will be able to correct and resubmit this receipt.", "cancelTitle": "Cancel permanently", "cancelText": "This receipt will be cancelled without any stock movement.", "reason": "Required reason", "optionalComment": "Optional comment", "confirm": "Confirm" },
+    "feedback": { "approve": "Receipt approved and validated.", "return": "Receipt returned for correction.", "cancel": "Receipt cancelled." }
+  },
   "statuses": {
     "DRAFT": "Draft",
     "PENDING_SUPERVISOR_APPROVAL": "Waiting for Supervisor",
     "RETURNED_FOR_CORRECTION": "Returned for correction",
     "APPROVED": "Approved",
-    "VALIDATED": "Completed",
+    "VALIDATED": "Validated",
     "CANCELLED": "Cancelled"
   },
   "errors": {
@@ -89,7 +103,8 @@
     "save": "Unable to save the receipt.",
     "submit": "Unable to submit the receipt.",
     "forbidden": "You cannot access this receipt.",
-    "conflict": "The data changed. Reload before trying again."
+    "conflict": "The data changed. Reload before trying again.",
+    "decision": "Unable to apply this decision."
   },
   "timeline": {
     "performedBy": "By {{name}}"

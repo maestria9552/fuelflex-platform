@@ -53,6 +53,13 @@
       "title": "Commande refusée",
       "message": "Votre commande a été refusée."
     },
+    "receptionCreated": { "title": "Réception créée", "message": "Un gestionnaire a créé une nouvelle réception." },
+    "receptionUpdated": { "title": "Réception modifiée", "message": "Un gestionnaire a modifié une réception." },
+    "receptionCorrected": { "title": "Réception corrigée", "message": "Une réception retournée a été corrigée." },
+    "receptionValidated": { "title": "Réception validée", "message": "Une réception complète a été validée et comptabilisée." },
+    "receptionPartial": { "title": "Réception partielle validée", "message": "Une réception partielle a été validée ; un reliquat reste à recevoir." },
+    "receptionOverage": { "title": "Surlivraison à traiter", "message": "Une réception en surlivraison nécessite votre décision." },
+    "receptionReturned": { "title": "Réception retournée pour correction", "message": "Le superviseur a retourné votre réception. Consultez-la pour connaître le motif et la corriger." },
     "receptionCompleted": {
       "title": "Réception terminée",
       "message": "Une réception de carburant a été terminée."

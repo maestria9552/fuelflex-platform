@@ -16,6 +16,7 @@ import {
   UsersRound,
   ChartNoAxesCombined,
   ClipboardCheck,
+  PackageCheck,
   Settings2,
   ChevronLeft,
   ChevronRight,
@@ -41,6 +42,12 @@ const navigationGroups = [
         labelKey: "items.orders",
         path: "/superviseur/commandes",
         icon: ClipboardCheck,
+      },
+      {
+        id: "receipts",
+        labelKey: "items.receipts",
+        path: "/superviseur/receptions",
+        icon: PackageCheck,
       },
       {
         id: "societe",
