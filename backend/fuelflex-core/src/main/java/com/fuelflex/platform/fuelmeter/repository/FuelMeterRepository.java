@@ -6,6 +6,10 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import jakarta.persistence.LockModeType;
 
 import com.fuelflex.platform.dispensingpoint.entity.DispensingPoint;
 import com.fuelflex.platform.fuelmeter.entity.FuelMeter;
@@ -83,4 +87,7 @@ public interface FuelMeterRepository
             String code,
             UUID fuelMeterId
     );
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select meter from FuelMeter meter left join fetch meter.pump left join fetch meter.dispensingPoint point left join fetch point.pump where meter.id = :id")
+    Optional<FuelMeter> lockById(@Param("id") UUID id);
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(properties = {
         "spring.jpa.hibernate.ddl-auto=validate",
-        "spring.flyway.enabled=false",
+        "spring.flyway.enabled=true",
         "fuelflex.data-initialization.enabled=false"
 })
 class FuelFlexPlatformApplicationTests {

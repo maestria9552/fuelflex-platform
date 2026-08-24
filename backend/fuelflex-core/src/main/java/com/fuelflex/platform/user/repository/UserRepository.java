@@ -27,6 +27,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     boolean existsByPhoneNumberAndIdNot(String phoneNumber, UUID id);
 
+    boolean existsByOperationalCode(String operationalCode);
+
     Optional<User> findByIdAndOrganizationId(UUID id, UUID organizationId);
 
     @Query("select distinct user from User user join user.roles role where user.organization.id = :organizationId and user.enabled = true and role.active = true and upper(role.code) = upper(:roleCode)")

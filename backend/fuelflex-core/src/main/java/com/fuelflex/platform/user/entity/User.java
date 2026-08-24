@@ -38,6 +38,10 @@ import lombok.Setter;
                 @UniqueConstraint(
                         name = "uk_users_phone_number",
                         columnNames = "phone_number"
+                ),
+                @UniqueConstraint(
+                        name = "uk_users_operational_code",
+                        columnNames = "operational_code"
                 )
         }
 )
@@ -61,6 +65,9 @@ public class User {
 
     @Column(name = "phone_number", nullable = false, length = 30)
     private String phoneNumber;
+
+    @Column(name = "operational_code", length = 20)
+    private String operationalCode;
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;

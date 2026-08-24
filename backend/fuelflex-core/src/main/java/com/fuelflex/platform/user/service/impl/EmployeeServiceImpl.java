@@ -59,6 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeAssignmentService employeeAssignmentService;
     private final OtpService otpService;
     private final EmailService emailService;
+    private final com.fuelflex.platform.user.repository.PumpAttendantNumberRepository pumpAttendantNumbers;
 
     @Override
     @Transactional(readOnly = true)
@@ -116,6 +117,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPhoneNumber(phoneNumber);
         employee.setOrganization(organization);
         employee.setRoles(new HashSet<>(List.of(role)));
+        assignOperationalCodeIfRequired(employee, role);
 
         // The account cannot be used until the future invitation flow lets the
         // employee choose a password and verifies the email address.
@@ -165,6 +167,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setLastName(normalizeRequiredText(request.getLastName()));
         employee.setPhoneNumber(phoneNumber);
         employee.setRoles(new HashSet<>(List.of(role)));
+        assignOperationalCodeIfRequired(employee, role);
 
         return employeeMapper.toResponse(userRepository.save(employee));
     }
@@ -214,6 +217,12 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .filter(Role::isActive)
                 .map(role -> new AssignableEmployeeRoleResponse(role.getCode(), role.getName()))
                 .toList();
+    }
+
+    private void assignOperationalCodeIfRequired(User employee, Role role) {
+        if ("PUMP_ATTENDANT".equalsIgnoreCase(role.getCode()) && employee.getOperationalCode() == null) {
+            employee.setOperationalCode("PMP-" + String.format("%06d", pumpAttendantNumbers.nextValue()));
+        }
     }
 
     private Organization getCurrentOrganization() {

@@ -62,6 +62,8 @@ class EmployeeServiceImplTest {
     private OtpService otpService;
     @Mock
     private EmailService emailService;
+    @Mock
+    private com.fuelflex.platform.user.repository.PumpAttendantNumberRepository pumpAttendantNumbers;
 
     private EmployeeServiceImpl service;
     private Organization organization;
@@ -77,7 +79,8 @@ class EmployeeServiceImplTest {
                 new EmployeeMapper(),
                 employeeAssignmentService,
                 otpService,
-                emailService
+                emailService,
+                pumpAttendantNumbers
         );
         organization = organization();
         supervisor = user(organization, "SUPERVISOR");
@@ -90,6 +93,7 @@ class EmployeeServiceImplTest {
         Role role = role(roleCode, true);
         when(roleRepository.findByCodeIgnoreCase(roleCode)).thenReturn(Optional.of(role));
         when(passwordEncoder.encode(any(String.class))).thenReturn("encoded-unusable-secret");
+        org.mockito.Mockito.lenient().when(pumpAttendantNumbers.nextValue()).thenReturn(1L);
         when(otpService.generateCode()).thenReturn("123456");
         when(otpService.expirationDate()).thenReturn(java.time.OffsetDateTime.now().plusMinutes(30));
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
@@ -110,6 +114,7 @@ class EmployeeServiceImplTest {
         assertThat(saved.getPasswordHash()).isEqualTo("encoded-unusable-secret");
         assertThat(response.getOrganizationId()).isEqualTo(organization.getId());
         assertThat(response.getRoleCode()).isEqualTo(roleCode);
+        if ("PUMP_ATTENDANT".equals(roleCode)) assertThat(response.getOperationalCode()).isEqualTo("PMP-000001");
     }
 
     @ParameterizedTest

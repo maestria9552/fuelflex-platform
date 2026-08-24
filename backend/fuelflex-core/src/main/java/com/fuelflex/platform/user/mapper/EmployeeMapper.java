@@ -26,6 +26,7 @@ public class EmployeeMapper {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
+                .operationalCode(user.getOperationalCode())
                 .enabled(user.isEnabled())
                 .invitationSent(invitationSent)
                 .invitationPending(!user.isEnabled() && !user.isEmailVerified())

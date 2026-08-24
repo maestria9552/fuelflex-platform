@@ -15,6 +15,7 @@ public class EmployeeResponse {
     private String lastName;
     private String email;
     private String phoneNumber;
+    private String operationalCode;
     private boolean enabled;
     private boolean invitationSent;
     private boolean invitationPending;
