@@ -1,0 +1,88 @@
+{
+  "eyebrow": "Ventes carburant",
+  "types": {
+    "CASH": "CASH",
+    "CREDIT": "CREDIT"
+  },
+  "statuses": {
+    "EFFECTIVE": "Effective",
+    "REVERSED": "Annulée"
+  },
+  "vehicleTypes": {
+    "MOTORCYCLE": "Moto",
+    "CAR": "Voiture",
+    "JEEP": "Jeep",
+    "MINIBUS": "Minibus",
+    "TRUCK": "Camion"
+  },
+  "fields": {
+    "saleNumber": "N° de vente",
+    "soldAt": "Vendue le",
+    "station": "Station",
+    "operationalDay": "Journée opérationnelle",
+    "pumpAttendant": "Pompiste",
+    "pump": "Pompe",
+    "dispensingPoint": "Point de distribution",
+    "fuelMeter": "Compteur",
+    "tank": "Citerne",
+    "product": "Produit",
+    "tariff": "Tarif",
+    "saleType": "Type",
+    "status": "Statut",
+    "quantity": "Quantité",
+    "unitPrice": "Prix unitaire",
+    "totalAmount": "Montant total",
+    "vehicleType": "Type de véhicule",
+    "licensePlate": "Plaque",
+    "creditCustomer": "Client crédit",
+    "from": "Du",
+    "to": "Au",
+    "sort": "Tri",
+    "reversedAt": "Annulée le",
+    "reversalReason": "Motif d’annulation"
+  },
+  "list": {
+    "title": "Ventes POS",
+    "managerSubtitle": "Consultez les ventes de vos stations et effectuez les annulations autorisées.",
+    "supervisorSubtitle": "Contrôlez les ventes des stations de votre périmètre.",
+    "resultCount": "{{count}} vente(s)",
+    "emptyTitle": "Aucune vente trouvée",
+    "emptyDescription": "Aucune vente ne correspond aux filtres sélectionnés.",
+    "pagination": "Pagination des ventes",
+    "page": "Page {{current}} sur {{total}}"
+  },
+  "filters": {
+    "title": "Filtres backend",
+    "allStations": "Toutes les stations",
+    "allDays": "Toutes les journées",
+    "allAttendants": "Tous les pompistes",
+    "allTypes": "Tous les types",
+    "allStatuses": "Tous les statuts",
+    "newest": "Plus récentes",
+    "oldest": "Plus anciennes",
+    "highestAmount": "Montant décroissant",
+    "apply": "Appliquer"
+  },
+  "detail": {
+    "back": "Retour aux ventes",
+    "eyebrow": "Détail de la vente",
+    "information": "Informations persistées",
+    "reversal": "Trace d’annulation"
+  },
+  "reversal": {
+    "action": "Annuler",
+    "title": "Annuler la vente",
+    "description": "Vente {{number}}. La vente originale et sa trace resteront conservées.",
+    "warning": "Cette action crée le reversal et le mouvement compensatoire prévus par le backend. Elle ne supprime pas la vente.",
+    "confirm": "Confirmer l’annulation",
+    "loading": "Annulation…"
+  },
+  "feedback": {
+    "reversed": "La vente a été annulée par le serveur."
+  },
+  "errors": {
+    "load": "Impossible de charger les ventes.",
+    "loadDetail": "Impossible de charger cette vente.",
+    "reverse": "Impossible d’annuler cette vente."
+  }
+}

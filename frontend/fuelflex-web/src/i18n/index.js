@@ -45,6 +45,10 @@ import ordersEn from "./locales/en/orders.json";
 import ordersFr from "./locales/fr/orders.json";
 import receptionsEn from "./locales/en/receptions.json";
 import receptionsFr from "./locales/fr/receptions.json";
+import operationsEn from "./locales/en/operations.json";
+import operationsFr from "./locales/fr/operations.json";
+import salesEn from "./locales/en/sales.json";
+import salesFr from "./locales/fr/sales.json";
 import {
   DEFAULT_LANGUAGE,
   resolveInitialLanguage,
@@ -74,6 +78,8 @@ const resources = {
     managerDashboard: managerDashboardFr,
     orders: ordersFr,
     receptions: receptionsFr,
+    operations: operationsFr,
+    sales: salesFr,
     pumps: pumpsFr,
     tanks: tanksFr,
   },
@@ -98,6 +104,8 @@ const resources = {
     managerDashboard: managerDashboardEn,
     orders: ordersEn,
     receptions: receptionsEn,
+    operations: operationsEn,
+    sales: salesEn,
     pumps: pumpsEn,
     tanks: tanksEn,
   },

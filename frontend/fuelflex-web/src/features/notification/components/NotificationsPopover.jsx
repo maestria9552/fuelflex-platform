@@ -23,6 +23,7 @@ import {
 import "./NotificationsPopover.css";
 
 const PAGE_SIZE = 20;
+const NAVIGABLE_RESOURCE_TYPES = ["PURCHASE_ORDER", "RECEPTION", "OPERATIONAL_DAY", "SHIFT_ASSIGNMENT", "DAILY_EXPENSE", "TANK_GAUGE", "FUEL_SALE"];
 
 function NotificationsPopover({ isOpen, onOpen, onClose }) {
   const { t, i18n } = useTranslation(["notifications", "common"]);
@@ -143,13 +144,19 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
 
   const handleNotificationClick = async (notification) => {
     if (!notification.read) await handleMarkAsRead(notification.id);
+    const prefix = isSupervisor ? "/superviseur" : "/gerant";
     if (notification.resourceType === "PURCHASE_ORDER" && notification.resourceId) {
       navigate("/superviseur/commandes/" + notification.resourceId);
-      onClose();
     } else if (notification.resourceType === "RECEPTION" && notification.resourceId) {
-      navigate((isSupervisor ? "/superviseur/receptions/" : "/gerant/receptions/") + notification.resourceId);
-      onClose();
+      navigate(prefix + "/receptions/" + notification.resourceId);
+    } else if (notification.resourceType === "OPERATIONAL_DAY" && notification.resourceId) {
+      navigate(prefix + "/operations/" + notification.resourceId);
+    } else if (notification.resourceType === "FUEL_SALE" && notification.resourceId) {
+      navigate(prefix + "/ventes/" + notification.resourceId);
+    } else if (["SHIFT_ASSIGNMENT", "DAILY_EXPENSE", "TANK_GAUGE"].includes(notification.resourceType)) {
+      navigate(prefix + "/operations");
     }
+    onClose();
   };
 
 
@@ -303,7 +310,7 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
               {visibleNotifications.map((notification) => (
                 <li
                   key={notification.id}
-                  onClick={(event) => { if (!event.target.closest("button") && ["PURCHASE_ORDER", "RECEPTION"].includes(notification.resourceType)) handleNotificationClick(notification); }}
+                  onClick={(event) => { if (!event.target.closest("button") && NAVIGABLE_RESOURCE_TYPES.includes(notification.resourceType)) handleNotificationClick(notification); }}
                   className={[
                     "notification-item",
                     notification.read ? "read" : "unread",

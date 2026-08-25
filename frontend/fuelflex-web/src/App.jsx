@@ -40,6 +40,14 @@ import ManagerReceptionFormPage from "./pages/receptions/ManagerReceptionFormPag
 import ManagerReceptionDetailPage from "./pages/receptions/ManagerReceptionDetailPage";
 import SupervisorReceptionsPage from "./pages/receptions/SupervisorReceptionsPage";
 import SupervisorReceptionDetailPage from "./pages/receptions/SupervisorReceptionDetailPage";
+import ManagerOperationalDaysPage from "./pages/operations/ManagerOperationalDaysPage";
+import ManagerOperationalDayDetailPage from "./pages/operations/ManagerOperationalDayDetailPage";
+import SupervisorOperationalDaysPage from "./pages/operations/SupervisorOperationalDaysPage";
+import SupervisorOperationalDayDetailPage from "./pages/operations/SupervisorOperationalDayDetailPage";
+import ManagerSalesPage from "./pages/sales/ManagerSalesPage";
+import ManagerSaleDetailPage from "./pages/sales/ManagerSaleDetailPage";
+import SupervisorSalesPage from "./pages/sales/SupervisorSalesPage";
+import SupervisorSaleDetailPage from "./pages/sales/SupervisorSaleDetailPage";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import RoleBasedRedirect from "./components/auth/RoleBasedRedirect";
@@ -114,6 +122,10 @@ function App() {
           <Route path="/gerant/receptions" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerReceptionsPage /></ProtectedRoute>} />
           <Route path="/gerant/receptions/nouvelle" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerReceptionFormPage /></ProtectedRoute>} />
           <Route path="/gerant/receptions/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerReceptionDetailPage /></ProtectedRoute>} />
+          <Route path="/gerant/operations" element={<ProtectedRoute allowedRoles={["MANAGER"]} requiredPermissions={["operational-day:view"]}><ManagerOperationalDaysPage /></ProtectedRoute>} />
+          <Route path="/gerant/operations/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]} requiredPermissions={["operational-day:view"]}><ManagerOperationalDayDetailPage /></ProtectedRoute>} />
+          <Route path="/gerant/ventes" element={<ProtectedRoute allowedRoles={["MANAGER"]} requiredPermissions={["pos-sale:view"]}><ManagerSalesPage /></ProtectedRoute>} />
+          <Route path="/gerant/ventes/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]} requiredPermissions={["pos-sale:view"]}><ManagerSaleDetailPage /></ProtectedRoute>} />
           <Route path="/gerant/commandes/nouvelle" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerNewOrderPage /></ProtectedRoute>} />
           <Route path="/gerant/commandes/:id/bon-de-commande" element={<ProtectedRoute allowedRoles={["MANAGER"]}><PurchaseOrderDocumentPage /></ProtectedRoute>} />
           <Route path="/gerant/commandes/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerOrderDetailPage /></ProtectedRoute>} />
@@ -121,6 +133,10 @@ function App() {
           <Route path="/superviseur/commandes" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorOrdersPage /></ProtectedRoute>} />
           <Route path="/superviseur/receptions" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorReceptionsPage /></ProtectedRoute>} />
           <Route path="/superviseur/receptions/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorReceptionDetailPage /></ProtectedRoute>} />
+          <Route path="/superviseur/operations" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]} requiredPermissions={["operational-day:view"]}><SupervisorOperationalDaysPage /></ProtectedRoute>} />
+          <Route path="/superviseur/operations/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]} requiredPermissions={["operational-day:view"]}><SupervisorOperationalDayDetailPage /></ProtectedRoute>} />
+          <Route path="/superviseur/ventes" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]} requiredPermissions={["pos-sale:view"]}><SupervisorSalesPage /></ProtectedRoute>} />
+          <Route path="/superviseur/ventes/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]} requiredPermissions={["pos-sale:view"]}><SupervisorSaleDetailPage /></ProtectedRoute>} />
           <Route path="/superviseur/commandes/:id/bon-de-commande" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><PurchaseOrderDocumentPage /></ProtectedRoute>} />
           <Route path="/superviseur/commandes/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorOrderDetailPage /></ProtectedRoute>} />
           <Route

@@ -22,3 +22,27 @@ export function getReceptionPermissions() {
     canCancel: hasPermission("reception:cancel"),
   };
 }
+
+export function getOperationalPermissions() {
+  return {
+    canViewDays: hasPermission("operational-day:view"),
+    canOpenDay: hasPermission("operational-day:open"),
+    canCloseDay: hasPermission("operational-day:close"),
+    canViewAssignments: hasPermission("shift-assignment:view"),
+    canCreateAssignment: hasPermission("shift-assignment:create"),
+    canCloseAssignment: hasPermission("shift-assignment:close"),
+    canViewExpenses: hasPermission("daily-expense:view"),
+    canCreateExpense: hasPermission("daily-expense:create"),
+    canViewGauges: hasPermission("tank-gauge:view"),
+    canCreateGauge: hasPermission("tank-gauge:create"),
+    canViewReconciliations: hasPermission("reconciliation:view"),
+    canViewRjv: hasPermission("rjv:view"),
+  };
+}
+
+export function getSalePermissions() {
+  return {
+    canView: hasPermission("pos-sale:view"),
+    canReverse: hasPermission("pos-sale:reverse"),
+  };
+}

@@ -52,9 +52,19 @@ function normalizeRoles(roles) {
   });
 }
 
+function normalizePermissions(permissions) {
+  if (!Array.isArray(permissions)) return [];
+
+  return permissions.map((permission) => {
+    if (typeof permission === "string") return permission.toLowerCase();
+    return String(permission?.code || permission?.authority || "").toLowerCase();
+  });
+}
+
 function ProtectedRoute({
   children,
   allowedRoles = [],
+  requiredPermissions = [],
 }) {
   const { t } = useTranslation("auth");
   const location = useLocation();
@@ -91,6 +101,15 @@ function ProtectedRoute({
         replace
       />
     );
+  }
+
+  const userPermissions = normalizePermissions(session.user.permissions);
+  const hasRequiredPermissions = requiredPermissions.every((permission) =>
+    userPermissions.includes(String(permission).toLowerCase())
+  );
+
+  if (!hasRequiredPermissions) {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;

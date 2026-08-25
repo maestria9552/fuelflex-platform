@@ -1,0 +1,88 @@
+{
+  "eyebrow": "Fuel sales",
+  "types": {
+    "CASH": "CASH",
+    "CREDIT": "CREDIT"
+  },
+  "statuses": {
+    "EFFECTIVE": "Effective",
+    "REVERSED": "Reversed"
+  },
+  "vehicleTypes": {
+    "MOTORCYCLE": "Motorcycle",
+    "CAR": "Car",
+    "JEEP": "Jeep",
+    "MINIBUS": "Minibus",
+    "TRUCK": "Truck"
+  },
+  "fields": {
+    "saleNumber": "Sale no.",
+    "soldAt": "Sold at",
+    "station": "Station",
+    "operationalDay": "Operational day",
+    "pumpAttendant": "Pump attendant",
+    "pump": "Pump",
+    "dispensingPoint": "Dispensing point",
+    "fuelMeter": "Fuel meter",
+    "tank": "Tank",
+    "product": "Product",
+    "tariff": "Tariff",
+    "saleType": "Type",
+    "status": "Status",
+    "quantity": "Quantity",
+    "unitPrice": "Unit price",
+    "totalAmount": "Total amount",
+    "vehicleType": "Vehicle type",
+    "licensePlate": "License plate",
+    "creditCustomer": "Credit customer",
+    "from": "From",
+    "to": "To",
+    "sort": "Sort",
+    "reversedAt": "Reversed at",
+    "reversalReason": "Reversal reason"
+  },
+  "list": {
+    "title": "POS sales",
+    "managerSubtitle": "Review station sales and perform authorized reversals.",
+    "supervisorSubtitle": "Review sales for stations in your scope.",
+    "resultCount": "{{count}} sale(s)",
+    "emptyTitle": "No sale found",
+    "emptyDescription": "No sale matches the selected filters.",
+    "pagination": "Sales pagination",
+    "page": "Page {{current}} of {{total}}"
+  },
+  "filters": {
+    "title": "Backend filters",
+    "allStations": "All stations",
+    "allDays": "All days",
+    "allAttendants": "All pump attendants",
+    "allTypes": "All types",
+    "allStatuses": "All statuses",
+    "newest": "Newest first",
+    "oldest": "Oldest first",
+    "highestAmount": "Highest amount",
+    "apply": "Apply"
+  },
+  "detail": {
+    "back": "Back to sales",
+    "eyebrow": "Sale details",
+    "information": "Persisted information",
+    "reversal": "Reversal record"
+  },
+  "reversal": {
+    "action": "Reverse",
+    "title": "Reverse sale",
+    "description": "Sale {{number}}. The original sale and audit record will be retained.",
+    "warning": "This action creates the reversal and compensating stock movement provided by the backend. It does not delete the sale.",
+    "confirm": "Confirm reversal",
+    "loading": "Reversing…"
+  },
+  "feedback": {
+    "reversed": "The sale was reversed by the server."
+  },
+  "errors": {
+    "load": "Unable to load sales.",
+    "loadDetail": "Unable to load this sale.",
+    "reverse": "Unable to reverse this sale."
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "eyebrow": "Station operations",
+  "statuses": {
+    "OPEN": "Open",
+    "CLOSED": "Closed"
+  },
+  "fields": {
+    "station": "Station",
+    "businessDate": "Business date",
+    "status": "Status",
+    "openedAt": "Opened at",
+    "openedBy": "Opened by",
+    "pumpAttendant": "Pump attendant",
+    "fuelMeter": "Fuel meter",
+    "pump": "Pump / point",
+    "openingIndex": "Opening index",
+    "closingIndex": "Closing index",
+    "meteredVolume": "Metered volume",
+    "label": "Label",
+    "amount": "Amount",
+    "reference": "Reference",
+    "comment": "Comment",
+    "tank": "Tank",
+    "product": "Product",
+    "physicalStock": "Observed physical stock"
+  },
+  "days": {
+    "title": "Operational days",
+    "managerSubtitle": "Open and manage days for the stations assigned to you.",
+    "supervisorSubtitle": "Review activity, reconciliations and summaries for stations in your scope.",
+    "openAction": "Open a day",
+    "openAlready": "A day is already open for this station.",
+    "current": "Current day",
+    "noAccessibleStation": "No accessible station",
+    "emptyTitle": "No operational day",
+    "emptyDescription": "No day matches the selected station.",
+    "back": "Back to operational days"
+  },
+  "openDay": {
+    "title": "Open an operational day",
+    "description": "The station and date will be validated by the server."
+  },
+  "detail": {
+    "title": "Operational day for {{date}}",
+    "openedBy": "Opened by {{name}}",
+    "closeDay": "Close the day",
+    "assignments": "Pump attendant shifts",
+    "openCount": "{{count}} open",
+    "reconciliations": "Reconciliations",
+    "ofAssignments": "of {{count}} shift(s)",
+    "gauges": "Gauge readings",
+    "expenses": "Total expenses"
+  },
+  "assignments": {
+    "title": "Shift assignments",
+    "description": "Available meters and attendants are already filtered by the backend.",
+    "open": "Open a shift",
+    "close": "Close shift",
+    "empty": "No assignment for this day.",
+    "noAttendant": "No eligible pump attendant is available for this station.",
+    "noMeter": "No configured fuel meter is currently available."
+  },
+  "assignmentForm": { "title": "New assignment" },
+  "closeShift": {
+    "title": "Close shift",
+    "description": "{{name}} — opening index: {{index}}"
+  },
+  "expenses": {
+    "title": "Daily expenses",
+    "add": "Add expense",
+    "empty": "No expense recorded."
+  },
+  "expenseForm": { "title": "Record an expense" },
+  "gauges": {
+    "title": "Tank gauge readings",
+    "add": "Add gauge reading",
+    "empty": "No physical stock recorded.",
+    "theoretical": "Theoretical: {{value}} L",
+    "variance": "Variance: {{value}} L",
+    "allRecorded": "All tanks have been gauged"
+  },
+  "gaugeForm": { "title": "Record physical stock" },
+  "reconciliations": {
+    "title": "Meter / sales reconciliation",
+    "description": "Physical meter volume remains separate from recorded commercial volume.",
+    "metered": "Metered",
+    "cash": "CASH",
+    "credit": "CREDIT",
+    "variance": "Variance",
+    "empty": "Reconciliations appear after shifts are closed."
+  },
+  "rjv": {
+    "title": "Daily sales report",
+    "description": "Summary calculated exclusively from persisted data.",
+    "name": "Item",
+    "cashVolume": "CASH volume",
+    "cashAmount": "CASH amount",
+    "creditVolume": "CREDIT volume",
+    "creditAmount": "CREDIT amount",
+    "totalVolume": "Total volume",
+    "totalSoldVolume": "Sold volume",
+    "totalAmount": "Total amount",
+    "totalSalesAmount": "Total sales",
+    "meteredVolume": "Metered volume",
+    "volumeVariance": "Meter variance",
+    "expenseAmount": "Expenses",
+    "theoreticalStock": "Theoretical stock",
+    "physicalStock": "Physical stock",
+    "stockVariance": "Stock variance",
+    "byProduct": "By product",
+    "byPumpAttendant": "By pump attendant",
+    "byFuelMeter": "By fuel meter",
+    "stockDetails": "Stock by tank",
+    "noData": "No data to display.",
+    "unavailable": "The summary is unavailable for this day."
+  },
+  "closeDay": {
+    "title": "Confirm operational closing",
+    "description": "{{open}} open shift(s), {{reconciliations}} reconciliation(s), {{gauges}} gauge reading(s). The backend will verify all closing requirements.",
+    "loading": "Closing…"
+  },
+  "feedback": {
+    "assignmentOpened": "The shift was opened.",
+    "assignmentClosed": "The shift was closed and reconciled.",
+    "expenseAdded": "The expense was recorded.",
+    "gaugeAdded": "The physical stock was recorded.",
+    "dayClosed": "The operational day was closed."
+  },
+  "errors": {
+    "loadDays": "Unable to load operational days.",
+    "openDay": "Unable to open the day.",
+    "loadDay": "Unable to load this operational day.",
+    "loadTanks": "Unable to load active tanks.",
+    "action": "The operation could not be completed."
+  }
+}

@@ -8,6 +8,12 @@
     "saving": "Saving…",
     "cancel": "Cancel",
     "retry": "Retry",
+    "refresh": "Refresh",
+    "view": "View",
+    "back": "Back",
+    "reset": "Reset",
+    "previous": "Previous",
+    "next": "Next",
     "close": "Close",
     "confirm": "Confirm",
     "confirming": "Confirming...",
@@ -22,6 +28,7 @@
     "copyright": "© 2026 FuelFlex Platform. All rights reserved."
   },
   "feedback": {
-    "initializing": "Initializing FuelFlex Platform..."
+    "initializing": "Initializing FuelFlex Platform...",
+    "loading": "Loading…"
   }
 }

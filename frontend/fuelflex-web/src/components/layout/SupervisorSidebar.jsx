@@ -1,5 +1,6 @@
 import "./SupervisorSidebar.css";
 import { getSupervisorPendingOrderCount } from "../../services/purchaseOrder/supervisorPurchaseOrderService";
+import { hasPermission } from "../../services/auth/permissionService";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
@@ -17,6 +18,8 @@ import {
   ChartNoAxesCombined,
   ClipboardCheck,
   PackageCheck,
+  CalendarDays,
+  ShoppingCart,
   Settings2,
   ChevronLeft,
   ChevronRight,
@@ -48,6 +51,20 @@ const navigationGroups = [
         labelKey: "items.receipts",
         path: "/superviseur/receptions",
         icon: PackageCheck,
+      },
+      {
+        id: "dailyOperations",
+        labelKey: "items.dailyOperations",
+        path: "/superviseur/operations",
+        icon: CalendarDays,
+        permission: "operational-day:view",
+      },
+      {
+        id: "sales",
+        labelKey: "items.sales",
+        path: "/superviseur/ventes",
+        icon: ShoppingCart,
+        permission: "pos-sale:view",
       },
       {
         id: "societe",
@@ -228,7 +245,9 @@ function SupervisorSidebar({
               )}
 
               <div className="supervisor-sidebar-group-links">
-                {group.items.map((item) => {
+                {group.items
+                  .filter((item) => !item.permission || hasPermission(item.permission))
+                  .map((item) => {
                   const Icon = item.icon;
                   const itemLabel = t(`navigation:${item.labelKey}`);
 

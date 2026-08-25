@@ -41,6 +41,13 @@
       "title": "Journée clôturée",
       "message": "Une journée d’exploitation a été clôturée."
     },
+    "OPERATIONAL_DAY_OPENED": { "title": "Journée ouverte", "message": "Un gestionnaire a ouvert une journée opérationnelle." },
+    "OPERATIONAL_DAY_CLOSED": { "title": "Journée clôturée", "message": "Un gestionnaire a clôturé une journée opérationnelle." },
+    "SHIFT_ASSIGNMENT_OPENED": { "title": "Poste pompiste ouvert", "message": "Une affectation opérationnelle a été ouverte." },
+    "SHIFT_ASSIGNMENT_CLOSED": { "title": "Poste pompiste fermé", "message": "Une affectation a été fermée et rapprochée." },
+    "DAILY_EXPENSE_RECORDED": { "title": "Dépense enregistrée", "message": "Une dépense journalière a été enregistrée." },
+    "TANK_GAUGE_RECORDED": { "title": "Jaugeage enregistré", "message": "Un stock physique de citerne a été enregistré." },
+    "POS_SALE_REVERSED": { "title": "Vente annulée", "message": "Un gestionnaire a annulé une vente POS." },
     "orderSubmitted": {
       "title": "Commande à valider",
       "message": "Une commande attend votre intervention."

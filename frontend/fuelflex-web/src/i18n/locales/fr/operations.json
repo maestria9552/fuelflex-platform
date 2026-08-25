@@ -1,0 +1,142 @@
+{
+  "eyebrow": "Exploitation de station",
+  "statuses": {
+    "OPEN": "Ouverte",
+    "CLOSED": "Clôturée"
+  },
+  "fields": {
+    "station": "Station",
+    "businessDate": "Date métier",
+    "status": "Statut",
+    "openedAt": "Ouverte le",
+    "openedBy": "Ouverte par",
+    "pumpAttendant": "Pompiste",
+    "fuelMeter": "Compteur",
+    "pump": "Pompe / point",
+    "openingIndex": "Index d’ouverture",
+    "closingIndex": "Index de fermeture",
+    "meteredVolume": "Volume compteur",
+    "label": "Libellé",
+    "amount": "Montant",
+    "reference": "Référence",
+    "comment": "Commentaire",
+    "tank": "Citerne",
+    "product": "Produit",
+    "physicalStock": "Stock physique constaté"
+  },
+  "days": {
+    "title": "Journées opérationnelles",
+    "managerSubtitle": "Ouvrez et pilotez les journées des stations qui vous sont affectées.",
+    "supervisorSubtitle": "Consultez l’activité, les rapprochements et les synthèses des stations de votre périmètre.",
+    "openAction": "Ouvrir une journée",
+    "openAlready": "Une journée est déjà ouverte pour cette station.",
+    "current": "Journée en cours",
+    "noAccessibleStation": "Aucune station accessible",
+    "emptyTitle": "Aucune journée opérationnelle",
+    "emptyDescription": "Aucune journée ne correspond à la station sélectionnée.",
+    "back": "Retour aux journées"
+  },
+  "openDay": {
+    "title": "Ouvrir une journée opérationnelle",
+    "description": "La station et la date seront validées par le serveur."
+  },
+  "detail": {
+    "title": "Journée du {{date}}",
+    "openedBy": "Ouverte par {{name}}",
+    "closeDay": "Clôturer la journée",
+    "assignments": "Postes pompistes",
+    "openCount": "{{count}} ouvert(s)",
+    "reconciliations": "Rapprochements",
+    "ofAssignments": "sur {{count}} poste(s)",
+    "gauges": "Jaugeages",
+    "expenses": "Total dépenses"
+  },
+  "assignments": {
+    "title": "Affectations de poste",
+    "description": "Les compteurs et pompistes proposés sont déjà filtrés par le backend.",
+    "open": "Ouvrir un poste",
+    "close": "Fermer le poste",
+    "empty": "Aucune affectation pour cette journée.",
+    "noAttendant": "Aucun pompiste éligible n’est disponible pour cette station.",
+    "noMeter": "Aucun compteur configuré n’est actuellement disponible."
+  },
+  "assignmentForm": {
+    "title": "Nouvelle affectation"
+  },
+  "closeShift": {
+    "title": "Fermer le poste",
+    "description": "{{name}} — index d’ouverture : {{index}}"
+  },
+  "expenses": {
+    "title": "Dépenses journalières",
+    "add": "Ajouter une dépense",
+    "empty": "Aucune dépense enregistrée."
+  },
+  "expenseForm": {
+    "title": "Enregistrer une dépense"
+  },
+  "gauges": {
+    "title": "Jaugeage des citernes",
+    "add": "Ajouter un jaugeage",
+    "empty": "Aucun stock physique enregistré.",
+    "theoretical": "Théorique : {{value}} L",
+    "variance": "Écart : {{value}} L",
+    "allRecorded": "Toutes les citernes ont été jaugées"
+  },
+  "gaugeForm": {
+    "title": "Enregistrer un stock physique"
+  },
+  "reconciliations": {
+    "title": "Rapprochement compteur / ventes",
+    "description": "Le volume physique du compteur reste distinct du volume commercial enregistré.",
+    "metered": "Compteur",
+    "cash": "CASH",
+    "credit": "CREDIT",
+    "variance": "Écart",
+    "empty": "Les rapprochements apparaissent après la fermeture des postes."
+  },
+  "rjv": {
+    "title": "Rapport journalier des ventes",
+    "description": "Synthèse calculée exclusivement à partir des données persistées.",
+    "name": "Élément",
+    "cashVolume": "Volume CASH",
+    "cashAmount": "Montant CASH",
+    "creditVolume": "Volume CREDIT",
+    "creditAmount": "Montant CREDIT",
+    "totalVolume": "Volume total",
+    "totalSoldVolume": "Volume vendu",
+    "totalAmount": "Montant total",
+    "totalSalesAmount": "Total ventes",
+    "meteredVolume": "Volume compteur",
+    "volumeVariance": "Écart compteur",
+    "expenseAmount": "Dépenses",
+    "theoreticalStock": "Stock théorique",
+    "physicalStock": "Stock physique",
+    "stockVariance": "Écart de stock",
+    "byProduct": "Par produit",
+    "byPumpAttendant": "Par pompiste",
+    "byFuelMeter": "Par compteur",
+    "stockDetails": "Stocks par citerne",
+    "noData": "Aucune donnée à afficher.",
+    "unavailable": "La synthèse n’est pas disponible pour cette journée."
+  },
+  "closeDay": {
+    "title": "Confirmer la clôture opérationnelle",
+    "description": "{{open}} poste(s) ouvert(s), {{reconciliations}} rapprochement(s), {{gauges}} jaugeage(s). Le backend vérifiera toutes les conditions de clôture.",
+    "loading": "Clôture…"
+  },
+  "feedback": {
+    "assignmentOpened": "Le poste a été ouvert.",
+    "assignmentClosed": "Le poste a été fermé et rapproché.",
+    "expenseAdded": "La dépense a été enregistrée.",
+    "gaugeAdded": "Le stock physique a été enregistré.",
+    "dayClosed": "La journée opérationnelle a été clôturée."
+  },
+  "errors": {
+    "loadDays": "Impossible de charger les journées opérationnelles.",
+    "openDay": "Impossible d’ouvrir la journée.",
+    "loadDay": "Impossible de charger cette journée opérationnelle.",
+    "loadTanks": "Impossible de charger les citernes actives.",
+    "action": "L’opération n’a pas pu être réalisée."
+  }
+}

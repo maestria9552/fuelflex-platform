@@ -41,6 +41,13 @@
       "title": "Day closed",
       "message": "An operating day has been closed."
     },
+    "OPERATIONAL_DAY_OPENED": { "title": "Operational day opened", "message": "A manager opened an operational day." },
+    "OPERATIONAL_DAY_CLOSED": { "title": "Operational day closed", "message": "A manager closed an operational day." },
+    "SHIFT_ASSIGNMENT_OPENED": { "title": "Pump attendant shift opened", "message": "An operational assignment was opened." },
+    "SHIFT_ASSIGNMENT_CLOSED": { "title": "Pump attendant shift closed", "message": "An assignment was closed and reconciled." },
+    "DAILY_EXPENSE_RECORDED": { "title": "Expense recorded", "message": "A daily expense was recorded." },
+    "TANK_GAUGE_RECORDED": { "title": "Gauge reading recorded", "message": "Physical tank stock was recorded." },
+    "POS_SALE_REVERSED": { "title": "Sale reversed", "message": "A manager reversed a POS sale." },
     "orderSubmitted": {
       "title": "Order awaiting approval",
       "message": "An order requires your attention."

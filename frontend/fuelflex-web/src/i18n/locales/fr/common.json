@@ -8,6 +8,12 @@
     "saving": "Enregistrement…",
     "cancel": "Annuler",
     "retry": "Réessayer",
+    "refresh": "Actualiser",
+    "view": "Voir",
+    "back": "Retour",
+    "reset": "Réinitialiser",
+    "previous": "Précédent",
+    "next": "Suivant",
     "close": "Fermer",
     "confirm": "Confirmer",
     "confirming": "Confirmation...",
@@ -22,6 +28,7 @@
     "copyright": "© 2026 FuelFlex Platform. Tous droits réservés."
   },
   "feedback": {
-    "initializing": "Initialisation de FuelFlex Platform..."
+    "initializing": "Initialisation de FuelFlex Platform...",
+    "loading": "Chargement…"
   }
 }
