@@ -23,6 +23,7 @@ import com.fuelflex.platform.role.entity.Role;
 import com.fuelflex.platform.sale.dto.PosSaleDtos.CreateSaleRequest;
 import com.fuelflex.platform.sale.entity.*;
 import com.fuelflex.platform.sale.repository.*;
+import com.fuelflex.platform.sale.mapper.FuelSaleResponseMapper;
 import com.fuelflex.platform.station.entity.Station;
 import com.fuelflex.platform.stationproduct.entity.StationProduct;
 import com.fuelflex.platform.tank.entity.Tank;
@@ -39,7 +40,7 @@ class PosFuelSaleServiceImplTest {
     PosFuelSaleServiceImpl service; User attendant; PumpShiftAssignment assignment; FuelMeter meter; Tank tank; ResolvedPosContext context;
 
     @BeforeEach void setup() {
-        service = new PosFuelSaleServiceImpl(auth, shifts, admin, resolver, tanks, inbound, outbound, sales, numbers, creditCustomers, stationAccess, reconciliation, notifier);
+        service = new PosFuelSaleServiceImpl(auth, shifts, admin, resolver, tanks, inbound, outbound, sales, numbers, creditCustomers, stationAccess, reconciliation, notifier, new FuelSaleResponseMapper());
         Organization org = new Organization(); org.setId(UUID.randomUUID());
         Station station = new Station(); station.setId(UUID.randomUUID()); station.setName("Station"); station.setOrganization(org);
         attendant = user(org, "PUMP_ATTENDANT"); attendant.setOperationalCode("PMP-000001");

@@ -1,5 +1,6 @@
 package com.fuelflex.platform.station.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -22,6 +23,11 @@ public interface StationRepository extends JpaRepository<Station, UUID> {
 
     List<Station> findByOrganizationIdAndActiveTrueOrderByDisplayOrderAscNameAsc(
             UUID organizationId
+    );
+
+    List<Station> findByOrganizationIdAndIdInOrderByDisplayOrderAscNameAsc(
+            UUID organizationId,
+            Collection<UUID> stationIds
     );
 
     Optional<Station> findByIdAndOrganizationId(

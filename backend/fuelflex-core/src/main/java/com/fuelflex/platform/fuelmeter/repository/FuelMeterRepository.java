@@ -13,6 +13,7 @@ import jakarta.persistence.LockModeType;
 
 import com.fuelflex.platform.dispensingpoint.entity.DispensingPoint;
 import com.fuelflex.platform.fuelmeter.entity.FuelMeter;
+import com.fuelflex.platform.fuelmeter.entity.FuelMeterStatus;
 import com.fuelflex.platform.pump.entity.Pump;
 
 @Repository
@@ -90,4 +91,22 @@ public interface FuelMeterRepository
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select meter from FuelMeter meter left join fetch meter.pump left join fetch meter.dispensingPoint point left join fetch point.pump where meter.id = :id")
     Optional<FuelMeter> lockById(@Param("id") UUID id);
+
+    @Query("""
+            select distinct meter
+              from FuelMeter meter
+              left join fetch meter.pump directPump
+              left join fetch meter.dispensingPoint point
+              left join fetch point.pump pointPump
+             where meter.active = true
+               and meter.status = :status
+               and (
+                    directPump.station.id = :stationId
+                    or pointPump.station.id = :stationId
+               )
+            """)
+    List<FuelMeter> findActiveByStationId(
+            @Param("stationId") UUID stationId,
+            @Param("status") FuelMeterStatus status
+    );
 }

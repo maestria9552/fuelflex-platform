@@ -9,33 +9,27 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fuelflex.platform.sale.dto.PosSaleDtos.ReverseSaleRequest;
 import com.fuelflex.platform.sale.dto.PosSaleDtos.SaleReadFilter;
 import com.fuelflex.platform.sale.dto.PosSaleDtos.SaleResponse;
 import com.fuelflex.platform.sale.entity.SaleStatus;
 import com.fuelflex.platform.sale.entity.SaleType;
-import com.fuelflex.platform.sale.service.PosFuelSaleService;
 import com.fuelflex.platform.sale.service.SaleReadService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/manager/pos-sales")
+@RequestMapping("/api/v1/supervisor/pos-sales")
 @RequiredArgsConstructor
-public class ManagerSaleController {
+public class SupervisorSaleController {
 
-    private final PosFuelSaleService sales;
     private final SaleReadService saleReadService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('MANAGER') and hasAuthority('pos-sale:view')")
+    @PreAuthorize("hasAuthority('SUPERVISOR') and hasAuthority('pos-sale:view')")
     public Page<SaleResponse> findAll(
             @RequestParam(required = false) UUID stationId,
             @RequestParam(required = false) UUID operationalDayId,
@@ -48,7 +42,7 @@ public class ManagerSaleController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime to,
             Pageable pageable
     ) {
-        return saleReadService.findForManager(
+        return saleReadService.findForSupervisor(
                 new SaleReadFilter(
                         stationId,
                         operationalDayId,
@@ -63,17 +57,8 @@ public class ManagerSaleController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('MANAGER') and hasAuthority('pos-sale:view')")
+    @PreAuthorize("hasAuthority('SUPERVISOR') and hasAuthority('pos-sale:view')")
     public SaleResponse findById(@PathVariable UUID id) {
-        return saleReadService.findForManager(id);
-    }
-
-    @PostMapping("/{id}/reverse")
-    @PreAuthorize("hasAuthority('MANAGER') and hasAuthority('pos-sale:reverse')")
-    public SaleResponse reverse(
-            @PathVariable UUID id,
-            @Valid @RequestBody ReverseSaleRequest request
-    ) {
-        return sales.reverse(id, request);
+        return saleReadService.findForSupervisor(id);
     }
 }
