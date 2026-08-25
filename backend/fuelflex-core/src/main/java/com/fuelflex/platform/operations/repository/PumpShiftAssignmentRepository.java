@@ -7,6 +7,7 @@ public interface PumpShiftAssignmentRepository extends JpaRepository<PumpShiftAs
  boolean existsByFuelMeterIdAndStatus(UUID meterId,OperationalStatus status);
  boolean existsByPumpAttendantIdAndStatus(UUID attendantId,OperationalStatus status);
  long countByOperationalDayIdAndStatus(UUID dayId,OperationalStatus status);
+ long countByOperationalDayId(UUID dayId);
  Optional<PumpShiftAssignment> findFirstByPumpAttendantIdAndStatusOrderByOpenedAtDesc(UUID attendantId,OperationalStatus status);
  @Lock(LockModeType.PESSIMISTIC_WRITE) @Query("select a from PumpShiftAssignment a join fetch a.operationalDay d where a.pumpAttendant.id=:attendantId and a.status=:status")
  Optional<PumpShiftAssignment> lockOpenByPumpAttendantId(@Param("attendantId") UUID attendantId, @Param("status") OperationalStatus status);

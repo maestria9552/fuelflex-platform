@@ -1,0 +1,3 @@
+package com.fuelflex.platform.creditcustomer.repository;
+import java.util.*; import org.springframework.data.jpa.repository.JpaRepository; import com.fuelflex.platform.creditcustomer.entity.CreditCustomer;
+public interface CreditCustomerRepository extends JpaRepository<CreditCustomer,UUID>{Optional<CreditCustomer> findByIdAndOrganizationId(UUID id,UUID organizationId);List<CreditCustomer> findByOrganizationIdOrderByNameAsc(UUID organizationId);List<CreditCustomer> findByOrganizationIdAndActiveTrueOrderByNameAsc(UUID organizationId);boolean existsByOrganizationIdAndCodeIgnoreCase(UUID organizationId,String code);boolean existsByOrganizationIdAndNameIgnoreCase(UUID organizationId,String name);}

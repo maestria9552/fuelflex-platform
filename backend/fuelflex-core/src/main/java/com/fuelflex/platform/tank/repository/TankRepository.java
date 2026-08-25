@@ -65,4 +65,5 @@ public interface TankRepository extends JpaRepository<Tank, UUID> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select tank from Tank tank where tank.id = :id")
     Optional<Tank> lockById(@Param("id") UUID id);
+    List<Tank> findByDepotStationIdAndActiveTrueOrderByDisplayOrderAscNameAsc(UUID stationId);
 }

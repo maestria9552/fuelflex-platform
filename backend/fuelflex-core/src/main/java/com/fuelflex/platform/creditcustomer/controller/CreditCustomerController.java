@@ -1,0 +1,7 @@
+package com.fuelflex.platform.creditcustomer.controller;
+import static com.fuelflex.platform.creditcustomer.dto.CreditCustomerDtos.*; import java.util.*; import org.springframework.http.HttpStatus; import org.springframework.security.access.prepost.PreAuthorize; import org.springframework.web.bind.annotation.*; import com.fuelflex.platform.creditcustomer.service.CreditCustomerService; import jakarta.validation.Valid; import lombok.RequiredArgsConstructor;
+@RestController @RequestMapping("/api/v1") @RequiredArgsConstructor public class CreditCustomerController{private final CreditCustomerService service;
+ @PostMapping("/manager/credit-customers")@ResponseStatus(HttpStatus.CREATED)@PreAuthorize("hasAuthority('credit-customer:manage') and hasAuthority('MANAGER')")public Response create(@Valid @RequestBody Request r){return service.create(r);}
+ @PutMapping("/manager/credit-customers/{id}")@PreAuthorize("hasAuthority('credit-customer:manage') and hasAuthority('MANAGER')")public Response update(@PathVariable UUID id,@Valid @RequestBody Request r){return service.update(id,r);}
+ @GetMapping("/manager/credit-customers")@PreAuthorize("hasAuthority('credit-customer:view') and hasAuthority('MANAGER')")public List<Response> managerList(){return service.managerList();}
+ @GetMapping("/pump-attendant/pos/credit-customers")@PreAuthorize("hasAuthority('pos-sale:view') and hasAuthority('PUMP_ATTENDANT')")public List<Response> selectable(){return service.posSelectable();}}

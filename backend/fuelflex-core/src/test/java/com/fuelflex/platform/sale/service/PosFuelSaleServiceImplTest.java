@@ -35,10 +35,11 @@ class PosFuelSaleServiceImplTest {
     @Mock AuthorizationService auth; @Mock PumpShiftAssignmentRepository shifts; @Mock UserStationAssignmentRepository admin;
     @Mock PosConfigurationResolver resolver; @Mock TankRepository tanks; @Mock ReceptionStockBalanceRepository inbound;
     @Mock SaleStockMovementRepository outbound; @Mock FuelSaleRepository sales; @Mock SaleNumberRepository numbers;
+    @Mock com.fuelflex.platform.creditcustomer.repository.CreditCustomerRepository creditCustomers; @Mock com.fuelflex.platform.station.service.StationAccessService stationAccess; @Mock com.fuelflex.platform.operations.service.ShiftReconciliationService reconciliation; @Mock com.fuelflex.platform.operations.service.SupervisorOperationalNotifier notifier;
     PosFuelSaleServiceImpl service; User attendant; PumpShiftAssignment assignment; FuelMeter meter; Tank tank; ResolvedPosContext context;
 
     @BeforeEach void setup() {
-        service = new PosFuelSaleServiceImpl(auth, shifts, admin, resolver, tanks, inbound, outbound, sales, numbers);
+        service = new PosFuelSaleServiceImpl(auth, shifts, admin, resolver, tanks, inbound, outbound, sales, numbers, creditCustomers, stationAccess, reconciliation, notifier);
         Organization org = new Organization(); org.setId(UUID.randomUUID());
         Station station = new Station(); station.setId(UUID.randomUUID()); station.setName("Station"); station.setOrganization(org);
         attendant = user(org, "PUMP_ATTENDANT"); attendant.setOperationalCode("PMP-000001");
@@ -114,7 +115,7 @@ class PosFuelSaleServiceImplTest {
     }
 
     @Test void duplicateMovementIsRejected() {
-        when(outbound.existsBySaleId(any())).thenReturn(true);
+        when(outbound.existsBySaleIdAndMovementType(any(),eq(StockMovementType.OUTBOUND))).thenReturn(true);
         assertThatThrownBy(() -> service.create(request("1", VehicleType.CAR, "A1"))).isInstanceOf(ConflictException.class).hasMessageContaining("mouvement stock");
         verify(outbound, never()).saveAndFlush(any());
     }
@@ -122,6 +123,19 @@ class PosFuelSaleServiceImplTest {
     @Test void fuelMeterIndexNeverChangesDuringSale() {
         BigDecimal before = meter.getCurrentIndex(); service.create(request("50", VehicleType.CAR, "A1"));
         assertThat(meter.getCurrentIndex()).isEqualByComparingTo(before);
+    }
+
+    @Test void createsCreditSaleWithCreditTariffSnapshotAndSameStockLedger() {
+        com.fuelflex.platform.creditcustomer.entity.CreditCustomer customer=new com.fuelflex.platform.creditcustomer.entity.CreditCustomer(); customer.setId(UUID.randomUUID()); customer.setOrganization(attendant.getOrganization()); customer.setName("Client A"); customer.setActive(true);
+        when(creditCustomers.findByIdAndOrganizationId(customer.getId(),attendant.getOrganization().getId())).thenReturn(Optional.of(customer)); when(resolver.resolveCredit(assignment)).thenReturn(context);
+        service.createCredit(new com.fuelflex.platform.sale.dto.PosSaleDtos.CreateCreditSaleRequest(customer.getId(),new BigDecimal("20.000"),VehicleType.CAR,"C1"));
+        ArgumentCaptor<FuelSale> capture=ArgumentCaptor.forClass(FuelSale.class); verify(sales).saveAndFlush(capture.capture()); assertThat(capture.getValue().getSaleType()).isEqualTo(SaleType.CREDIT); assertThat(capture.getValue().getCreditCustomer()).isSameAs(customer); assertThat(capture.getValue().getUnitPrice()).isEqualByComparingTo("2.500"); verify(outbound).saveAndFlush(any());
+    }
+    @Test void managerReversalPreservesSaleAndCreatesSingleCompensation() {
+        service.create(request("10",VehicleType.CAR,"A1")); ArgumentCaptor<FuelSale> capture=ArgumentCaptor.forClass(FuelSale.class); verify(sales).saveAndFlush(capture.capture()); FuelSale sale=capture.getValue();
+        User manager=user(attendant.getOrganization(),"MANAGER"); when(auth.getAuthenticatedUser()).thenReturn(manager); when(sales.lockByIdAndOrganizationId(sale.getId(),manager.getOrganization().getId())).thenReturn(Optional.of(sale));
+        service.reverse(sale.getId(),new com.fuelflex.platform.sale.dto.PosSaleDtos.ReverseSaleRequest("Erreur saisie")); assertThat(sale.getStatus()).isEqualTo(SaleStatus.REVERSED); assertThat(sale.getReversalReason()).isEqualTo("Erreur saisie"); verify(sales,never()).delete(any()); verify(outbound,times(2)).saveAndFlush(any());
+        assertThatThrownBy(()->service.reverse(sale.getId(),new com.fuelflex.platform.sale.dto.PosSaleDtos.ReverseSaleRequest("Encore"))).isInstanceOf(ConflictException.class);
     }
 
     private CreateSaleRequest request(String quantity, VehicleType type, String plate) { return new CreateSaleRequest(new BigDecimal(quantity), type, plate); }

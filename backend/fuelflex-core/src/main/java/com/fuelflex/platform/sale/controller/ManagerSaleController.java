@@ -1,0 +1,3 @@
+package com.fuelflex.platform.sale.controller;
+import java.util.UUID; import org.springframework.security.access.prepost.PreAuthorize; import org.springframework.web.bind.annotation.*; import com.fuelflex.platform.sale.dto.PosSaleDtos.*; import com.fuelflex.platform.sale.service.PosFuelSaleService; import jakarta.validation.Valid; import lombok.RequiredArgsConstructor;
+@RestController @RequestMapping("/api/v1/manager/pos-sales") @RequiredArgsConstructor public class ManagerSaleController{private final PosFuelSaleService sales;@PostMapping("/{id}/reverse")@PreAuthorize("hasAuthority('MANAGER') and hasAuthority('pos-sale:reverse')")public SaleResponse reverse(@PathVariable UUID id,@Valid @RequestBody ReverseSaleRequest r){return sales.reverse(id,r);}}

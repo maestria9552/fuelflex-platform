@@ -33,7 +33,7 @@ public interface ReceptionStockBalanceRepository extends JpaRepository<Reception
                    coalesce((select sum(inbound.quantity)
                                from reception_stock_movements inbound
                               where inbound.tank_id = tank.id), 0)
-                   - coalesce((select sum(outbound.quantity)
+                   - coalesce((select sum(case when outbound.movement_type = 'OUTBOUND' then outbound.quantity else -outbound.quantity end)
                                 from sale_stock_movements outbound
                                where outbound.tank_id = tank.id), 0) as "currentStock"
               from tanks tank

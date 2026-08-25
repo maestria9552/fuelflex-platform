@@ -1,23 +1,3 @@
 package com.fuelflex.platform.sale.service;
-
-import java.math.BigDecimal;
-import com.fuelflex.platform.dispensingpoint.entity.DispensingPoint;
-import com.fuelflex.platform.fuelmeter.entity.FuelMeter;
-import com.fuelflex.platform.operations.entity.PumpShiftAssignment;
-import com.fuelflex.platform.product.entity.Product;
-import com.fuelflex.platform.pump.entity.Pump;
-import com.fuelflex.platform.stationproduct.entity.StationProduct;
-import com.fuelflex.platform.tank.entity.Tank;
-import com.fuelflex.platform.tariffcategory.entity.TariffCategory;
-
-public record ResolvedPosContext(
-        PumpShiftAssignment assignment,
-        Pump pump,
-        DispensingPoint dispensingPoint,
-        Tank tank,
-        Product product,
-        StationProduct stationProduct,
-        TariffCategory cashTariff,
-        BigDecimal cashUnitPrice) {
-    public FuelMeter fuelMeter() { return assignment.getFuelMeter(); }
-}
+import java.math.BigDecimal; import com.fuelflex.platform.dispensingpoint.entity.DispensingPoint; import com.fuelflex.platform.fuelmeter.entity.FuelMeter; import com.fuelflex.platform.operations.entity.PumpShiftAssignment; import com.fuelflex.platform.product.entity.Product; import com.fuelflex.platform.pump.entity.Pump; import com.fuelflex.platform.stationproduct.entity.StationProduct; import com.fuelflex.platform.tank.entity.Tank; import com.fuelflex.platform.tariffcategory.entity.TariffCategory;
+public record ResolvedPosContext(PumpShiftAssignment assignment,Pump pump,DispensingPoint dispensingPoint,Tank tank,Product product,StationProduct stationProduct,TariffCategory tariffCategory,BigDecimal unitPrice){public FuelMeter fuelMeter(){return assignment.getFuelMeter();}public TariffCategory cashTariff(){return tariffCategory;}public BigDecimal cashUnitPrice(){return unitPrice;}}

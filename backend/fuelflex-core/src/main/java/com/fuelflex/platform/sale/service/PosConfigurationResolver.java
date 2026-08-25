@@ -38,7 +38,11 @@ public class PosConfigurationResolver {
     private final TariffCategoryRepository tariffCategories;
     private final StationProductPriceRepository prices;
 
-    public ResolvedPosContext resolve(PumpShiftAssignment assignment) {
+    public ResolvedPosContext resolve(PumpShiftAssignment assignment) { return resolve(assignment, DefaultTariffCategories.CASH_CODE); }
+
+    public ResolvedPosContext resolveCredit(PumpShiftAssignment assignment) { return resolve(assignment, DefaultTariffCategories.CREDIT_CODE); }
+
+    private ResolvedPosContext resolve(PumpShiftAssignment assignment, String tariffCode) {
         FuelMeter meter = assignment.getFuelMeter();
         if (!meter.isActive() || meter.getStatus() != FuelMeterStatus.ACTIVE) {
             throw new BusinessException("Le compteur de l’affectation POS n’est pas actif.");
@@ -68,15 +72,15 @@ public class PosConfigurationResolver {
             throw new BusinessException("Le produit de la station est inactif.");
         }
         TariffCategory cash = tariffCategories.findByOrganizationIdAndCodeIgnoreCase(
-                        assignment.getOperationalDay().getOrganization().getId(), DefaultTariffCategories.CASH_CODE)
-                .orElseThrow(() -> new BusinessException("La catégorie tarifaire CASH est introuvable."));
+                        assignment.getOperationalDay().getOrganization().getId(), tariffCode)
+                .orElseThrow(() -> new BusinessException("La catégorie tarifaire " + tariffCode + " est introuvable."));
         if (!cash.isActive()) {
-            throw new BusinessException("La catégorie tarifaire CASH est inactive.");
+            throw new BusinessException("La catégorie tarifaire " + tariffCode + " est inactive.");
         }
         StationProductPrice price = prices.findByStationProductIdAndTariffCategoryId(stationProduct.getId(), cash.getId())
-                .orElseThrow(() -> new BusinessException("Aucun tarif CASH n’est configuré pour ce produit."));
+                .orElseThrow(() -> new BusinessException("Aucun tarif " + tariffCode + " n’est configuré pour ce produit."));
         if (!price.isActive() || price.getPrice() == null || price.getPrice().signum() <= 0) {
-            throw new BusinessException("Le tarif CASH du produit n’est pas actif ou valide.");
+            throw new BusinessException("Le tarif " + tariffCode + " du produit n’est pas actif ou valide.");
         }
         return new ResolvedPosContext(assignment, pump, point, tank, product, stationProduct, cash,
                 price.getPrice().setScale(3, RoundingMode.UNNECESSARY));
