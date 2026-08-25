@@ -12,6 +12,7 @@ public interface TariffCategoryRepository extends JpaRepository<TariffCategory, 
     List<TariffCategory> findByOrganizationIdOrderByDisplayOrderAsc(UUID organizationId);
     List<TariffCategory> findByOrganizationIdAndActiveTrueOrderByDisplayOrderAsc(UUID organizationId);
     Optional<TariffCategory> findByIdAndOrganizationId(UUID id, UUID organizationId);
+    Optional<TariffCategory> findByOrganizationIdAndCodeIgnoreCase(UUID organizationId, String code);
     boolean existsByOrganizationIdAndCodeIgnoreCase(UUID organizationId, String code);
     boolean existsByOrganizationIdAndNameIgnoreCase(UUID organizationId, String name);
     boolean existsByOrganizationIdAndCodeIgnoreCaseAndIdNot(UUID organizationId, String code, UUID id);

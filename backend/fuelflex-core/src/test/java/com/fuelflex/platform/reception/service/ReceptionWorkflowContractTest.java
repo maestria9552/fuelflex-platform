@@ -92,14 +92,13 @@ class ReceptionWorkflowContractTest {
                 "src/main/java/com/fuelflex/platform/reception/repository/ReceptionStockBalanceRepository.java"));
 
         assertThat(stockSource).contains(
-                "from Tank tank",
-                "left join ReceptionStockMovement movement on movement.tank.id = tank.id",
-                "sum(movement.quantity)",
-                "coalesce(sum(movement.quantity), 0) as currentStock",
-                "tank.maximumLevelLiters as capacity",
-                "group by tank.depot.station.id",
-                "tank.id, tank.name",
+                "reception_stock_movements inbound",
+                "sale_stock_movements outbound",
+                "sum(inbound.quantity)",
+                "sum(outbound.quantity)",
+                "- coalesce",
+                "tank.maximum_level_liters",
                 "tank.active = true",
-                "tank.depot.station.id in :stationIds");
+                "station.id in (:stationIds)");
     }
 }
