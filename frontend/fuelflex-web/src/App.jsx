@@ -48,6 +48,9 @@ import ManagerSalesPage from "./pages/sales/ManagerSalesPage";
 import ManagerSaleDetailPage from "./pages/sales/ManagerSaleDetailPage";
 import SupervisorSalesPage from "./pages/sales/SupervisorSalesPage";
 import SupervisorSaleDetailPage from "./pages/sales/SupervisorSaleDetailPage";
+import ManagerPumpAttendantsPage from "./pages/employee-validation/ManagerPumpAttendantsPage";
+import PumpAttendantValidationDetailPage from "./pages/employee-validation/PumpAttendantValidationDetailPage";
+import SupervisorPumpAttendantValidationsPage from "./pages/employee-validation/SupervisorPumpAttendantValidationsPage";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import RoleBasedRedirect from "./components/auth/RoleBasedRedirect";
@@ -126,6 +129,8 @@ function App() {
           <Route path="/gerant/operations/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]} requiredPermissions={["operational-day:view"]}><ManagerOperationalDayDetailPage /></ProtectedRoute>} />
           <Route path="/gerant/ventes" element={<ProtectedRoute allowedRoles={["MANAGER"]} requiredPermissions={["pos-sale:view"]}><ManagerSalesPage /></ProtectedRoute>} />
           <Route path="/gerant/ventes/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]} requiredPermissions={["pos-sale:view"]}><ManagerSaleDetailPage /></ProtectedRoute>} />
+          <Route path="/gerant/pompistes" element={<ProtectedRoute allowedRoles={["MANAGER"]} requiredPermissions={["pump-attendant-validation:view"]}><ManagerPumpAttendantsPage /></ProtectedRoute>} />
+          <Route path="/gerant/validations-pompistes/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]} requiredPermissions={["pump-attendant-validation:view"]}><PumpAttendantValidationDetailPage role="manager" /></ProtectedRoute>} />
           <Route path="/gerant/commandes/nouvelle" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerNewOrderPage /></ProtectedRoute>} />
           <Route path="/gerant/commandes/:id/bon-de-commande" element={<ProtectedRoute allowedRoles={["MANAGER"]}><PurchaseOrderDocumentPage /></ProtectedRoute>} />
           <Route path="/gerant/commandes/:id" element={<ProtectedRoute allowedRoles={["MANAGER"]}><ManagerOrderDetailPage /></ProtectedRoute>} />
@@ -137,6 +142,8 @@ function App() {
           <Route path="/superviseur/operations/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]} requiredPermissions={["operational-day:view"]}><SupervisorOperationalDayDetailPage /></ProtectedRoute>} />
           <Route path="/superviseur/ventes" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]} requiredPermissions={["pos-sale:view"]}><SupervisorSalesPage /></ProtectedRoute>} />
           <Route path="/superviseur/ventes/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]} requiredPermissions={["pos-sale:view"]}><SupervisorSaleDetailPage /></ProtectedRoute>} />
+          <Route path="/superviseur/validations-pompistes" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]} requiredPermissions={["pump-attendant-validation:view"]}><SupervisorPumpAttendantValidationsPage /></ProtectedRoute>} />
+          <Route path="/superviseur/validations-pompistes/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]} requiredPermissions={["pump-attendant-validation:view"]}><PumpAttendantValidationDetailPage role="supervisor" /></ProtectedRoute>} />
           <Route path="/superviseur/commandes/:id/bon-de-commande" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><PurchaseOrderDocumentPage /></ProtectedRoute>} />
           <Route path="/superviseur/commandes/:id" element={<ProtectedRoute allowedRoles={["SUPERVISOR"]}><SupervisorOrderDetailPage /></ProtectedRoute>} />
           <Route

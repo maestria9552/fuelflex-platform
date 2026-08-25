@@ -13,6 +13,8 @@ import org.springframework.data.repository.query.Param;
 
 import com.fuelflex.platform.role.entity.RoleType;
 import com.fuelflex.platform.user.entity.User;
+import com.fuelflex.platform.user.model.PumpAttendantValidationStatus;
+
 import jakarta.persistence.LockModeType;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
@@ -23,6 +25,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     boolean existsByEmailIgnoreCase(String email);
 
+    boolean existsByEmailIgnoreCaseAndIdNot(String email, UUID id);
+
     boolean existsByPhoneNumber(String phoneNumber);
 
     boolean existsByPhoneNumberAndIdNot(String phoneNumber, UUID id);
@@ -32,12 +36,17 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByIdAndOrganizationId(UUID id, UUID organizationId);
 
     @Query("select distinct user from User user join user.roles role where user.organization.id = :organizationId and user.enabled = true and role.active = true and upper(role.code) = upper(:roleCode)")
-    java.util.List<User> findEnabledByOrganizationIdAndRoleCode(@Param("organizationId") UUID organizationId, @Param("roleCode") String roleCode);
+    java.util.List<User> findEnabledByOrganizationIdAndRoleCode(
+            @Param("organizationId") UUID organizationId,
+            @Param("roleCode") String roleCode
+    );
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select user from User user where user.id = :id and user.organization.id = :organizationId")
     Optional<User> lockByIdAndOrganizationId(
-            @Param("id") UUID id, @Param("organizationId") UUID organizationId);
-
+            @Param("id") UUID id,
+            @Param("organizationId") UUID organizationId
+    );
 
     @Query("""
             select distinct user
@@ -59,6 +68,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                     coalesce(:search, '') = ''
                     or lower(user.firstName) like lower(concat('%', :search, '%'))
                     or lower(user.lastName) like lower(concat('%', :search, '%'))
+                    or lower(user.postName) like lower(concat('%', :search, '%'))
                     or lower(user.email) like lower(concat('%', :search, '%'))
                     or lower(user.phoneNumber) like lower(concat('%', :search, '%'))
                     or lower(concat(user.firstName, ' ', user.lastName))
@@ -72,6 +82,33 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             @Param("roleCode") String roleCode,
             @Param("enabled") Boolean enabled,
             @Param("excludedRoleType") RoleType excludedRoleType,
+            Pageable pageable
+    );
+
+    @Query("""
+            select distinct user
+              from User user
+              join user.roles role
+             where user.organization.id = :organizationId
+               and user.preparedBy.id = :preparedById
+               and role.active = true
+               and upper(role.code) = 'PUMP_ATTENDANT'
+               and (:validationStatus is null
+                    or user.pumpAttendantValidationStatus = :validationStatus)
+               and (
+                    coalesce(:search, '') = ''
+                    or lower(user.firstName) like lower(concat('%', :search, '%'))
+                    or lower(user.lastName) like lower(concat('%', :search, '%'))
+                    or lower(user.postName) like lower(concat('%', :search, '%'))
+                    or lower(user.email) like lower(concat('%', :search, '%'))
+                    or lower(user.operationalCode) like lower(concat('%', :search, '%'))
+               )
+            """)
+    Page<User> findPreparedPumpAttendants(
+            @Param("organizationId") UUID organizationId,
+            @Param("preparedById") UUID preparedById,
+            @Param("validationStatus") PumpAttendantValidationStatus validationStatus,
+            @Param("search") String search,
             Pageable pageable
     );
 }

@@ -22,10 +22,18 @@
     "employee": "Employé",
     "firstName": "Prénom",
     "lastName": "Nom",
+    "postName": "Post-nom",
+    "gender": "Sexe",
+    "birthPlace": "Lieu de naissance",
+    "birthDate": "Date de naissance",
+    "address": "Adresse",
+    "station": "Station",
     "email": "Email",
     "phone": "Téléphone",
     "role": "Rôle",
     "status": "Statut",
+    "operationalCode": "Code opérationnel",
+    "validationStatus": "Validation métier",
     "createdAt": "Créé le",
     "actions": "Actions"
   },
@@ -34,6 +42,10 @@
     "PUMP_ATTENDANT": "Pompiste",
     "ACCOUNTANT": "Comptable",
     "AUDITOR": "Auditeur"
+  },
+  "gender": {
+    "MALE": "Masculin",
+    "FEMALE": "Féminin"
   },
   "status": {
     "active": "Actif",
@@ -54,6 +66,10 @@
     "editTitle": "Modifier l’employé",
     "editDescription": "Seules les informations autorisées seront mises à jour.",
     "chooseRole": "Choisir un rôle",
+    "chooseGender": "Choisir le sexe",
+    "chooseStation": "Choisir une station",
+    "keepStation": "Conserver la station actuelle",
+    "stationChangeRecorded": "Un changement de station est enregistré via le mécanisme de mutation existant et son historique est conservé.",
     "emailImmutable": "L’email est immuable dans cette version.",
     "accessNote": "Le compte est créé sans mot de passe permanent communiqué par le superviseur. Le workflow de premier accès sera traité séparément."
   },
@@ -86,6 +102,7 @@
     "reason": "Motif (facultatif)",
     "managerTransferNote": "Seule cette affectation sera mutée. Les autres stations actives du gestionnaire resteront inchangées.",
     "disabledNote": "L’historique reste consultable, mais un employé désactivé ne peut être affecté ni muté.",
+    "validationRequiredNote": "Le pompiste doit être validé avant toute affectation ou mutation.",
     "noActive": "Aucune affectation active",
     "since": "Depuis {{date}}",
     "end": "Retirer",

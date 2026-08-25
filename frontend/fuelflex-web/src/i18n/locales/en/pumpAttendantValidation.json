@@ -1,0 +1,150 @@
+{
+  "manager": {
+    "eyebrow": "Team preparation",
+    "title": "Pump attendants and validation requests",
+    "description": "Prepare pump attendants, group them into a document, then explicitly submit the request to the supervisor.",
+    "newCandidate": "New pump attendant",
+    "candidatesTitle": "Pump attendants in preparation",
+    "candidatesDescription": "Creating a pump attendant never submits a request automatically.",
+    "noCandidates": "No pump attendant matches the filters.",
+    "buildDocument": "Build a validation document",
+    "selectedCount_one": "{{count}} pump attendant selected",
+    "selectedCount_other": "{{count}} pump attendants selected",
+    "requestsTitle": "Validation documents",
+    "requestsDescription": "Track prepared, submitted, returned, or completed requests.",
+    "noRequests": "No validation document."
+  },
+  "supervisor": {
+    "eyebrow": "Team control",
+    "title": "Pump attendant validation",
+    "description": "Review each document and make one decision for all pump attendants it contains.",
+    "requestsTitle": "Accessible requests",
+    "requestsDescription": "A pending request is one required action at document level.",
+    "noRequests": "No request in this status.",
+    "noRequestsDescription": "New requests submitted by managers will appear here."
+  },
+  "fields": {
+    "select": "Select",
+    "selectCandidate": "Select {{name}}",
+    "pumpAttendant": "Pump attendant",
+    "pumpAttendants": "Pump attendants",
+    "operationalCode": "Operational code",
+    "status": "Status",
+    "document": "Document",
+    "station": "Station",
+    "createdAt": "Created at",
+    "createdBy": "Created by",
+    "submittedAt": "Submitted at",
+    "reviewComment": "Decision reason / comment",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "postName": "Post-name",
+    "gender": "Gender",
+    "birthPlace": "Place of birth",
+    "birthDate": "Date of birth",
+    "birth": "Birth",
+    "address": "Address",
+    "email": "Email address",
+    "phone": "Phone",
+    "reason": "Required reason"
+  },
+  "gender": {
+    "MALE": "Male",
+    "FEMALE": "Female"
+  },
+  "filters": {
+    "search": "Search a pump attendant...",
+    "all": "All statuses"
+  },
+  "candidateStatus": {
+    "PREPARATION": "In preparation",
+    "PENDING_SUPERVISOR_APPROVAL": "Under review",
+    "RETURNED_FOR_CORRECTION": "Correction required",
+    "VALIDATED": "Validated",
+    "REJECTED": "Rejected",
+    "CANCELLED": "Cancelled"
+  },
+  "requestStatus": {
+    "DRAFT": "Draft",
+    "PENDING_SUPERVISOR_APPROVAL": "Pending supervisor approval",
+    "RETURNED_FOR_CORRECTION": "Returned for correction",
+    "VALIDATED": "Validated",
+    "REJECTED": "Rejected",
+    "CANCELLED": "Cancelled"
+  },
+  "actions": {
+    "createDocument": "Create document",
+    "submit": "Submit",
+    "resubmit": "Resubmit",
+    "approve": "Approve",
+    "return": "Return",
+    "reject": "Reject",
+    "cancel": "Cancel",
+    "cancelDocument": "Cancel document"
+  },
+  "feedback": {
+    "loading": "Loading...",
+    "candidateCreated": "The pump attendant was prepared without automatic submission.",
+    "candidateUpdated": "The pump attendant information was updated.",
+    "requestCreated": "The document was created as a draft.",
+    "submit": "The request was submitted to the supervisor.",
+    "approve": "The document and its pump attendants were validated.",
+    "return": "The document was returned for correction.",
+    "reject": "The document was rejected.",
+    "cancel": "The document was cancelled."
+  },
+  "errors": {
+    "load": "Unable to load pump attendants and requests.",
+    "loadRequests": "Unable to load validation requests.",
+    "loadDetail": "Unable to load this document.",
+    "saveCandidate": "Unable to save the pump attendant.",
+    "createRequest": "Unable to create the document.",
+    "mixedStations": "A document can only group pump attendants assigned to the same station.",
+    "action": "The action could not be completed."
+  },
+  "candidateForm": {
+    "createTitle": "Prepare a pump attendant",
+    "createDescription": "The pump attendant remains editable and no request is sent at this stage.",
+    "editTitle": "Correct the pump attendant",
+    "editDescription": "Update the allowed information before the next submission.",
+    "noAutomaticSubmission": "This creation triggers neither a notification nor an automatic validation.",
+    "chooseGender": "Choose gender",
+    "chooseStation": "Choose a station"
+  },
+  "pagination": {
+    "total_one": "{{count}} item",
+    "total_other": "{{count}} items",
+    "page": "Page {{current}} of {{total}}"
+  },
+  "detail": {
+    "back": "Back to requests",
+    "subtitle_one": "{{station}} · {{count}} pump attendant",
+    "subtitle_other": "{{station}} · {{count}} pump attendants",
+    "pumpAttendants": "Document pump attendants",
+    "snapshotNotice": "Displayed information comes from the auditable document; allowed corrections remain linked to the related accounts.",
+    "history": "History",
+    "historyDescription": "All transitions and their actors are retained.",
+    "noHistory": "No event recorded."
+  },
+  "confirm": {
+    "submitTitle": "Submit this document?",
+    "submitDescription": "One required-action notification will be sent to the supervisor for this document.",
+    "approveTitle": "Approve this document?",
+    "approveDescription": "All pump attendants in the document will be validated and receive their activation invitation.",
+    "returnTitle": "Return for correction",
+    "returnDescription": "Tell the manager which corrections are required. The next submission will create a new required action.",
+    "rejectTitle": "Reject this document",
+    "rejectDescription": "The document will be closed without validating its pump attendants.",
+    "cancelTitle": "Cancel this document",
+    "cancelDescription": "The document will be closed and its pump attendants will not be validated."
+  },
+  "history": {
+    "CREATED": "Document created",
+    "SUBMITTED": "Document submitted",
+    "RESUBMITTED": "Document resubmitted",
+    "VALIDATED": "Document approved",
+    "RETURNED_FOR_CORRECTION": "Returned for correction",
+    "REJECTED": "Document rejected",
+    "CANCELLED": "Document cancelled"
+  }
+}

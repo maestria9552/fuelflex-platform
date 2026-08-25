@@ -1,6 +1,7 @@
 package com.fuelflex.platform.user.service.impl;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Base64;
 import java.util.HashSet;
@@ -27,13 +28,17 @@ import com.fuelflex.platform.organization.entity.Organization;
 import com.fuelflex.platform.role.entity.Role;
 import com.fuelflex.platform.role.entity.RoleType;
 import com.fuelflex.platform.role.repository.RoleRepository;
+import com.fuelflex.platform.station.service.StationAccessService;
 import com.fuelflex.platform.user.dto.request.EmployeeCreateRequest;
+import com.fuelflex.platform.user.dto.request.ManagerPumpAttendantRequest;
 import com.fuelflex.platform.user.dto.request.EmployeeStatusRequest;
 import com.fuelflex.platform.user.dto.request.EmployeeUpdateRequest;
 import com.fuelflex.platform.user.dto.response.AssignableEmployeeRoleResponse;
 import com.fuelflex.platform.user.dto.response.EmployeePageResponse;
 import com.fuelflex.platform.user.dto.response.EmployeeResponse;
 import com.fuelflex.platform.user.entity.User;
+import com.fuelflex.platform.user.model.Gender;
+import com.fuelflex.platform.user.model.PumpAttendantValidationStatus;
 import com.fuelflex.platform.user.mapper.EmployeeMapper;
 import com.fuelflex.platform.user.repository.UserRepository;
 import com.fuelflex.platform.user.service.EmployeeRolePolicy;
@@ -54,6 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final AuthorizationService authorizationService;
+    private final StationAccessService stationAccessService;
     private final PasswordEncoder passwordEncoder;
     private final EmployeeMapper employeeMapper;
     private final EmployeeAssignmentService employeeAssignmentService;
@@ -98,8 +104,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeResponse create(EmployeeCreateRequest request) {
+        User supervisor = authorizationService.getAuthenticatedUser();
         Organization organization = getCurrentOrganization();
         Role role = getAssignableRole(request.getRoleCode());
+        validateStationForRole(role, request.getStationId(), true);
         String email = normalizeEmail(request.getEmail());
         String phoneNumber = normalizePhoneNumber(request.getPhoneNumber());
 
@@ -115,9 +123,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setLastName(normalizeRequiredText(request.getLastName()));
         employee.setEmail(email);
         employee.setPhoneNumber(phoneNumber);
+        applyIdentityProfile(employee, role, request.getPostName(),
+                request.getGender(), request.getBirthPlace(),
+                request.getBirthDate(), request.getAddress());
         employee.setOrganization(organization);
         employee.setRoles(new HashSet<>(List.of(role)));
         assignOperationalCodeIfRequired(employee, role);
+        applyDirectValidationStatus(employee, role);
 
         // The account cannot be used until the future invitation flow lets the
         // employee choose a password and verifies the email address.
@@ -132,6 +144,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setVerificationCodeAttempts(0);
 
         User savedEmployee = userRepository.save(employee);
+        if (isPumpAttendantRole(role)) {
+            stationAccessService.checkStationAccess(
+                    supervisor, request.getStationId());
+            employeeAssignmentService.assignForPumpAttendantOnboarding(
+                    savedEmployee, request.getStationId(), supervisor,
+                    "PUMP_ATTENDANT_DIRECT_CREATION");
+        }
         boolean invitationSent = true;
         try {
             emailService.sendEmployeeInvitation(savedEmployee.getEmail(), savedEmployee.getFirstName(),
@@ -146,6 +165,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeResponse update(UUID employeeId, EmployeeUpdateRequest request) {
         User employee = getAdministrableEmployee(employeeId);
+        requireValidatedForSupervisorMutation(employee);
         Role role = getAssignableRole(request.getRoleCode());
         String phoneNumber = normalizePhoneNumber(request.getPhoneNumber());
 
@@ -156,6 +176,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         String currentRole = employee.getRoles().stream()
                 .filter(Role::isActive).map(Role::getCode)
                 .filter(EmployeeRolePolicy::isAssignable).findFirst().orElse("");
+        boolean changingToPumpAttendant = isPumpAttendantRole(role)
+                && !"PUMP_ATTENDANT".equalsIgnoreCase(currentRole);
+        validateStationForRole(
+                role, request.getStationId(), changingToPumpAttendant);
         if (!currentRole.equals(role.getCode())
                 && employeeAssignmentService.countActiveAssignments(
                         employee.getId(), employee.getOrganization().getId()) > 0) {
@@ -166,16 +190,32 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setFirstName(normalizeRequiredText(request.getFirstName()));
         employee.setLastName(normalizeRequiredText(request.getLastName()));
         employee.setPhoneNumber(phoneNumber);
+        applyIdentityProfile(employee, role, request.getPostName(),
+                request.getGender(), request.getBirthPlace(),
+                request.getBirthDate(), request.getAddress());
         employee.setRoles(new HashSet<>(List.of(role)));
         assignOperationalCodeIfRequired(employee, role);
+        applyDirectValidationStatus(employee, role);
 
-        return employeeMapper.toResponse(userRepository.save(employee));
+        User saved = userRepository.save(employee);
+        if (isPumpAttendantRole(role) && request.getStationId() != null) {
+            User supervisor = authorizationService.getAuthenticatedUser();
+            stationAccessService.checkStationAccess(
+                    supervisor, request.getStationId());
+            employeeAssignmentService.assignForPumpAttendantOnboarding(
+                    saved, request.getStationId(), supervisor,
+                    "PUMP_ATTENDANT_SUPERVISOR_UPDATE");
+        }
+        return employeeMapper.toResponse(saved);
     }
 
     @Override
     public EmployeeResponse updateStatus(UUID employeeId, EmployeeStatusRequest request) {
         User employee = getAdministrableEmployee(employeeId);
         boolean enabled = Boolean.TRUE.equals(request.getEnabled());
+        if (enabled) {
+            requireValidatedPumpAttendant(employee);
+        }
         if (employee.isEnabled() && !enabled) {
             employeeAssignmentService.endAllForEmployee(employee,
                     authorizationService.getAuthenticatedUser(),
@@ -188,6 +228,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public com.fuelflex.platform.user.dto.response.EmployeeInvitationResponse resendInvitation(UUID employeeId) {
         User employee = getAdministrableEmployee(employeeId);
+        requireValidatedPumpAttendant(employee);
         if (employee.isEnabled() || employee.isEmailVerified()) {
             throw new ConflictException("An invitation can only be resent to a pending employee.");
         }
@@ -208,6 +249,111 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public EmployeeResponse createPumpAttendantDraft(ManagerPumpAttendantRequest request) {
+        User manager = getCurrentUserWithRole("MANAGER");
+        if (stationAccessService.getAccessibleStationIds(manager).isEmpty()) {
+            throw new ForbiddenException("Manager has no accessible station.");
+        }
+        Organization organization = manager.getOrganization();
+        Role role = getAssignableRole("PUMP_ATTENDANT");
+        stationAccessService.checkStationAccess(manager, request.getStationId());
+        String email = normalizeEmail(request.getEmail());
+        String phoneNumber = normalizePhoneNumber(request.getPhoneNumber());
+        rejectDuplicateIdentity(email, phoneNumber, null);
+
+        User employee = new User();
+        employee.setFirstName(normalizeRequiredText(request.getFirstName()));
+        employee.setLastName(normalizeRequiredText(request.getLastName()));
+        employee.setEmail(email);
+        employee.setPhoneNumber(phoneNumber);
+        applyIdentityProfile(employee, role, request.getPostName(),
+                request.getGender(), request.getBirthPlace(),
+                request.getBirthDate(), request.getAddress());
+        employee.setOrganization(organization);
+        employee.setRoles(new HashSet<>(List.of(role)));
+        employee.setPreparedBy(manager);
+        employee.setPumpAttendantValidationStatus(PumpAttendantValidationStatus.PREPARATION);
+        assignOperationalCodeIfRequired(employee, role);
+        employee.setPasswordHash(passwordEncoder.encode(generateUnusableSecret()));
+        employee.setEnabled(false);
+        employee.setEmailVerified(false);
+        employee.setPhoneVerified(false);
+        employee.setVerificationCode(null);
+        employee.setVerificationCodeExpiration(null);
+        employee.setVerificationCodeAttempts(0);
+        User saved = userRepository.save(employee);
+        employeeAssignmentService.assignForPumpAttendantOnboarding(
+                saved, request.getStationId(), manager,
+                "PUMP_ATTENDANT_MANAGER_PREPARATION");
+        return employeeMapper.toResponse(saved);
+    }
+
+    @Override
+    public EmployeeResponse updatePumpAttendantDraft(
+            UUID employeeId, ManagerPumpAttendantRequest request) {
+        User manager = getCurrentUserWithRole("MANAGER");
+        User employee = userRepository.lockByIdAndOrganizationId(
+                        employeeId, manager.getOrganization().getId())
+                .filter(this::isPumpAttendant)
+                .filter(value -> value.getPreparedBy() != null
+                        && manager.getId().equals(value.getPreparedBy().getId()))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Prepared pump attendant was not found."));
+        if (employee.getPumpAttendantValidationStatus()
+                != PumpAttendantValidationStatus.PREPARATION
+                && employee.getPumpAttendantValidationStatus()
+                != PumpAttendantValidationStatus.RETURNED_FOR_CORRECTION) {
+            throw new ConflictException(
+                    "Pump attendant cannot be changed in the current validation status.");
+        }
+        stationAccessService.checkStationAccess(manager, request.getStationId());
+        String email = normalizeEmail(request.getEmail());
+        String phoneNumber = normalizePhoneNumber(request.getPhoneNumber());
+        rejectDuplicateIdentity(email, phoneNumber, employee.getId());
+        employee.setFirstName(normalizeRequiredText(request.getFirstName()));
+        employee.setLastName(normalizeRequiredText(request.getLastName()));
+        employee.setEmail(email);
+        employee.setPhoneNumber(phoneNumber);
+        Role pumpAttendantRole = getAssignableRole("PUMP_ATTENDANT");
+        applyIdentityProfile(employee, pumpAttendantRole, request.getPostName(),
+                request.getGender(), request.getBirthPlace(),
+                request.getBirthDate(), request.getAddress());
+        User saved = userRepository.save(employee);
+        employeeAssignmentService.assignForPumpAttendantOnboarding(
+                saved, request.getStationId(), manager,
+                "PUMP_ATTENDANT_MANAGER_CORRECTION");
+        return employeeMapper.toResponse(saved);
+    }
+
+    @Override
+    public boolean validatePreparedPumpAttendant(User pumpAttendant) {
+        if (pumpAttendant == null || !isPumpAttendant(pumpAttendant)
+                || pumpAttendant.getPumpAttendantValidationStatus()
+                        != PumpAttendantValidationStatus.PENDING_SUPERVISOR_APPROVAL) {
+            throw new ConflictException(
+                    "Pump attendant is not awaiting supervisor validation.");
+        }
+        pumpAttendant.setPumpAttendantValidationStatus(
+                PumpAttendantValidationStatus.VALIDATED);
+        String invitationCode = otpService.generateCode();
+        OffsetDateTime invitationExpiresAt = otpService.expirationDate();
+        pumpAttendant.setVerificationCode(invitationCode);
+        pumpAttendant.setVerificationCodeExpiration(invitationExpiresAt);
+        pumpAttendant.setVerificationCodeAttempts(0);
+        User saved = userRepository.save(pumpAttendant);
+        try {
+            emailService.sendEmployeeInvitation(
+                    saved.getEmail(), saved.getFirstName(), saved.getLastName(),
+                    invitationCode, invitationExpiresAt);
+            return true;
+        } catch (Exception exception) {
+            log.error("Unable to send employee invitation to {}.",
+                    saved.getEmail(), exception);
+            return false;
+        }
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<AssignableEmployeeRoleResponse> findAssignableRoles() {
         getCurrentOrganization();
@@ -219,10 +365,130 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .toList();
     }
 
+    private void rejectDuplicateIdentity(String email, String phoneNumber, UUID employeeId) {
+        boolean duplicateEmail = employeeId == null
+                ? userRepository.existsByEmailIgnoreCase(email)
+                : userRepository.existsByEmailIgnoreCaseAndIdNot(email, employeeId);
+        if (duplicateEmail) {
+            throw new BusinessException("This email address is already registered.");
+        }
+        boolean duplicatePhone = employeeId == null
+                ? userRepository.existsByPhoneNumber(phoneNumber)
+                : userRepository.existsByPhoneNumberAndIdNot(phoneNumber, employeeId);
+        if (duplicatePhone) {
+            throw new BusinessException("This phone number is already registered.");
+        }
+    }
+
+    private void applyDirectValidationStatus(User employee, Role role) {
+        if ("PUMP_ATTENDANT".equalsIgnoreCase(role.getCode())) {
+            if (employee.getPumpAttendantValidationStatus() == null) {
+                employee.setPumpAttendantValidationStatus(
+                        PumpAttendantValidationStatus.VALIDATED);
+            }
+            return;
+        }
+        employee.setPumpAttendantValidationStatus(null);
+        employee.setPreparedBy(null);
+    }
+
+    private void validateStationForRole(
+            Role role, UUID stationId, boolean requiredForPumpAttendant) {
+        if (isPumpAttendantRole(role)) {
+            if (requiredForPumpAttendant && stationId == null) {
+                throw new BusinessException(
+                        "A station is required for a pump attendant.");
+            }
+            return;
+        }
+        if (stationId != null) {
+            throw new BusinessException(
+                    "A station can only be selected for a pump attendant.");
+        }
+    }
+
+    private void applyIdentityProfile(
+            User employee,
+            Role role,
+            String postName,
+            Gender gender,
+            String birthPlace,
+            LocalDate birthDate,
+            String address
+    ) {
+        if (!isPumpAttendantRole(role)) {
+            employee.setPostName(null);
+            employee.setGender(null);
+            employee.setBirthPlace(null);
+            employee.setBirthDate(null);
+            employee.setAddress(null);
+            return;
+        }
+        if (postName == null || postName.isBlank()
+                || gender == null
+                || birthPlace == null || birthPlace.isBlank()
+                || birthDate == null || !birthDate.isBefore(LocalDate.now())
+                || address == null || address.isBlank()) {
+            throw new BusinessException(
+                    "Pump attendant identity information is incomplete.");
+        }
+        employee.setPostName(normalizeRequiredText(postName));
+        employee.setGender(gender);
+        employee.setBirthPlace(normalizeRequiredText(birthPlace));
+        employee.setBirthDate(birthDate);
+        employee.setAddress(normalizeRequiredText(address));
+    }
+
+    private boolean isPumpAttendantRole(Role role) {
+        return role != null
+                && "PUMP_ATTENDANT".equalsIgnoreCase(role.getCode());
+    }
+
+    private void requireValidatedForSupervisorMutation(User employee) {
+        if (isPumpAttendant(employee)
+                && employee.getPumpAttendantValidationStatus()
+                        != PumpAttendantValidationStatus.VALIDATED) {
+            throw new ConflictException(
+                    "Pump attendant must be changed through its validation request.");
+        }
+    }
+
+    private void requireValidatedPumpAttendant(User employee) {
+        if (isPumpAttendant(employee)
+                && employee.getPumpAttendantValidationStatus()
+                        != PumpAttendantValidationStatus.VALIDATED) {
+            throw new ConflictException(
+                    "Pump attendant is not validated by a supervisor.");
+        }
+    }
+
+    private boolean isPumpAttendant(User employee) {
+        return employee.getRoles().stream()
+                .filter(Role::isActive)
+                .map(Role::getCode)
+                .anyMatch("PUMP_ATTENDANT"::equalsIgnoreCase);
+    }
+
     private void assignOperationalCodeIfRequired(User employee, Role role) {
         if ("PUMP_ATTENDANT".equalsIgnoreCase(role.getCode()) && employee.getOperationalCode() == null) {
             employee.setOperationalCode("PMP-" + String.format("%06d", pumpAttendantNumbers.nextValue()));
         }
+    }
+
+    private User getCurrentUserWithRole(String roleCode) {
+        User currentUser = authorizationService.getAuthenticatedUser();
+        if (currentUser == null || !currentUser.isEnabled()
+                || currentUser.getRoles().stream()
+                        .filter(Role::isActive)
+                        .map(Role::getCode)
+                        .noneMatch(roleCode::equalsIgnoreCase)) {
+            throw new ForbiddenException("Role required: " + roleCode + ".");
+        }
+        if (currentUser.getOrganization() == null
+                || currentUser.getOrganization().getId() == null) {
+            throw new ForbiddenException("Authenticated user has no organization.");
+        }
+        return currentUser;
     }
 
     private Organization getCurrentOrganization() {

@@ -33,6 +33,9 @@ public interface UserStationAssignmentRepository
     List<UserStationAssignment> findAllByUserIdAndOrganizationIdAndValidUntilIsNull(
             UUID userId, UUID organizationId);
 
+    List<UserStationAssignment> findAllByUserIdInAndOrganizationIdAndValidUntilIsNull(
+            List<UUID> userIds, UUID organizationId);
+
     List<UserStationAssignment> findAllByStationIdAndOrganizationIdAndValidUntilIsNull(
             UUID stationId, UUID organizationId);
 

@@ -18,4 +18,11 @@ public interface NotificationService {
     NotificationResponse markMineAsRead(UUID notificationId);
 
     UnreadNotificationCountResponse markAllMineAsRead();
+
+    int resolveRequiredActions(
+            UUID organizationId,
+            String resourceType,
+            UUID resourceId,
+            UUID resolvedById
+    );
 }

@@ -23,7 +23,7 @@ import {
 import "./NotificationsPopover.css";
 
 const PAGE_SIZE = 20;
-const NAVIGABLE_RESOURCE_TYPES = ["PURCHASE_ORDER", "RECEPTION", "OPERATIONAL_DAY", "SHIFT_ASSIGNMENT", "DAILY_EXPENSE", "TANK_GAUGE", "FUEL_SALE"];
+const NAVIGABLE_RESOURCE_TYPES = ["PURCHASE_ORDER", "RECEPTION", "OPERATIONAL_DAY", "SHIFT_ASSIGNMENT", "DAILY_EXPENSE", "TANK_GAUGE", "FUEL_SALE", "PUMP_ATTENDANT_VALIDATION_REQUEST"];
 
 function NotificationsPopover({ isOpen, onOpen, onClose }) {
   const { t, i18n } = useTranslation(["notifications", "common"]);
@@ -69,6 +69,20 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
     return () => { controller.abort(); window.clearInterval(interval); };
   }, [t]);
 
+  useEffect(() => {
+    const refreshNotificationState = () => {
+      getMyUnreadNotificationCount()
+        .then((result) => {
+          setUnreadCount(result?.unreadCount || 0);
+          setUnreadIndependentCount(result?.unreadNonOrderSubmittedCount ?? result?.unreadCount ?? 0);
+          setManagerAttentionCount(result?.attentionCount ?? result?.unreadCount ?? 0);
+          if (isOpen) setLoadAttempt((attempt) => attempt + 1);
+        })
+        .catch(() => {});
+    };
+    window.addEventListener("fuelflex:notifications-refresh", refreshNotificationState);
+    return () => window.removeEventListener("fuelflex:notifications-refresh", refreshNotificationState);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -153,6 +167,8 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
       navigate(prefix + "/operations/" + notification.resourceId);
     } else if (notification.resourceType === "FUEL_SALE" && notification.resourceId) {
       navigate(prefix + "/ventes/" + notification.resourceId);
+    } else if (notification.resourceType === "PUMP_ATTENDANT_VALIDATION_REQUEST" && notification.resourceId) {
+      navigate(prefix + "/validations-pompistes/" + notification.resourceId);
     } else if (["SHIFT_ASSIGNMENT", "DAILY_EXPENSE", "TANK_GAUGE"].includes(notification.resourceType)) {
       navigate(prefix + "/operations");
     }
@@ -222,7 +238,9 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
     }));
     return [...synthetic, ...merged];
   })();
-  const badgeCount = isSupervisor ? pendingOrderCount + unreadIndependentCount : managerAttentionCount;
+  const badgeCount = isSupervisor
+    ? Math.max(managerAttentionCount, pendingOrderCount + unreadIndependentCount)
+    : managerAttentionCount;
 
   const badgeLabel = t("notifications:accessibility.unreadCount", {
     count: badgeCount,

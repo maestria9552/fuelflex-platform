@@ -9,6 +9,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -40,10 +41,12 @@ import com.fuelflex.platform.user.dto.response.EmployeePageResponse;
 import com.fuelflex.platform.user.dto.response.EmployeeResponse;
 import com.fuelflex.platform.user.entity.User;
 import com.fuelflex.platform.user.mapper.EmployeeMapper;
+import com.fuelflex.platform.user.model.Gender;
 import com.fuelflex.platform.user.repository.UserRepository;
 import com.fuelflex.platform.assignment.service.EmployeeAssignmentService;
 import com.fuelflex.platform.auth.service.OtpService;
 import com.fuelflex.platform.email.service.EmailService;
+import com.fuelflex.platform.station.service.StationAccessService;
 
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceImplTest {
@@ -54,6 +57,8 @@ class EmployeeServiceImplTest {
     private RoleRepository roleRepository;
     @Mock
     private AuthorizationService authorizationService;
+    @Mock
+    private StationAccessService stationAccessService;
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
@@ -75,6 +80,7 @@ class EmployeeServiceImplTest {
                 userRepository,
                 roleRepository,
                 authorizationService,
+                stationAccessService,
                 passwordEncoder,
                 new EmployeeMapper(),
                 employeeAssignmentService,
@@ -366,6 +372,14 @@ class EmployeeServiceImplTest {
         request.setEmail("employee@fuelflex.test");
         request.setPhoneNumber("+243811234567");
         request.setRoleCode(roleCode);
+        if ("PUMP_ATTENDANT".equals(roleCode)) {
+            request.setPostName("Kabeya");
+            request.setGender(Gender.MALE);
+            request.setBirthPlace("Kinshasa");
+            request.setBirthDate(LocalDate.of(1990, 1, 1));
+            request.setAddress("Avenue Centrale 10");
+            request.setStationId(UUID.randomUUID());
+        }
         return request;
     }
 

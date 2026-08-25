@@ -25,5 +25,8 @@ public class NotificationResponse {
     private boolean requiresAction;
     private boolean read;
     private OffsetDateTime readAt;
+    private boolean resolved;
+    private OffsetDateTime resolvedAt;
+    private UUID resolvedById;
     private OffsetDateTime createdAt;
 }

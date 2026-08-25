@@ -48,6 +48,11 @@
     "DAILY_EXPENSE_RECORDED": { "title": "Dépense enregistrée", "message": "Une dépense journalière a été enregistrée." },
     "TANK_GAUGE_RECORDED": { "title": "Jaugeage enregistré", "message": "Un stock physique de citerne a été enregistré." },
     "POS_SALE_REVERSED": { "title": "Vente annulée", "message": "Un gestionnaire a annulé une vente POS." },
+    "pumpValidationSubmitted": { "title": "Pompistes à valider", "message": "Un document de pompistes attend votre décision." },
+    "pumpValidationApproved": { "title": "Pompistes validés", "message": "Votre document de pompistes a été validé." },
+    "pumpValidationReturned": { "title": "Document retourné", "message": "Le document de pompistes doit être corrigé avant une nouvelle soumission." },
+    "pumpValidationRejected": { "title": "Document rejeté", "message": "Le document de pompistes a été rejeté." },
+    "pumpValidationCancelled": { "title": "Document annulé", "message": "Le document de pompistes a été annulé." },
     "orderSubmitted": {
       "title": "Commande à valider",
       "message": "Une commande attend votre intervention."

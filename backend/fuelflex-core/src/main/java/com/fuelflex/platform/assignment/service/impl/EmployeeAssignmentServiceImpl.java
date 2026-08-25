@@ -34,6 +34,7 @@ import com.fuelflex.platform.organization.entity.Organization;
 import com.fuelflex.platform.station.entity.Station;
 import com.fuelflex.platform.station.repository.StationRepository;
 import com.fuelflex.platform.user.entity.User;
+import com.fuelflex.platform.user.model.PumpAttendantValidationStatus;
 import com.fuelflex.platform.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -64,6 +65,69 @@ public class EmployeeAssignmentServiceImpl implements EmployeeAssignmentService 
         UserStationAssignment assignment = createAssignment(
                 context.employee(), station, context.actor(), validFrom, request.getReason());
         return assignmentMapper.toResponse(assignment);
+    }
+
+    @Override
+    public EmployeeAssignmentResponse assignForPumpAttendantOnboarding(
+            User employee, UUID stationId, User actor, String reason) {
+        if (employee == null || stationId == null || actor == null
+                || employee.getOrganization() == null
+                || actor.getOrganization() == null
+                || !employee.getOrganization().getId().equals(
+                        actor.getOrganization().getId())) {
+            throw new ForbiddenException(
+                    "Pump attendant assignment must stay in the actor organization.");
+        }
+        if (!"PUMP_ATTENDANT".equalsIgnoreCase(
+                assignmentPolicy.requireAssignableRole(employee))) {
+            throw new BusinessException(
+                    "Pump attendant onboarding requires the PUMP_ATTENDANT role.");
+        }
+        if (employee.getPumpAttendantValidationStatus() == null
+                || employee.getPumpAttendantValidationStatus()
+                        == PumpAttendantValidationStatus.PENDING_SUPERVISOR_APPROVAL
+                || employee.getPumpAttendantValidationStatus()
+                        == PumpAttendantValidationStatus.REJECTED
+                || employee.getPumpAttendantValidationStatus()
+                        == PumpAttendantValidationStatus.CANCELLED) {
+            throw new ConflictException(
+                    "Pump attendant cannot be assigned in the current validation status.");
+        }
+
+        Station station = getActiveStation(
+                stationId, employee.getOrganization().getId());
+        List<UserStationAssignment> active = assignmentRepository
+                .findAllByUserIdAndOrganizationIdAndValidUntilIsNull(
+                        employee.getId(), employee.getOrganization().getId());
+        if (active.size() > 1) {
+            throw new ConflictException(
+                    "Pump attendant has incompatible active assignments.");
+        }
+        OffsetDateTime now = OffsetDateTime.now();
+        if (active.isEmpty()) {
+            return assignmentMapper.toResponse(createAssignment(
+                    employee, station, actor, now, reason));
+        }
+
+        UserStationAssignment source = active.getFirst();
+        if (source.getStation().getId().equals(station.getId())) {
+            return assignmentMapper.toResponse(source);
+        }
+        endAssignment(source, actor, now, now, reason);
+        assignmentRepository.saveAndFlush(source);
+        UserStationAssignment destination = createAssignment(
+                employee, station, actor, now, reason);
+        EmployeeStationTransfer transfer = new EmployeeStationTransfer();
+        transfer.setOrganization(employee.getOrganization());
+        transfer.setEmployee(employee);
+        transfer.setSourceAssignment(source);
+        transfer.setDestinationAssignment(destination);
+        transfer.setTransferredBy(actor);
+        transfer.setTransferredAt(now);
+        transfer.setEffectiveAt(now);
+        transfer.setReason(normalizeReason(reason));
+        transferRepository.saveAndFlush(transfer);
+        return assignmentMapper.toResponse(destination);
     }
 
     @Override
@@ -253,6 +317,14 @@ public class EmployeeAssignmentServiceImpl implements EmployeeAssignmentService 
     private void requireEnabled(User employee) {
         if (!employee.isEnabled()) {
             throw new ConflictException("A disabled employee cannot receive station assignments.");
+        }
+        boolean pumpAttendant = employee.getRoles().stream()
+                .anyMatch(role -> role.isActive()
+                        && "PUMP_ATTENDANT".equalsIgnoreCase(role.getCode()));
+        if (pumpAttendant && employee.getPumpAttendantValidationStatus()
+                != PumpAttendantValidationStatus.VALIDATED) {
+            throw new ConflictException(
+                    "A pump attendant must be validated before station assignment.");
         }
     }
 

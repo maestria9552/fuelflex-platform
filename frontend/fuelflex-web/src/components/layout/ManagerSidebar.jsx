@@ -1,4 +1,4 @@
-import { BarChart3, CalendarDays, ClipboardCheck, LayoutDashboard, PackageCheck, ShoppingCart, X } from "lucide-react";
+import { BarChart3, CalendarDays, ClipboardCheck, LayoutDashboard, PackageCheck, ShoppingCart, UsersRound, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { hasPermission } from "../../services/auth/permissionService";
@@ -12,6 +12,7 @@ const groups = [
     { id: "receipts", label: "items.receipts", path: "/gerant/receptions", icon: PackageCheck },
     { id: "dailyOperations", label: "items.dailyOperations", path: "/gerant/operations", icon: CalendarDays, permission: "operational-day:view" },
     { id: "sales", label: "items.sales", path: "/gerant/ventes", icon: ShoppingCart, permission: "pos-sale:view" },
+    { id: "pumpAttendants", label: "items.pumpAttendants", path: "/gerant/pompistes", icon: UsersRound, permission: "pump-attendant-validation:view" },
   ] },
   { id: "analytics", label: "groups.analytics", items: [{ id: "reports", label: "items.reports", icon: BarChart3, soon: true }] },
 ];

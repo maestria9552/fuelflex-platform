@@ -1,15 +1,14 @@
-import { getStoredUser } from "../../services/auth/authStorage";
+import { hasPermission } from "../../services/auth/permissionService";
 
 export function getEmployeePermissions() {
-  const permissions = new Set(getStoredUser()?.permissions || []);
   return {
-    canView: permissions.has("user:view"),
-    canCreate: permissions.has("user:create"),
-    canUpdate: permissions.has("user:update"),
-    canDisable: permissions.has("user:disable"),
-    canViewAssignments: permissions.has("assignment:view"),
-    canCreateAssignment: permissions.has("assignment:create"),
-    canEndAssignment: permissions.has("assignment:end"),
-    canTransfer: permissions.has("assignment:transfer"),
+    canView: hasPermission("user:view"),
+    canCreate: hasPermission("user:create"),
+    canUpdate: hasPermission("user:update"),
+    canDisable: hasPermission("user:disable"),
+    canViewAssignments: hasPermission("assignment:view"),
+    canCreateAssignment: hasPermission("assignment:create"),
+    canEndAssignment: hasPermission("assignment:end"),
+    canTransfer: hasPermission("assignment:transfer"),
   };
 }

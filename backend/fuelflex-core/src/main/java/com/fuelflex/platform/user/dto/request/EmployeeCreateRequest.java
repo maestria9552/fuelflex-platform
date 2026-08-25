@@ -1,6 +1,13 @@
 package com.fuelflex.platform.user.dto.request;
 
+import java.time.LocalDate;
+import java.util.UUID;
+
+import com.fuelflex.platform.user.model.Gender;
+
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -18,6 +25,20 @@ public class EmployeeCreateRequest {
     @Size(max = 100, message = "Last name must not exceed 100 characters.")
     private String lastName;
 
+    @Size(max = 100, message = "Post-name must not exceed 100 characters.")
+    private String postName;
+
+    private Gender gender;
+
+    @Size(max = 150, message = "Birth place must not exceed 150 characters.")
+    private String birthPlace;
+
+    @Past(message = "Birth date must be in the past.")
+    private LocalDate birthDate;
+
+    @Size(max = 500, message = "Address must not exceed 500 characters.")
+    private String address;
+
     @NotBlank(message = "Email is required.")
     @Email(message = "Email format is invalid.")
     @Size(max = 180, message = "Email must not exceed 180 characters.")
@@ -30,4 +51,20 @@ public class EmployeeCreateRequest {
     @NotBlank(message = "Role code is required.")
     @Size(max = 100, message = "Role code must not exceed 100 characters.")
     private String roleCode;
+
+    private UUID stationId;
+
+    @AssertTrue(message = "Pump attendant identity and station are required.")
+    public boolean isPumpAttendantProfileComplete() {
+        if (roleCode == null
+                || !"PUMP_ATTENDANT".equalsIgnoreCase(roleCode.trim())) {
+            return true;
+        }
+        return hasText(postName) && gender != null && hasText(birthPlace)
+                && birthDate != null && hasText(address) && stationId != null;
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
+    }
 }

@@ -17,8 +17,8 @@ import com.fuelflex.platform.notification.entity.Notification;
 public interface NotificationRepository
         extends JpaRepository<Notification, UUID> {
 
-    @Query(value = "select notification from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and (notification.read = false or notification.requiresAction = true)",
-            countQuery = "select count(notification) from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and (notification.read = false or notification.requiresAction = true)")
+    @Query(value = "select notification from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and (notification.read = false or (notification.requiresAction = true and notification.resolvedAt is null))",
+            countQuery = "select count(notification) from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and (notification.read = false or (notification.requiresAction = true and notification.resolvedAt is null))")
     Page<Notification> findRequiringAttention(
             @Param("recipientId") UUID recipientId,
             @Param("organizationId") UUID organizationId,
@@ -27,9 +27,10 @@ public interface NotificationRepository
 
     long countByRecipientIdAndOrganizationIdAndReadFalse(UUID recipientId, UUID organizationId);
 
-    long countByRecipientIdAndOrganizationIdAndRequiresActionTrue(UUID recipientId, UUID organizationId);
+    long countByRecipientIdAndOrganizationIdAndRequiresActionTrueAndResolvedAtIsNull(
+            UUID recipientId, UUID organizationId);
 
-    @Query("select count(notification) from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and (notification.read = false or notification.requiresAction = true)")
+    @Query("select count(notification) from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and (notification.read = false or (notification.requiresAction = true and notification.resolvedAt is null))")
     long countRequiringAttention(@Param("recipientId") UUID recipientId, @Param("organizationId") UUID organizationId);
 
     @Query("select count(notification) from Notification notification where notification.recipient.id = :recipientId and notification.organization.id = :organizationId and notification.read = false and notification.eventType <> 'ORDER_SUBMITTED'")
@@ -37,7 +38,7 @@ public interface NotificationRepository
 
     boolean existsByRecipientIdAndEventTypeAndResourceId(UUID recipientId, String eventType, UUID resourceId);
 
-    List<Notification> findByOrganizationIdAndResourceTypeAndResourceIdAndRequiresActionTrue(
+    List<Notification> findByOrganizationIdAndResourceTypeAndResourceIdAndRequiresActionTrueAndResolvedAtIsNull(
             UUID organizationId, String resourceType, UUID resourceId);
 
     Optional<Notification> findByIdAndRecipientIdAndOrganizationId(

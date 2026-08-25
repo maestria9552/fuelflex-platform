@@ -32,6 +32,7 @@ import com.fuelflex.platform.role.entity.Role;
 import com.fuelflex.platform.station.entity.Station;
 import com.fuelflex.platform.station.repository.StationRepository;
 import com.fuelflex.platform.user.entity.User;
+import com.fuelflex.platform.user.model.PumpAttendantValidationStatus;
 import com.fuelflex.platform.user.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,7 +53,62 @@ class EmployeeAssignmentServiceImplTest {
         organization = new Organization();
         organization.setId(UUID.randomUUID());
         supervisor = user("SUPERVISOR", true);
-        when(authorizationService.getAuthenticatedUser()).thenReturn(supervisor);
+        lenient().when(authorizationService.getAuthenticatedUser()).thenReturn(supervisor);
+    }
+
+    @Test
+    void onboardingCreatesTheExistingAssignmentForPreparedPumpAttendant() {
+        User attendant = user("PUMP_ATTENDANT", false);
+        attendant.setPumpAttendantValidationStatus(
+                PumpAttendantValidationStatus.PREPARATION);
+        Station station = station(true);
+        when(stationRepository.findByIdAndOrganizationId(
+                station.getId(), organization.getId()))
+                .thenReturn(Optional.of(station));
+        when(assignmentRepository
+                .findAllByUserIdAndOrganizationIdAndValidUntilIsNull(
+                        attendant.getId(), organization.getId()))
+                .thenReturn(java.util.List.of());
+        saveAssignments();
+
+        var response = service.assignForPumpAttendantOnboarding(
+                attendant, station.getId(), supervisor,
+                "PUMP_ATTENDANT_MANAGER_PREPARATION");
+
+        assertThat(response.getStationId()).isEqualTo(station.getId());
+        assertThat(response.getEmployeeId()).isEqualTo(attendant.getId());
+        assertThat(response.isActive()).isTrue();
+    }
+
+    @Test
+    void onboardingCorrectionUsesExistingTransferHistory() {
+        User attendant = user("PUMP_ATTENDANT", false);
+        attendant.setPumpAttendantValidationStatus(
+                PumpAttendantValidationStatus.RETURNED_FOR_CORRECTION);
+        Station sourceStation = station(true);
+        Station destinationStation = station(true);
+        UserStationAssignment source = assignment(attendant, sourceStation);
+        when(stationRepository.findByIdAndOrganizationId(
+                destinationStation.getId(), organization.getId()))
+                .thenReturn(Optional.of(destinationStation));
+        when(assignmentRepository
+                .findAllByUserIdAndOrganizationIdAndValidUntilIsNull(
+                        attendant.getId(), organization.getId()))
+                .thenReturn(java.util.List.of(source));
+        saveAssignments();
+        when(transferRepository.saveAndFlush(any())).thenAnswer(invocation -> {
+            EmployeeStationTransfer transfer = invocation.getArgument(0);
+            transfer.setId(UUID.randomUUID());
+            return transfer;
+        });
+
+        var response = service.assignForPumpAttendantOnboarding(
+                attendant, destinationStation.getId(), supervisor,
+                "PUMP_ATTENDANT_MANAGER_CORRECTION");
+
+        assertThat(source.getValidUntil()).isNotNull();
+        assertThat(response.getStationId()).isEqualTo(destinationStation.getId());
+        verify(transferRepository).saveAndFlush(any(EmployeeStationTransfer.class));
     }
 
     @Test void managerCanReceiveSeveralStationsAndReassignmentAfterHistory() {
@@ -225,6 +281,7 @@ class EmployeeAssignmentServiceImplTest {
         Role role = new Role(); role.setCode(roleCode); role.setActive(true);
         User user = new User(); user.setId(UUID.randomUUID()); user.setEnabled(enabled);
         user.setOrganization(organization); user.setRoles(Set.of(role));
+        if ("PUMP_ATTENDANT".equals(roleCode)) user.setPumpAttendantValidationStatus(PumpAttendantValidationStatus.VALIDATED);
         return user;
     }
 

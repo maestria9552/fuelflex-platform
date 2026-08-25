@@ -1,0 +1,150 @@
+{
+  "manager": {
+    "eyebrow": "Préparation des équipes",
+    "title": "Pompistes et demandes de validation",
+    "description": "Préparez les pompistes, regroupez-les dans un document, puis soumettez volontairement la demande au superviseur.",
+    "newCandidate": "Nouveau pompiste",
+    "candidatesTitle": "Pompistes en préparation",
+    "candidatesDescription": "La création d’un pompiste n’envoie aucune demande automatiquement.",
+    "noCandidates": "Aucun pompiste ne correspond aux filtres.",
+    "buildDocument": "Constituer un document de validation",
+    "selectedCount_one": "{{count}} pompiste sélectionné",
+    "selectedCount_other": "{{count}} pompistes sélectionnés",
+    "requestsTitle": "Documents de validation",
+    "requestsDescription": "Suivez les demandes préparées, soumises, retournées ou terminées.",
+    "noRequests": "Aucun document de validation."
+  },
+  "supervisor": {
+    "eyebrow": "Contrôle des équipes",
+    "title": "Validation des pompistes",
+    "description": "Examinez chaque document et prenez une décision sur l’ensemble des pompistes qu’il contient.",
+    "requestsTitle": "Demandes accessibles",
+    "requestsDescription": "Une demande en attente correspond à une seule action requise au niveau du document.",
+    "noRequests": "Aucune demande dans cet état.",
+    "noRequestsDescription": "Les nouvelles demandes soumises par les gestionnaires apparaîtront ici."
+  },
+  "fields": {
+    "select": "Sélection",
+    "selectCandidate": "Sélectionner {{name}}",
+    "pumpAttendant": "Pompiste",
+    "pumpAttendants": "Pompistes",
+    "operationalCode": "Code opérationnel",
+    "status": "Statut",
+    "document": "Document",
+    "station": "Station",
+    "createdAt": "Créé le",
+    "createdBy": "Créé par",
+    "submittedAt": "Soumis le",
+    "reviewComment": "Motif / commentaire de décision",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "postName": "Post-nom",
+    "gender": "Sexe",
+    "birthPlace": "Lieu de naissance",
+    "birthDate": "Date de naissance",
+    "birth": "Naissance",
+    "address": "Adresse",
+    "email": "Adresse e-mail",
+    "phone": "Téléphone",
+    "reason": "Motif obligatoire"
+  },
+  "gender": {
+    "MALE": "Masculin",
+    "FEMALE": "Féminin"
+  },
+  "filters": {
+    "search": "Rechercher un pompiste...",
+    "all": "Tous les statuts"
+  },
+  "candidateStatus": {
+    "PREPARATION": "En préparation",
+    "PENDING_SUPERVISOR_APPROVAL": "En validation",
+    "RETURNED_FOR_CORRECTION": "À corriger",
+    "VALIDATED": "Validé",
+    "REJECTED": "Rejeté",
+    "CANCELLED": "Annulé"
+  },
+  "requestStatus": {
+    "DRAFT": "Brouillon",
+    "PENDING_SUPERVISOR_APPROVAL": "En attente du superviseur",
+    "RETURNED_FOR_CORRECTION": "Retourné pour correction",
+    "VALIDATED": "Validé",
+    "REJECTED": "Rejeté",
+    "CANCELLED": "Annulé"
+  },
+  "actions": {
+    "createDocument": "Créer le document",
+    "submit": "Soumettre",
+    "resubmit": "Resoumettre",
+    "approve": "Valider",
+    "return": "Retourner",
+    "reject": "Rejeter",
+    "cancel": "Annuler",
+    "cancelDocument": "Annuler le document"
+  },
+  "feedback": {
+    "loading": "Chargement...",
+    "candidateCreated": "Le pompiste a été préparé sans soumission automatique.",
+    "candidateUpdated": "Les informations du pompiste ont été mises à jour.",
+    "requestCreated": "Le document a été créé en brouillon.",
+    "submit": "La demande a été soumise au superviseur.",
+    "approve": "Le document et ses pompistes ont été validés.",
+    "return": "Le document a été retourné pour correction.",
+    "reject": "Le document a été rejeté.",
+    "cancel": "Le document a été annulé."
+  },
+  "errors": {
+    "load": "Impossible de charger les pompistes et les demandes.",
+    "loadRequests": "Impossible de charger les demandes de validation.",
+    "loadDetail": "Impossible de charger ce document.",
+    "saveCandidate": "Impossible d’enregistrer le pompiste.",
+    "createRequest": "Impossible de créer le document.",
+    "mixedStations": "Un document ne peut regrouper que des pompistes affectés à la même station.",
+    "action": "L’action n’a pas pu être exécutée."
+  },
+  "candidateForm": {
+    "createTitle": "Préparer un pompiste",
+    "createDescription": "Le pompiste reste modifiable et aucune demande n’est envoyée à cette étape.",
+    "editTitle": "Corriger le pompiste",
+    "editDescription": "Mettez à jour les informations autorisées avant la prochaine soumission.",
+    "noAutomaticSubmission": "Cette création ne déclenche ni notification ni validation automatique.",
+    "chooseGender": "Choisir le sexe",
+    "chooseStation": "Choisir une station"
+  },
+  "pagination": {
+    "total_one": "{{count}} élément",
+    "total_other": "{{count}} éléments",
+    "page": "Page {{current}} sur {{total}}"
+  },
+  "detail": {
+    "back": "Retour aux demandes",
+    "subtitle_one": "{{station}} · {{count}} pompiste",
+    "subtitle_other": "{{station}} · {{count}} pompistes",
+    "pumpAttendants": "Pompistes du document",
+    "snapshotNotice": "Les informations affichées proviennent du document auditable ; les corrections autorisées restent liées aux comptes concernés.",
+    "history": "Historique",
+    "historyDescription": "Toutes les transitions et leurs auteurs sont conservés.",
+    "noHistory": "Aucun événement enregistré."
+  },
+  "confirm": {
+    "submitTitle": "Soumettre ce document ?",
+    "submitDescription": "Une seule notification d’action requise sera envoyée au superviseur pour ce document.",
+    "approveTitle": "Valider ce document ?",
+    "approveDescription": "Tous les pompistes du document seront validés et recevront leur invitation d’activation.",
+    "returnTitle": "Retourner pour correction",
+    "returnDescription": "Indiquez au gestionnaire les corrections nécessaires. Sa prochaine soumission créera une nouvelle action requise.",
+    "rejectTitle": "Rejeter ce document",
+    "rejectDescription": "Le document sera clôturé sans valider les pompistes.",
+    "cancelTitle": "Annuler ce document",
+    "cancelDescription": "Le document sera clôturé et ses pompistes ne seront pas validés."
+  },
+  "history": {
+    "CREATED": "Document créé",
+    "SUBMITTED": "Document soumis",
+    "RESUBMITTED": "Document resoumis",
+    "VALIDATED": "Document validé",
+    "RETURNED_FOR_CORRECTION": "Retourné pour correction",
+    "REJECTED": "Document rejeté",
+    "CANCELLED": "Document annulé"
+  }
+}

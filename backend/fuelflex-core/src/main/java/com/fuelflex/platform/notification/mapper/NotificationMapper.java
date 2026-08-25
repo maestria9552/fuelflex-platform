@@ -25,6 +25,10 @@ public class NotificationMapper {
                 .requiresAction(notification.isRequiresAction())
                 .read(notification.isRead())
                 .readAt(notification.getReadAt())
+                .resolved(notification.getResolvedAt() != null)
+                .resolvedAt(notification.getResolvedAt())
+                .resolvedById(notification.getResolvedBy() == null
+                        ? null : notification.getResolvedBy().getId())
                 .createdAt(notification.getCreatedAt())
                 .build();
     }

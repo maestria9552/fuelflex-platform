@@ -36,6 +36,10 @@ import lombok.Setter;
                 @Index(
                         name = "idx_notification_recipient_unread",
                         columnList = "recipient_id, organization_id, is_read"
+                ),
+                @Index(
+                        name = "idx_notification_pending_action",
+                        columnList = "recipient_id, organization_id, requires_action, resolved_at"
                 )
         }
 )
@@ -105,6 +109,16 @@ public class Notification {
 
     @Column(name = "read_at")
     private OffsetDateTime readAt;
+
+    @Column(name = "resolved_at")
+    private OffsetDateTime resolvedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "resolved_by_id",
+            foreignKey = @ForeignKey(name = "fk_notification_resolved_by")
+    )
+    private User resolvedBy;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;

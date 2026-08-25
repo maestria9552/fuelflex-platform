@@ -49,6 +49,8 @@ import operationsEn from "./locales/en/operations.json";
 import operationsFr from "./locales/fr/operations.json";
 import salesEn from "./locales/en/sales.json";
 import salesFr from "./locales/fr/sales.json";
+import pumpAttendantValidationEn from "./locales/en/pumpAttendantValidation.json";
+import pumpAttendantValidationFr from "./locales/fr/pumpAttendantValidation.json";
 import {
   DEFAULT_LANGUAGE,
   resolveInitialLanguage,
@@ -80,6 +82,7 @@ const resources = {
     receptions: receptionsFr,
     operations: operationsFr,
     sales: salesFr,
+    pumpAttendantValidation: pumpAttendantValidationFr,
     pumps: pumpsFr,
     tanks: tanksFr,
   },
@@ -106,6 +109,7 @@ const resources = {
     receptions: receptionsEn,
     operations: operationsEn,
     sales: salesEn,
+    pumpAttendantValidation: pumpAttendantValidationEn,
     pumps: pumpsEn,
     tanks: tanksEn,
   },

@@ -40,6 +40,16 @@ export function getOperationalPermissions() {
   };
 }
 
+export function getPumpAttendantValidationPermissions() {
+  return {
+    canPrepare: hasPermission("pump-attendant:prepare"),
+    canView: hasPermission("pump-attendant-validation:view"),
+    canCreateRequest: hasPermission("pump-attendant-validation:create"),
+    canSubmit: hasPermission("pump-attendant-validation:submit"),
+    canReview: hasPermission("pump-attendant-validation:review"),
+  };
+}
+
 export function getSalePermissions() {
   return {
     canView: hasPermission("pos-sale:view"),

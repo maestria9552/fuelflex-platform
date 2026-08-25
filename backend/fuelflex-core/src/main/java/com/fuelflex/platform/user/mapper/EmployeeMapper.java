@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.fuelflex.platform.user.dto.response.EmployeeResponse;
 import com.fuelflex.platform.user.entity.User;
+import com.fuelflex.platform.user.model.PumpAttendantValidationStatus;
 
 @Component
 public class EmployeeMapper {
@@ -24,14 +25,24 @@ public class EmployeeMapper {
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .postName(user.getPostName())
+                .gender(user.getGender())
+                .birthPlace(user.getBirthPlace())
+                .birthDate(user.getBirthDate())
+                .address(user.getAddress())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .operationalCode(user.getOperationalCode())
                 .enabled(user.isEnabled())
                 .invitationSent(invitationSent)
-                .invitationPending(!user.isEnabled() && !user.isEmailVerified())
+                .invitationPending(!user.isEnabled() && !user.isEmailVerified()
+                        && (user.getPumpAttendantValidationStatus() == null
+                        || user.getPumpAttendantValidationStatus()
+                                == PumpAttendantValidationStatus.VALIDATED))
                 .roleCode(roleCode)
                 .organizationId(user.getOrganization() == null ? null : user.getOrganization().getId())
+                .pumpAttendantValidationStatus(user.getPumpAttendantValidationStatus())
+                .preparedById(user.getPreparedBy() == null ? null : user.getPreparedBy().getId())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();

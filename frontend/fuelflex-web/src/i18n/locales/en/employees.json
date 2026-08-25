@@ -22,10 +22,18 @@
     "employee": "Employee",
     "firstName": "First name",
     "lastName": "Last name",
+    "postName": "Post-name",
+    "gender": "Gender",
+    "birthPlace": "Place of birth",
+    "birthDate": "Date of birth",
+    "address": "Address",
+    "station": "Station",
     "email": "Email",
     "phone": "Phone",
     "role": "Role",
     "status": "Status",
+    "operationalCode": "Operational code",
+    "validationStatus": "Business validation",
     "createdAt": "Created",
     "actions": "Actions"
   },
@@ -34,6 +42,10 @@
     "PUMP_ATTENDANT": "Pump attendant",
     "ACCOUNTANT": "Accountant",
     "AUDITOR": "Auditor"
+  },
+  "gender": {
+    "MALE": "Male",
+    "FEMALE": "Female"
   },
   "status": {
     "active": "Active",
@@ -54,6 +66,10 @@
     "editTitle": "Edit employee",
     "editDescription": "Only allowed information will be updated.",
     "chooseRole": "Choose a role",
+    "chooseGender": "Choose gender",
+    "chooseStation": "Choose a station",
+    "keepStation": "Keep the current station",
+    "stationChangeRecorded": "A station change is recorded through the existing transfer mechanism and its history is preserved.",
     "emailImmutable": "Email is immutable in this version.",
     "accessNote": "The account is created without a permanent password disclosed to the supervisor. The first-access workflow will be handled separately."
   },
@@ -86,6 +102,7 @@
     "reason": "Reason (optional)",
     "managerTransferNote": "Only this assignment will be transferred. The manager’s other active stations remain unchanged.",
     "disabledNote": "History remains available, but a disabled employee cannot be assigned or transferred.",
+    "validationRequiredNote": "The pump attendant must be validated before any assignment or transfer.",
     "noActive": "No active assignment",
     "since": "Since {{date}}",
     "end": "Remove",

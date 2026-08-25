@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fuelflex.platform.user.dto.request.EmployeeCreateRequest;
+import com.fuelflex.platform.user.dto.request.ManagerPumpAttendantRequest;
 import com.fuelflex.platform.user.dto.request.EmployeeStatusRequest;
 import com.fuelflex.platform.user.dto.request.EmployeeUpdateRequest;
 import com.fuelflex.platform.user.dto.response.AssignableEmployeeRoleResponse;
 import com.fuelflex.platform.user.dto.response.EmployeePageResponse;
 import com.fuelflex.platform.user.dto.response.EmployeeResponse;
+
+import com.fuelflex.platform.user.entity.User;
 
 public interface EmployeeService {
 
@@ -31,4 +34,10 @@ public interface EmployeeService {
     List<AssignableEmployeeRoleResponse> findAssignableRoles();
 
     com.fuelflex.platform.user.dto.response.EmployeeInvitationResponse resendInvitation(UUID employeeId);
+
+    EmployeeResponse createPumpAttendantDraft(ManagerPumpAttendantRequest request);
+
+    EmployeeResponse updatePumpAttendantDraft(UUID employeeId, ManagerPumpAttendantRequest request);
+
+    boolean validatePreparedPumpAttendant(User pumpAttendant);
 }

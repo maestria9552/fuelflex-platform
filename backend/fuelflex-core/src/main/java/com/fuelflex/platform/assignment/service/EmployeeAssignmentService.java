@@ -15,6 +15,8 @@ import com.fuelflex.platform.user.entity.User;
 
 public interface EmployeeAssignmentService {
     EmployeeAssignmentResponse create(UUID employeeId, EmployeeAssignmentCreateRequest request);
+    EmployeeAssignmentResponse assignForPumpAttendantOnboarding(
+            User employee, UUID stationId, User actor, String reason);
     EmployeeAssignmentPageResponse findAll(UUID employeeId, AssignmentStatus status, int page, int size);
     EmployeeAssignmentResponse end(UUID employeeId, UUID assignmentId, EmployeeAssignmentEndRequest request);
     EmployeeTransferResponse transfer(UUID employeeId, EmployeeTransferRequest request);

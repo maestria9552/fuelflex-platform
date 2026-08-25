@@ -1,5 +1,6 @@
 package com.fuelflex.platform.user.entity;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,9 +8,13 @@ import java.util.UUID;
 
 import com.fuelflex.platform.role.entity.Role;
 import com.fuelflex.platform.organization.entity.Organization;
+import com.fuelflex.platform.user.model.Gender;
+import com.fuelflex.platform.user.model.PumpAttendantValidationStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -59,6 +64,22 @@ public class User {
 
     @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
+
+    @Column(name = "post_name", length = 100)
+    private String postName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", length = 20)
+    private Gender gender;
+
+    @Column(name = "birth_place", length = 150)
+    private String birthPlace;
+
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+
+    @Column(name = "address", length = 500)
+    private String address;
 
     @Column(nullable = false, length = 180)
     private String email;
@@ -156,6 +177,17 @@ public class User {
                 )
         )
         private Organization organization;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "pump_attendant_validation_status", length = 40)
+    private PumpAttendantValidationStatus pumpAttendantValidationStatus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "prepared_by_id",
+            foreignKey = @ForeignKey(name = "fk_users_prepared_by")
+    )
+    private User preparedBy;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

@@ -90,6 +90,8 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setRequiresAction(command.isRequiresAction());
         notification.setRead(false);
         notification.setReadAt(null);
+        notification.setResolvedAt(null);
+        notification.setResolvedBy(null);
 
         return notificationMapper.toResponse(
                 notificationRepository.save(notification)
@@ -123,7 +125,7 @@ public class NotificationServiceImpl implements NotificationService {
         User currentUser = getCurrentUserWithOrganization();
         long unread = countUnread(currentUser);
         long nonOrder = notificationRepository.countUnreadExcludingOrderSubmitted(currentUser.getId(), currentUser.getOrganization().getId());
-        long actions = notificationRepository.countByRecipientIdAndOrganizationIdAndRequiresActionTrue(currentUser.getId(), currentUser.getOrganization().getId());
+        long actions = notificationRepository.countByRecipientIdAndOrganizationIdAndRequiresActionTrueAndResolvedAtIsNull(currentUser.getId(), currentUser.getOrganization().getId());
         long attention = notificationRepository.countRequiringAttention(currentUser.getId(), currentUser.getOrganization().getId());
         return new UnreadNotificationCountResponse(unread, nonOrder, actions, attention);
     }
@@ -161,8 +163,46 @@ public class NotificationServiceImpl implements NotificationService {
                 currentUser.getOrganization().getId(),
                 OffsetDateTime.now()
         );
-        long actions = notificationRepository.countByRecipientIdAndOrganizationIdAndRequiresActionTrue(currentUser.getId(), currentUser.getOrganization().getId());
+        long actions = notificationRepository.countByRecipientIdAndOrganizationIdAndRequiresActionTrueAndResolvedAtIsNull(currentUser.getId(), currentUser.getOrganization().getId());
         return new UnreadNotificationCountResponse(0, 0, actions, actions);
+    }
+
+    @Override
+    public int resolveRequiredActions(
+            UUID organizationId,
+            String resourceType,
+            UUID resourceId,
+            UUID resolvedById
+    ) {
+        requireId(organizationId, "organization");
+        requireId(resourceId, "resource");
+        requireId(resolvedById, "resolver");
+        requireText(resourceType, "resource type");
+
+        User resolver = getUser(resolvedById, "resolver");
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new BusinessException(
+                        "Notification organization was not found."));
+        requireSameOrganization(resolver, organization, "resolver");
+
+        java.util.List<Notification> pending = notificationRepository
+                .findByOrganizationIdAndResourceTypeAndResourceIdAndRequiresActionTrueAndResolvedAtIsNull(
+                        organizationId,
+                        normalizeCode(resourceType),
+                        resourceId
+                );
+        if (pending.isEmpty()) {
+            return 0;
+        }
+
+        OffsetDateTime resolvedAt = OffsetDateTime.now();
+        pending.forEach(notification -> {
+            notification.setRequiresAction(false);
+            notification.setResolvedAt(resolvedAt);
+            notification.setResolvedBy(resolver);
+        });
+        notificationRepository.saveAll(pending);
+        return pending.size();
     }
 
     private void validateCreateCommand(CreateNotificationCommand command) {
