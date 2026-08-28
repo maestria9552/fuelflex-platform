@@ -93,6 +93,10 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
+    /** Hash of the credential used by the future POS channel. Never expose it. */
+    @Column(name = "pos_credential_hash", length = 100)
+    private String posCredentialHash;
+
     /*
      * État général du compte.
      * Un compte désactivé ne peut pas se connecter.

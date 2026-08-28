@@ -28,7 +28,11 @@ export function getAssignableEmployeeRoles(options = {}) {
   return apiGet(`${EMPLOYEES_ENDPOINT}/assignable-roles`, options);
 }
 
-export function createEmployee(payload, options = {}) {
+export async function createEmployee(payload, options = {}) {
+  if (payload?.roleCode === "PUMP_ATTENDANT") {
+    const issued = await apiPost(`${EMPLOYEES_ENDPOINT}/pump-attendants`, payload, options);
+    return { ...issued.employee, posCredential: issued.posCredential };
+  }
   return apiPost(EMPLOYEES_ENDPOINT, payload, options);
 }
 

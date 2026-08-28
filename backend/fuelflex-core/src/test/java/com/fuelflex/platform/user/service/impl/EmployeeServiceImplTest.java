@@ -93,7 +93,7 @@ class EmployeeServiceImplTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"MANAGER", "PUMP_ATTENDANT", "ACCOUNTANT", "AUDITOR"})
+    @ValueSource(strings = {"MANAGER", "ACCOUNTANT", "AUDITOR"})
     void createAcceptsEachWhitelistedRoleAndImposesTenantAndSingleRole(String roleCode) {
         arrangeCurrentSupervisor();
         Role role = role(roleCode, true);
@@ -111,8 +111,8 @@ class EmployeeServiceImplTest {
         EmployeeResponse response = service.create(createRequest(roleCode));
 
         ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
-        verify(userRepository).save(captor.capture());
-        User saved = captor.getValue();
+        verify(userRepository, org.mockito.Mockito.times(2)).save(captor.capture());
+        User saved = captor.getAllValues().getLast();
         assertThat(saved.getOrganization()).isSameAs(organization);
         assertThat(saved.getRoles()).containsExactly(role);
         assertThat(saved.isEnabled()).isFalse();
@@ -120,7 +120,6 @@ class EmployeeServiceImplTest {
         assertThat(saved.getPasswordHash()).isEqualTo("encoded-unusable-secret");
         assertThat(response.getOrganizationId()).isEqualTo(organization.getId());
         assertThat(response.getRoleCode()).isEqualTo(roleCode);
-        if ("PUMP_ATTENDANT".equals(roleCode)) assertThat(response.getOperationalCode()).isEqualTo("PMP-000001");
     }
 
     @ParameterizedTest
@@ -329,6 +328,7 @@ class EmployeeServiceImplTest {
                 .extracting(field -> field.getName())
                 .doesNotContain(
                         "passwordHash", "verificationCode", "failedLoginAttempts", "lockedUntil"
+                        , "posCredential", "posCredentialHash"
                 );
     }
 

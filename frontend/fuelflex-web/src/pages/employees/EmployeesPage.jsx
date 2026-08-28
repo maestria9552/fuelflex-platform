@@ -63,7 +63,9 @@ function EmployeesPage() {
 
   const handleSaved = (saved, editing) => {
     setFormOpen(false); setFormEmployee(undefined);
-    setSuccess(t(editing ? "employees:feedback.updated" : (saved?.invitationSent === false ? "employees:feedback.createdNoEmail" : "employees:feedback.created")));
+    setSuccess(saved?.posCredential
+      ? t("employees:feedback.pumpAttendantCreated", { credential: saved.posCredential })
+      : t(editing ? "employees:feedback.updated" : (saved?.invitationSent === false ? "employees:feedback.createdNoEmail" : "employees:feedback.created")));
     setReload((value) => value + 1);
   };
 

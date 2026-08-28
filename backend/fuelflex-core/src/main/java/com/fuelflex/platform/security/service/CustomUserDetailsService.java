@@ -25,6 +25,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable : " + email));
 
+        boolean pumpAttendant = user.getRoles().stream()
+                .filter(role -> role.isActive())
+                .map(role -> role.getCode())
+                .anyMatch("PUMP_ATTENDANT"::equalsIgnoreCase);
+        if (pumpAttendant) {
+            throw new UsernameNotFoundException(
+                    "This identity is not a Web portal account.");
+        }
+
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         user.getRoles().stream()
                 .filter(role -> role.isActive())

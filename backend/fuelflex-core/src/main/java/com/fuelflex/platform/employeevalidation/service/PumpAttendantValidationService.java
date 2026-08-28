@@ -3,6 +3,7 @@ package com.fuelflex.platform.employeevalidation.service;
 import java.util.UUID;
 
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.CandidateResponse;
+import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.ApprovalResponse;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.CreateRequest;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.PageResponse;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.Response;
@@ -43,7 +44,7 @@ public interface PumpAttendantValidationService {
 
     Response findSupervisorRequest(UUID requestId);
 
-    Response approve(UUID requestId, ReviewRequest request);
+    ApprovalResponse approve(UUID requestId, ReviewRequest request);
 
     Response returnForCorrection(UUID requestId, ReviewRequest request);
 

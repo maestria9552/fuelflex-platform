@@ -116,6 +116,7 @@
   },
   "feedback": {
     "created": "Employé créé. Une invitation d’activation lui a été envoyée.",
+    "pumpAttendantCreated": "Pompiste créé et validé. Credential POS à communiquer maintenant : {{credential}}",
     "updated": "Employé mis à jour.",
     "disabled": "Employé désactivé et affectations actives terminées.",
     "enabled": "Employé réactivé sans restauration automatique des affectations.",

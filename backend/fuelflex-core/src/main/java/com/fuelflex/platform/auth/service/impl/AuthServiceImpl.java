@@ -184,6 +184,11 @@ public class AuthServiceImpl implements AuthService {
                         )
                 );
 
+        if (hasRole(user, "PUMP_ATTENDANT")) {
+            throw new BusinessException(
+                    "Pump attendants do not use Web verification codes.");
+        }
+
         if (user.isEmailVerified()) {
             throw new BusinessException(
                     "This email address is already verified."
@@ -256,6 +261,11 @@ public class AuthServiceImpl implements AuthService {
                         )
                 );
 
+        if (hasRole(user, "PUMP_ATTENDANT")) {
+            throw new BusinessException(
+                    "Pump attendants do not use Web verification codes.");
+        }
+
         if (user.isEmailVerified()) {
             throw new BusinessException(
                     "This email address is already verified."
@@ -310,6 +320,9 @@ public class AuthServiceImpl implements AuthService {
         String email = emailValue.trim().toLowerCase();
         User user = userRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new BusinessException("Invitation is invalid or expired."));
+        if (hasRole(user, "PUMP_ATTENDANT")) {
+            throw new BusinessException("Invitation is invalid or expired.");
+        }
         boolean employee = user.getRoles().stream().filter(Role::isActive)
                 .map(Role::getCode).filter(EmployeeRolePolicy::isAssignable).count() == 1
                 && user.getRoles().stream().filter(Role::isActive)
@@ -348,6 +361,11 @@ public class AuthServiceImpl implements AuthService {
                                 "Invalid email address or password."
                         )
                 );
+
+        if (hasRole(user, "PUMP_ATTENDANT")) {
+            throw new BusinessException(
+                    "Pump attendants cannot sign in to the Web portal.");
+        }
 
         OffsetDateTime now = OffsetDateTime.now();
 
@@ -500,6 +518,13 @@ public class AuthServiceImpl implements AuthService {
                 .roles(roles)
                 .permissions(permissions)
                 .build();
+    }
+
+    private boolean hasRole(User user, String roleCode) {
+        return user.getRoles().stream()
+                .filter(Role::isActive)
+                .map(Role::getCode)
+                .anyMatch(roleCode::equalsIgnoreCase);
     }
 
     private String normalizePhoneNumber(

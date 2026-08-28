@@ -116,6 +116,7 @@
   },
   "feedback": {
     "created": "Employee created. An activation invitation was sent.",
+    "pumpAttendantCreated": "Pump attendant created and validated. POS credential to communicate now: {{credential}}",
     "updated": "Employee updated.",
     "disabled": "Employee disabled and active assignments ended.",
     "enabled": "Employee reactivated without restoring previous assignments.",

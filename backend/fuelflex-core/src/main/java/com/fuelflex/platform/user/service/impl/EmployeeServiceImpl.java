@@ -36,6 +36,7 @@ import com.fuelflex.platform.user.dto.request.EmployeeUpdateRequest;
 import com.fuelflex.platform.user.dto.response.AssignableEmployeeRoleResponse;
 import com.fuelflex.platform.user.dto.response.EmployeePageResponse;
 import com.fuelflex.platform.user.dto.response.EmployeeResponse;
+import com.fuelflex.platform.user.dto.response.PumpAttendantCreationResponse;
 import com.fuelflex.platform.user.entity.User;
 import com.fuelflex.platform.user.model.Gender;
 import com.fuelflex.platform.user.model.PumpAttendantValidationStatus;
@@ -104,9 +105,56 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeResponse create(EmployeeCreateRequest request) {
+        getCurrentOrganization();
+        Role role = getAssignableRole(request.getRoleCode());
+        if (isPumpAttendantRole(role)) {
+            throw new BusinessException(
+                    "Use the dedicated pump-attendant creation operation.");
+        }
+        return createEmployee(request, role);
+    }
+
+    @Override
+    public PumpAttendantCreationResponse createPumpAttendant(
+            EmployeeCreateRequest request) {
+        getCurrentOrganization();
+        Role role = getAssignableRole(request.getRoleCode());
+        if (!isPumpAttendantRole(role)) {
+            throw new BusinessException(
+                    "The dedicated operation only creates pump attendants.");
+        }
+        User saved = createUser(request, role);
+        String credential = issuePosCredential(saved);
+        return new PumpAttendantCreationResponse(
+                employeeMapper.toResponse(saved), credential);
+    }
+
+    private EmployeeResponse createEmployee(
+            EmployeeCreateRequest request, Role role) {
+        User savedEmployee = createUser(request, role);
+        String invitationCode = otpService.generateCode();
+        OffsetDateTime invitationExpiresAt = otpService.expirationDate();
+        savedEmployee.setVerificationCode(invitationCode);
+        savedEmployee.setVerificationCodeExpiration(invitationExpiresAt);
+        savedEmployee.setVerificationCodeAttempts(0);
+        savedEmployee = userRepository.save(savedEmployee);
+        boolean invitationSent = true;
+        try {
+            emailService.sendEmployeeInvitation(
+                    savedEmployee.getEmail(), savedEmployee.getFirstName(),
+                    savedEmployee.getLastName(), invitationCode,
+                    invitationExpiresAt);
+        } catch (Exception exception) {
+            invitationSent = false;
+            log.error("Unable to send employee invitation to {}.",
+                    savedEmployee.getEmail(), exception);
+        }
+        return employeeMapper.toResponse(savedEmployee, invitationSent);
+    }
+
+    private User createUser(EmployeeCreateRequest request, Role role) {
         User supervisor = authorizationService.getAuthenticatedUser();
         Organization organization = getCurrentOrganization();
-        Role role = getAssignableRole(request.getRoleCode());
         validateStationForRole(role, request.getStationId(), true);
         String email = normalizeEmail(request.getEmail());
         String phoneNumber = normalizePhoneNumber(request.getPhoneNumber());
@@ -131,16 +179,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         assignOperationalCodeIfRequired(employee, role);
         applyDirectValidationStatus(employee, role);
 
-        // The account cannot be used until the future invitation flow lets the
-        // employee choose a password and verifies the email address.
         employee.setPasswordHash(passwordEncoder.encode(generateUnusableSecret()));
-        employee.setEnabled(false);
+        employee.setEnabled(isPumpAttendantRole(role));
         employee.setEmailVerified(false);
         employee.setPhoneVerified(false);
-        String invitationCode = otpService.generateCode();
-        OffsetDateTime invitationExpiresAt = otpService.expirationDate();
-        employee.setVerificationCode(invitationCode);
-        employee.setVerificationCodeExpiration(invitationExpiresAt);
+        employee.setVerificationCode(null);
+        employee.setVerificationCodeExpiration(null);
         employee.setVerificationCodeAttempts(0);
 
         User savedEmployee = userRepository.save(employee);
@@ -151,15 +195,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     savedEmployee, request.getStationId(), supervisor,
                     "PUMP_ATTENDANT_DIRECT_CREATION");
         }
-        boolean invitationSent = true;
-        try {
-            emailService.sendEmployeeInvitation(savedEmployee.getEmail(), savedEmployee.getFirstName(),
-                    savedEmployee.getLastName(), invitationCode, invitationExpiresAt);
-        } catch (Exception exception) {
-            invitationSent = false;
-            log.error("Unable to send employee invitation to {}.", savedEmployee.getEmail(), exception);
-        }
-        return employeeMapper.toResponse(savedEmployee, invitationSent);
+        return savedEmployee;
     }
 
     @Override
@@ -197,6 +233,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         assignOperationalCodeIfRequired(employee, role);
         applyDirectValidationStatus(employee, role);
 
+        if (isPumpAttendantRole(role)) {
+            employee.setEnabled(true);
+            employee.setEmailVerified(false);
+            employee.setVerificationCode(null);
+            employee.setVerificationCodeExpiration(null);
+        }
+
         User saved = userRepository.save(employee);
         if (isPumpAttendantRole(role) && request.getStationId() != null) {
             User supervisor = authorizationService.getAuthenticatedUser();
@@ -228,7 +271,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public com.fuelflex.platform.user.dto.response.EmployeeInvitationResponse resendInvitation(UUID employeeId) {
         User employee = getAdministrableEmployee(employeeId);
-        requireValidatedPumpAttendant(employee);
+        if (isPumpAttendant(employee)) {
+            throw new ConflictException(
+                    "Pump attendants do not use Web invitations.");
+        }
         if (employee.isEnabled() || employee.isEmailVerified()) {
             throw new ConflictException("An invitation can only be resent to a pending employee.");
         }
@@ -335,22 +381,31 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         pumpAttendant.setPumpAttendantValidationStatus(
                 PumpAttendantValidationStatus.VALIDATED);
-        String invitationCode = otpService.generateCode();
-        OffsetDateTime invitationExpiresAt = otpService.expirationDate();
-        pumpAttendant.setVerificationCode(invitationCode);
-        pumpAttendant.setVerificationCodeExpiration(invitationExpiresAt);
+        pumpAttendant.setEnabled(true);
+        pumpAttendant.setEmailVerified(false);
+        pumpAttendant.setVerificationCode(null);
+        pumpAttendant.setVerificationCodeExpiration(null);
         pumpAttendant.setVerificationCodeAttempts(0);
-        User saved = userRepository.save(pumpAttendant);
-        try {
-            emailService.sendEmployeeInvitation(
-                    saved.getEmail(), saved.getFirstName(), saved.getLastName(),
-                    invitationCode, invitationExpiresAt);
-            return true;
-        } catch (Exception exception) {
-            log.error("Unable to send employee invitation to {}.",
-                    saved.getEmail(), exception);
-            return false;
+        userRepository.save(pumpAttendant);
+        return true;
+    }
+
+    @Override
+    public String issuePosCredential(User pumpAttendant) {
+        if (pumpAttendant == null || !isPumpAttendant(pumpAttendant)
+                || pumpAttendant.getPumpAttendantValidationStatus()
+                        != PumpAttendantValidationStatus.VALIDATED) {
+            throw new ConflictException(
+                    "Only a validated pump attendant can receive a POS credential.");
         }
+        if (pumpAttendant.getPosCredentialHash() != null) {
+            throw new ConflictException(
+                    "A POS credential has already been issued for this pump attendant.");
+        }
+        String credential = generatePosCredential();
+        pumpAttendant.setPosCredentialHash(passwordEncoder.encode(credential));
+        userRepository.save(pumpAttendant);
+        return credential;
     }
 
     @Override
@@ -596,5 +651,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         byte[] secret = new byte[32];
         SECURE_RANDOM.nextBytes(secret);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(secret);
+    }
+
+    private String generatePosCredential() {
+        byte[] credential = new byte[24];
+        SECURE_RANDOM.nextBytes(credential);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(credential);
     }
 }

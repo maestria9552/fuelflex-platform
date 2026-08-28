@@ -97,6 +97,13 @@ public final class PumpAttendantValidationDtos {
     ) {
     }
 
+    public record PosCredentialResponse(
+            UUID pumpAttendantId,
+            String operationalCode,
+            String credential
+    ) {
+    }
+
     public record Response(
             UUID id,
             String requestNumber,
@@ -113,6 +120,12 @@ public final class PumpAttendantValidationDtos {
             OffsetDateTime createdAt,
             OffsetDateTime updatedAt,
             long version
+    ) {
+    }
+
+    public record ApprovalResponse(
+            Response request,
+            List<PosCredentialResponse> posCredentials
     ) {
     }
 

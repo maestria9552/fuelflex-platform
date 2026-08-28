@@ -24,10 +24,12 @@ import com.fuelflex.platform.common.exception.ForbiddenException;
 import com.fuelflex.platform.common.exception.ResourceNotFoundException;
 import com.fuelflex.platform.common.security.AuthorizationService;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.CandidateResponse;
+import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.ApprovalResponse;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.CreateRequest;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.HistoryResponse;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.ItemResponse;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.PageResponse;
+import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.PosCredentialResponse;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.Response;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.ReviewRequest;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.StationSummary;
@@ -318,7 +320,7 @@ public class PumpAttendantValidationServiceImpl
     }
 
     @Override
-    public Response approve(UUID requestId, ReviewRequest review) {
+    public ApprovalResponse approve(UUID requestId, ReviewRequest review) {
         User supervisor = current("SUPERVISOR");
         PumpAttendantValidationRequest request =
                 supervisorRequest(requestId, supervisor, true);
@@ -326,6 +328,11 @@ public class PumpAttendantValidationServiceImpl
         List<User> attendants = lockAttendants(
                 items.findByRequestId(request.getId()), request);
         attendants.forEach(employeeService::validatePreparedPumpAttendant);
+        List<PosCredentialResponse> credentials = attendants.stream()
+                .map(attendant -> new PosCredentialResponse(
+                        attendant.getId(), attendant.getOperationalCode(),
+                        employeeService.issuePosCredential(attendant)))
+                .toList();
         completeReview(request, supervisor,
                 PumpAttendantValidationRequestStatus.VALIDATED,
                 PumpAttendantValidationAction.VALIDATED,
@@ -335,7 +342,7 @@ public class PumpAttendantValidationServiceImpl
                 "PUMP_ATTENDANT_VALIDATION_APPROVED",
                 "notifications:events.pumpValidationApproved.title",
                 "notifications:events.pumpValidationApproved.message");
-        return response(request);
+        return new ApprovalResponse(response(request), credentials);
     }
 
     @Override

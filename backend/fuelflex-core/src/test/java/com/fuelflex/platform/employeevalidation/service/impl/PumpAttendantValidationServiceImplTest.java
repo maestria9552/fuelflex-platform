@@ -186,12 +186,25 @@ class PumpAttendantValidationServiceImplTest {
         ArgumentCaptor<CreateNotificationCommand> notification =
                 ArgumentCaptor.forClass(CreateNotificationCommand.class);
         verify(notifications, times(1)).create(notification.capture());
+        verify(employees, never()).issuePosCredential(any(User.class));
         assertThat(notification.getValue().getCategory())
                 .isEqualTo(NotificationCategory.ACTION_REQUIRED);
         assertThat(notification.getValue().getResourceId())
                 .isEqualTo(workflow.request().getId());
         assertThat(notification.getValue().getResourceType())
                 .isEqualTo("PUMP_ATTENDANT_VALIDATION_REQUEST");
+    }
+
+    @Test
+    void validationGetResponseContractContainsNoPosCredential() {
+        assertThat(com.fuelflex.platform.employeevalidation.dto.
+                PumpAttendantValidationDtos.Response.class.getRecordComponents())
+                .extracting(component -> component.getName())
+                .doesNotContain("credential", "posCredential", "posCredentials");
+        assertThat(com.fuelflex.platform.employeevalidation.dto.
+                PumpAttendantValidationDtos.ItemResponse.class.getRecordComponents())
+                .extracting(component -> component.getName())
+                .doesNotContain("credential", "posCredential", "posCredentials");
     }
 
     @Test
@@ -206,26 +219,35 @@ class PumpAttendantValidationServiceImplTest {
                     PumpAttendantValidationStatus.VALIDATED);
             return true;
         }).when(employees).validatePreparedPumpAttendant(any(User.class));
+        when(employees.issuePosCredential(any(User.class)))
+                .thenReturn("pos-secret-one", "pos-secret-two");
 
         var response = service.approve(
                 workflow.request().getId(), new ReviewRequest("Approved"));
 
-        assertThat(response.status())
+        assertThat(response.request().status())
                 .isEqualTo(PumpAttendantValidationRequestStatus.VALIDATED);
         assertThat(workflow.attendants())
                 .extracting(User::getPumpAttendantValidationStatus)
                 .containsOnly(PumpAttendantValidationStatus.VALIDATED);
-        assertThat(response.pumpAttendants())
+        assertThat(response.request().pumpAttendants())
                 .extracting(item -> item.postName())
                 .containsOnly("Kabeya");
-        assertThat(response.pumpAttendants())
+        assertThat(response.request().pumpAttendants())
                 .extracting(item -> item.operationalCode())
                 .containsExactly("PMP-000001", "PMP-000002");
-        assertThat(response.pumpAttendants())
+        assertThat(response.request().pumpAttendants())
                 .extracting(item -> item.station().id())
                 .containsOnly(station.getId());
+        assertThat(response.posCredentials())
+                .extracting(value -> value.credential())
+                .containsExactly("pos-secret-one", "pos-secret-two");
+        assertThat(response.posCredentials())
+                .extracting(value -> value.operationalCode())
+                .containsExactlyInAnyOrder("PMP-000001", "PMP-000002");
         verify(employees, times(2))
                 .validatePreparedPumpAttendant(any(User.class));
+        verify(employees, times(2)).issuePosCredential(any(User.class));
         verify(notifications).resolveRequiredActions(
                 organization.getId(),
                 "PUMP_ATTENDANT_VALIDATION_REQUEST",

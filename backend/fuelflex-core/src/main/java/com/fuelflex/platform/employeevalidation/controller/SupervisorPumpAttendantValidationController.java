@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.PageResponse;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.Response;
+import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.ApprovalResponse;
 import com.fuelflex.platform.employeevalidation.dto.PumpAttendantValidationDtos.ReviewRequest;
 import com.fuelflex.platform.employeevalidation.model.PumpAttendantValidationRequestStatus;
 import com.fuelflex.platform.employeevalidation.service.PumpAttendantValidationService;
@@ -46,7 +47,7 @@ public class SupervisorPumpAttendantValidationController {
 
     @PostMapping("/{requestId}/approve")
     @PreAuthorize("hasAuthority('SUPERVISOR') and hasAuthority('pump-attendant-validation:review')")
-    public Response approve(
+    public ApprovalResponse approve(
             @PathVariable UUID requestId,
             @Valid @RequestBody(required = false) ReviewRequest request
     ) {

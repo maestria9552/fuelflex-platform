@@ -21,6 +21,7 @@ import com.fuelflex.platform.user.dto.response.AssignableEmployeeRoleResponse;
 import com.fuelflex.platform.user.dto.response.EmployeePageResponse;
 import com.fuelflex.platform.user.dto.response.EmployeeResponse;
 import com.fuelflex.platform.user.dto.response.EmployeeInvitationResponse;
+import com.fuelflex.platform.user.dto.response.PumpAttendantCreationResponse;
 import com.fuelflex.platform.user.service.EmployeeService;
 
 import jakarta.validation.Valid;
@@ -61,6 +62,13 @@ public class EmployeeController {
     @PreAuthorize("hasAuthority('SUPERVISOR') and hasAuthority('user:create')")
     public EmployeeResponse create(@Valid @RequestBody EmployeeCreateRequest request) {
         return employeeService.create(request);
+    }
+
+    @PostMapping("/pump-attendants")
+    @PreAuthorize("hasAuthority('SUPERVISOR') and hasAuthority('user:create')")
+    public PumpAttendantCreationResponse createPumpAttendant(
+            @Valid @RequestBody EmployeeCreateRequest request) {
+        return employeeService.createPumpAttendant(request);
     }
 
     @PostMapping("/{employeeId}/resend-invitation")

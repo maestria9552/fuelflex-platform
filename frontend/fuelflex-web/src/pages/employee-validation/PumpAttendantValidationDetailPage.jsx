@@ -102,10 +102,13 @@ function PumpAttendantValidationDetailPage({ role }) {
       } else if (action === "reject") {
         updated = await rejectPumpAttendantValidationRequest(id, comment);
       }
-      setRequest(updated);
+      const issuedCredentials = action === "approve" ? updated?.posCredentials : null;
+      setRequest(action === "approve" ? updated?.request : updated);
       setConfirmation(null);
       setCommentAction(null);
-      setSuccess(t(`pumpAttendantValidation:feedback.${action}`));
+      setSuccess(Array.isArray(issuedCredentials) && issuedCredentials.length
+        ? `${t(`pumpAttendantValidation:feedback.${action}`)} ${issuedCredentials.map((value) => `${value.operationalCode}: ${value.credential}`).join(" · ")}`
+        : t(`pumpAttendantValidation:feedback.${action}`));
       notifyRefresh();
     } catch (requestError) {
       setActionError(requestError?.message
