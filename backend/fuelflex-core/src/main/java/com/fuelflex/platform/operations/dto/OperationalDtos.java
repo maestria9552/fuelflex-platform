@@ -5,7 +5,7 @@ import com.fuelflex.platform.pump.entity.MeteringLevel;
 public final class OperationalDtos { private OperationalDtos(){}
  public record OpenDayRequest(@NotNull UUID stationId,@NotNull LocalDate businessDate){}
  public record OpenAssignmentRequest(@NotNull UUID pumpAttendantId,@NotNull UUID fuelMeterId){}
- public record CloseAssignmentRequest(@NotNull @DecimalMin("0.000") @Digits(integer=16,fraction=3) BigDecimal closingIndex){}
+ public record CloseAssignmentRequest(@NotNull @DecimalMin("0.000") @Digits(integer=16,fraction=3) BigDecimal closingIndex,@NotNull @DecimalMin("0.000") @Digits(integer=16,fraction=3) BigDecimal creditQuantity){public CloseAssignmentRequest(BigDecimal closingIndex){this(closingIndex,BigDecimal.ZERO);}}
  public record UserSummary(UUID id,String firstName,String lastName){}
  public record StationSummary(UUID id,String name){}
  public record PumpSummary(UUID id,String name){}

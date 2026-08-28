@@ -1,0 +1,7 @@
+package com.fuelflex.platform.operations.service;
+import java.math.*;import org.springframework.dao.DataIntegrityViolationException;import org.springframework.stereotype.Service;import org.springframework.transaction.annotation.Transactional;
+import com.fuelflex.platform.common.exception.ConflictException;import com.fuelflex.platform.operations.entity.*;import com.fuelflex.platform.operations.repository.MeteredStockMovementRepository;import com.fuelflex.platform.user.entity.User;import lombok.RequiredArgsConstructor;
+@Service @RequiredArgsConstructor @Transactional public class MeteredStockMovementService{
+ private final MeteredStockMovementRepository movements;private final AssignmentFuelSourceResolver sources;
+ public MeteredStockMovement consolidate(PumpShiftAssignment shift,User actor){if(movements.existsByShiftAssignmentId(shift.getId()))throw new ConflictException("La sortie physique de cette affectation existe déjà.");BigDecimal quantity=shift.getClosingIndex().subtract(shift.getOpeningIndex()).setScale(3,RoundingMode.UNNECESSARY);MeteredStockMovement m=new MeteredStockMovement();var source=sources.resolve(shift);m.setShiftAssignment(shift);m.setStation(shift.getOperationalDay().getStation());m.setTank(source.tank());m.setProduct(source.product());m.setQuantity(quantity);m.setCreatedBy(actor);try{return movements.saveAndFlush(m);}catch(DataIntegrityViolationException e){throw new ConflictException("La sortie physique de cette affectation existe déjà.");}}
+}

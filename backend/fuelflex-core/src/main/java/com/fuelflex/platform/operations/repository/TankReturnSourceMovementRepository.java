@@ -1,0 +1,3 @@
+package com.fuelflex.platform.operations.repository;
+import java.math.BigDecimal;import java.util.UUID;import org.springframework.data.jpa.repository.*;import org.springframework.data.repository.query.Param;import com.fuelflex.platform.operations.entity.TankReturnSourceMovement;
+public interface TankReturnSourceMovementRepository extends JpaRepository<TankReturnSourceMovement,UUID>{@Query("select coalesce(sum(m.quantity),0) from TankReturnSourceMovement m where m.tank.id=:tankId and m.tankReturn.shiftAssignment.status='OPEN'")BigDecimal sumOpenOutboundByTankId(@Param("tankId")UUID tankId);boolean existsByTankReturnId(UUID returnId);}

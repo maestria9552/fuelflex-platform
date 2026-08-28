@@ -35,7 +35,20 @@ public interface ReceptionStockBalanceRepository extends JpaRepository<Reception
                               where inbound.tank_id = tank.id), 0)
                    - coalesce((select sum(case when outbound.movement_type = 'OUTBOUND' then outbound.quantity else -outbound.quantity end)
                                 from sale_stock_movements outbound
-                               where outbound.tank_id = tank.id), 0) as "currentStock"
+                                join fuel_sales sale on sale.id=outbound.sale_id
+                                join pump_shift_assignments shift on shift.id=sale.shift_assignment_id
+                               where outbound.tank_id = tank.id and shift.status='OPEN'), 0)
+                   - coalesce((select sum(metered.quantity)
+                                from metered_stock_movements metered
+                               where metered.tank_id = tank.id), 0)
+                   - coalesce((select sum(return_source.quantity)
+                                from tank_return_source_movements return_source
+                                join tank_returns returned on returned.id=return_source.tank_return_id
+                                join pump_shift_assignments return_shift on return_shift.id=returned.shift_assignment_id
+                               where return_source.tank_id=tank.id and return_shift.status='OPEN'),0)
+                   + coalesce((select sum(returned.quantity)
+                                from tank_return_stock_movements returned
+                               where returned.tank_id = tank.id), 0) as "currentStock"
               from tanks tank
               join depots depot on depot.id = tank.depot_id
               join stations station on station.id = depot.station_id

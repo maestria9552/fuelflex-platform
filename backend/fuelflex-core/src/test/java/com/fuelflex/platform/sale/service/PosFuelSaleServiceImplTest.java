@@ -15,6 +15,7 @@ import com.fuelflex.platform.common.security.AuthorizationService;
 import com.fuelflex.platform.fuelmeter.entity.FuelMeter;
 import com.fuelflex.platform.operations.entity.*;
 import com.fuelflex.platform.operations.repository.PumpShiftAssignmentRepository;
+import com.fuelflex.platform.operations.repository.TankReturnStockMovementRepository;
 import com.fuelflex.platform.organization.entity.Organization;
 import com.fuelflex.platform.product.entity.Product;
 import com.fuelflex.platform.pump.entity.Pump;
@@ -35,12 +36,12 @@ import com.fuelflex.platform.user.entity.User;
 class PosFuelSaleServiceImplTest {
     @Mock AuthorizationService auth; @Mock PumpShiftAssignmentRepository shifts; @Mock UserStationAssignmentRepository admin;
     @Mock PosConfigurationResolver resolver; @Mock TankRepository tanks; @Mock ReceptionStockBalanceRepository inbound;
-    @Mock SaleStockMovementRepository outbound; @Mock FuelSaleRepository sales; @Mock SaleNumberRepository numbers;
+    @Mock SaleStockMovementRepository outbound; @Mock com.fuelflex.platform.operations.repository.MeteredStockMovementRepository meteredStock; @Mock com.fuelflex.platform.operations.repository.TankReturnSourceMovementRepository returnSourceStock; @Mock TankReturnStockMovementRepository returnedStock; @Mock FuelSaleRepository sales; @Mock SaleNumberRepository numbers;
     @Mock com.fuelflex.platform.creditcustomer.repository.CreditCustomerRepository creditCustomers; @Mock com.fuelflex.platform.station.service.StationAccessService stationAccess; @Mock com.fuelflex.platform.operations.service.ShiftReconciliationService reconciliation; @Mock com.fuelflex.platform.operations.service.SupervisorOperationalNotifier notifier;
     PosFuelSaleServiceImpl service; User attendant; PumpShiftAssignment assignment; FuelMeter meter; Tank tank; ResolvedPosContext context;
 
     @BeforeEach void setup() {
-        service = new PosFuelSaleServiceImpl(auth, shifts, admin, resolver, tanks, inbound, outbound, sales, numbers, creditCustomers, stationAccess, reconciliation, notifier, new FuelSaleResponseMapper());
+        service = new PosFuelSaleServiceImpl(auth, shifts, admin, resolver, tanks, inbound, outbound, meteredStock, returnSourceStock, returnedStock, sales, numbers, creditCustomers, stationAccess, reconciliation, notifier, new FuelSaleResponseMapper());
         Organization org = new Organization(); org.setId(UUID.randomUUID());
         Station station = new Station(); station.setId(UUID.randomUUID()); station.setName("Station"); station.setOrganization(org);
         attendant = user(org, "PUMP_ATTENDANT"); attendant.setOperationalCode("PMP-000001");
@@ -60,6 +61,9 @@ class PosFuelSaleServiceImplTest {
         lenient().when(tanks.lockById(tank.getId())).thenReturn(Optional.of(tank));
         lenient().when(inbound.sumInboundByTankId(tank.getId())).thenReturn(new BigDecimal("1000.000"));
         lenient().when(outbound.sumOutboundByTankId(tank.getId())).thenReturn(BigDecimal.ZERO);
+        lenient().when(meteredStock.sumOutboundByTankId(tank.getId())).thenReturn(BigDecimal.ZERO);
+        lenient().when(returnSourceStock.sumOpenOutboundByTankId(tank.getId())).thenReturn(BigDecimal.ZERO);
+        lenient().when(returnedStock.sumInboundByTankId(tank.getId())).thenReturn(BigDecimal.ZERO);
         lenient().when(numbers.nextValue()).thenReturn(1L);
         lenient().when(sales.saveAndFlush(any())).thenAnswer(invocation -> { FuelSale sale = invocation.getArgument(0); sale.setId(UUID.randomUUID()); return sale; });
     }
@@ -137,6 +141,11 @@ class PosFuelSaleServiceImplTest {
         User manager=user(attendant.getOrganization(),"MANAGER"); when(auth.getAuthenticatedUser()).thenReturn(manager); when(sales.lockByIdAndOrganizationId(sale.getId(),manager.getOrganization().getId())).thenReturn(Optional.of(sale));
         service.reverse(sale.getId(),new com.fuelflex.platform.sale.dto.PosSaleDtos.ReverseSaleRequest("Erreur saisie")); assertThat(sale.getStatus()).isEqualTo(SaleStatus.REVERSED); assertThat(sale.getReversalReason()).isEqualTo("Erreur saisie"); verify(sales,never()).delete(any()); verify(outbound,times(2)).saveAndFlush(any());
         assertThatThrownBy(()->service.reverse(sale.getId(),new com.fuelflex.platform.sale.dto.PosSaleDtos.ReverseSaleRequest("Encore"))).isInstanceOf(ConflictException.class);
+    }
+    @Test void reversalAfterShiftCloseChangesReconciliationButNotConsolidatedPhysicalStock() {
+        service.create(request("10",VehicleType.CAR,"A1")); ArgumentCaptor<FuelSale> capture=ArgumentCaptor.forClass(FuelSale.class); verify(sales).saveAndFlush(capture.capture()); FuelSale sale=capture.getValue(); assignment.setStatus(OperationalStatus.CLOSED);
+        User manager=user(attendant.getOrganization(),"MANAGER"); when(auth.getAuthenticatedUser()).thenReturn(manager); when(sales.lockByIdAndOrganizationId(sale.getId(),manager.getOrganization().getId())).thenReturn(Optional.of(sale));
+        service.reverse(sale.getId(),new com.fuelflex.platform.sale.dto.PosSaleDtos.ReverseSaleRequest("Après clôture")); verify(reconciliation).calculate(assignment);
     }
 
     private CreateSaleRequest request(String quantity, VehicleType type, String plate) { return new CreateSaleRequest(new BigDecimal(quantity), type, plate); }

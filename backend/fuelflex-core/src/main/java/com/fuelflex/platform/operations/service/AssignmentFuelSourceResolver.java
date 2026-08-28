@@ -1,0 +1,9 @@
+package com.fuelflex.platform.operations.service;
+import java.util.List;import org.springframework.stereotype.Component;import org.springframework.transaction.annotation.Transactional;
+import com.fuelflex.platform.common.exception.BusinessException;import com.fuelflex.platform.dispensingpoint.entity.DispensingPoint;import com.fuelflex.platform.dispensingpoint.repository.DispensingPointRepository;import com.fuelflex.platform.operations.entity.PumpShiftAssignment;import com.fuelflex.platform.product.entity.Product;import com.fuelflex.platform.pump.entity.Pump;import com.fuelflex.platform.tank.entity.Tank;import lombok.RequiredArgsConstructor;
+@Component @RequiredArgsConstructor @Transactional(readOnly=true)
+public class AssignmentFuelSourceResolver{
+ private final DispensingPointRepository points;
+ public Source resolve(PumpShiftAssignment shift){var meter=shift.getFuelMeter();DispensingPoint point=meter.getDispensingPoint();Pump pump=point==null?meter.getPump():point.getPump();if(pump==null||!pump.getStation().getId().equals(shift.getOperationalDay().getStation().getId()))throw new BusinessException("La pompe de l’affectation est incohérente.");Tank source;if(point!=null)source=point.getTank();else{List<DispensingPoint> active=points.findByPumpAndActiveTrueOrderByDisplayOrderAscNameAsc(pump);if(active.isEmpty())throw new BusinessException("Aucune citerne source ne peut être résolue pour la pompe.");source=active.getFirst().getTank();if(source==null||active.stream().anyMatch(p->p.getTank()==null||!p.getTank().getId().equals(source.getId())))throw new BusinessException("Les points actifs de la pompe ne ciblent pas une citerne source unique.");}if(source==null||source.getProduct()==null)throw new BusinessException("Le produit de l’affectation est introuvable.");return new Source(pump,source,source.getProduct());}
+ public record Source(Pump pump,Tank tank,Product product){}
+}
