@@ -76,9 +76,9 @@ public class TankReturnService {
         stationAccess.checkStationAccess(actor, day.getStation().getId());
         return returns.findByOperationalDayIdOrderByOccurredAtAsc(dayId).stream().map(r->response(r,sources.resolve(r.getShiftAssignment()))).toList();
     }
-    private Response response(TankReturn r, AssignmentFuelSourceResolver.Source f) { var s=r.getShiftAssignment(); var u=s.getPumpAttendant(); var m=s.getFuelMeter();
-        return new Response(r.getId(),r.getOrganization().getId(),r.getOperationalDay().getId(),s.getId(),r.getTank().getId(),r.getTank().getName(),
-                u.getId(),u.getFirstName()+" "+u.getLastName(),m.getId(),m.getName(),f.pump().getId(),f.pump().getName(),f.product().getId(),f.product().getName(),
+    private Response response(TankReturn r, AssignmentFuelSourceResolver.Source f) { var s=r.getShiftAssignment(); var u=s.getPumpAttendant(); var m=s.getFuelMeter();var historical=sourceMovements.findByTankReturnId(r.getId());var source=historical.map(TankReturnSourceMovement::getTank).orElse(f.tank());var product=historical.map(TankReturnSourceMovement::getProduct).orElse(f.product());
+        return new Response(r.getId(),r.getOrganization().getId(),r.getOperationalDay().getId(),s.getId(),source.getId(),source.getName(),r.getTank().getId(),r.getTank().getName(),
+                u.getId(),u.getFirstName()+" "+u.getLastName(),m.getId(),m.getName(),f.pump().getId(),f.pump().getName(),product.getId(),product.getName(),
                 r.getQuantity(),r.getReason(),r.getOccurredAt(),r.getCreatedBy().getId(),r.getCreatedAt()); }
     private User viewer() { User u=authorization.getAuthenticatedUser(); if(u==null || !u.isEnabled() || u.getOrganization()==null ||
             u.getRoles().stream().filter(Role::isActive).noneMatch(r->Set.of("MANAGER","SUPERVISOR").contains(r.getCode()))) throw new ForbiddenException("Accès aux remises refusé."); return u; }
