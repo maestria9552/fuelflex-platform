@@ -42,6 +42,8 @@ public class PosConfigurationResolver {
 
     public ResolvedPosContext resolveCredit(PumpShiftAssignment assignment) { return resolve(assignment, DefaultTariffCategories.CREDIT_CODE); }
 
+    public ResolvedPosContext resolveInternal(PumpShiftAssignment assignment) { return resolve(assignment, DefaultTariffCategories.INTERNAL_CODE); }
+
     private ResolvedPosContext resolve(PumpShiftAssignment assignment, String tariffCode) {
         FuelMeter meter = assignment.getFuelMeter();
         if (!meter.isActive() || meter.getStatus() != FuelMeterStatus.ACTIVE) {

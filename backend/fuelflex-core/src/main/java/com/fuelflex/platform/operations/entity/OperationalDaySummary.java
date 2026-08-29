@@ -7,6 +7,7 @@ public class OperationalDaySummary {
  @Column(name="credit_volume",nullable=false,precision=19,scale=3) private BigDecimal creditVolume; @Column(name="credit_amount",nullable=false,precision=19,scale=3) private BigDecimal creditAmount;
  @Column(name="metered_volume",nullable=false,precision=19,scale=3) private BigDecimal meteredVolume; @Column(name="sold_volume",nullable=false,precision=19,scale=3) private BigDecimal soldVolume;
  @Column(name="tank_return_volume",nullable=false,precision=19,scale=3) private BigDecimal tankReturnVolume; @Column(name="accounted_volume",nullable=false,precision=19,scale=3) private BigDecimal accountedVolume;
+ @Column(name="internal_consumption_volume",nullable=false,precision=19,scale=3)private BigDecimal internalConsumptionVolume;@Column(name="internal_consumption_amount",nullable=false,precision=19,scale=3)private BigDecimal internalConsumptionAmount;
  @Column(name="expected_cash",nullable=false,precision=19,scale=3) private BigDecimal expectedCash; @Column(name="expected_net_cash",nullable=false,precision=19,scale=3) private BigDecimal expectedNetCash;
  @Column(name="volume_variance",nullable=false,precision=19,scale=3) private BigDecimal volumeVariance; @Column(name="expense_amount",nullable=false,precision=19,scale=3) private BigDecimal expenseAmount;
  @Column(name="theoretical_stock",nullable=false,precision=19,scale=3) private BigDecimal theoreticalStock; @Column(name="physical_stock",nullable=false,precision=19,scale=3) private BigDecimal physicalStock;
