@@ -1,4 +1,9 @@
 :root {
+  --ff-primary: #2563eb;
+  --ff-primary-hover: #1d4ed8;
+  --ff-primary-soft: #eff6ff;
+  --ff-primary-border: #dbeafe;
+  --ff-text: #172b4d;
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
@@ -11,8 +16,8 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
@@ -29,6 +34,8 @@
     font-size: 16px;
   }
 }
+
+.access-denied-page{display:grid;min-height:100vh;place-items:center;padding:24px;background:#f5f7fb;color:#17212b}.access-denied-page section{display:grid;width:min(100%,440px);justify-items:center;gap:12px;padding:32px;border:1px solid #e2e8f0;border-radius:16px;background:#fff;box-shadow:0 8px 28px rgba(15,23,42,.06);text-align:center}.access-denied-page svg{color:var(--ff-primary)}.access-denied-page h1,.access-denied-page p{margin:0}.access-denied-page p{color:#667085}.access-denied-page a{margin-top:4px;padding:10px 14px;border-radius:10px;background:var(--ff-primary);color:#fff;font-weight:750;text-decoration:none}.access-denied-page a:hover{background:var(--ff-primary-hover)}
 
 @media (prefers-color-scheme: dark) {
   :root {

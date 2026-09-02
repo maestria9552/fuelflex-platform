@@ -51,16 +51,16 @@ export function createShiftAssignment(id, payload, options = {}) {
   return apiPost(`${managerBase}/operational-days/${operationalDayId(id)}/assignments`, payload, options);
 }
 
-export function closeShiftAssignment(id, closingIndex, options = {}) {
+export function closeShiftAssignment(id, payload, options = {}) {
   return apiPost(
     `${managerBase}/shift-assignments/${assignmentId(id)}/close`,
-    { closingIndex },
+    payload,
     options
   );
 }
 
-export function closeOperationalDay(id, options = {}) {
-  return apiPost(`${managerBase}/operational-days/${operationalDayId(id)}/close`, undefined, options);
+export function closeOperationalDay(id, payload, options = {}) {
+  return apiPost(`${managerBase}/operational-days/${operationalDayId(id)}/close`, payload, options);
 }
 
 export function getDailyExpenses(role, id, options = {}) {
@@ -85,4 +85,37 @@ export function getShiftReconciliations(role, id, options = {}) {
 
 export function getOperationalDayRjv(role, id, options = {}) {
   return apiGet(`${roleBase(role)}/operational-days/${operationalDayId(id)}/rjv`, options);
+}
+
+export function getTankReturns(role, id, options = {}) {
+  return apiGet(`${roleBase(role)}/operational-days/${operationalDayId(id)}/tank-returns`, options);
+}
+
+export function createTankReturn(id, payload, options = {}) {
+  return apiPost(`${managerBase}/shift-assignments/${assignmentId(id)}/tank-returns`, payload, options);
+}
+
+export function getInternalConsumptions(role, id, options = {}) {
+  return apiGet(`${roleBase(role)}/shift-assignments/${assignmentId(id)}/internal-consumptions`, options);
+}
+
+export function createInternalConsumption(id, payload, options = {}) {
+  return apiPost(`${managerBase}/shift-assignments/${assignmentId(id)}/internal-consumptions`, payload, options);
+}
+
+// Ces read-models communs restent sous /manager côté backend, où MANAGER et
+// SUPERVISOR sont explicitement autorisés. Aucun endpoint fictif n'est créé.
+export function getOperationalDaysForRole(role, options = {}) {
+  roleBase(role);
+  return getOperationalDays(options);
+}
+
+export function getOperationalDayForRole(role, id, options = {}) {
+  roleBase(role);
+  return getOperationalDay(id, options);
+}
+
+export function getShiftAssignmentsForRole(role, id, options = {}) {
+  roleBase(role);
+  return getShiftAssignments(id, options);
 }

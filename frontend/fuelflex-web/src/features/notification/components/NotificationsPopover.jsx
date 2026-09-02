@@ -21,6 +21,13 @@ import {
   markMyNotificationAsRead,
 } from "../../../services/notification/notificationService";
 import "./NotificationsPopover.css";
+import {
+  isOperationalDayActivity,
+  notificationActivityTimestamp,
+  notificationTarget,
+  operationalDayActivityTitleKey,
+  operationalDayActivityTranslationKey,
+} from "./operationalDayNotification";
 
 const PAGE_SIZE = 20;
 const NAVIGABLE_RESOURCE_TYPES = ["PURCHASE_ORDER", "RECEPTION", "OPERATIONAL_DAY", "SHIFT_ASSIGNMENT", "DAILY_EXPENSE", "TANK_GAUGE", "FUEL_SALE", "PUMP_ATTENDANT_VALIDATION_REQUEST"];
@@ -156,11 +163,36 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
     });
   };
 
+  const notificationTitle = (notification) => {
+    if (!isOperationalDayActivity(notification)) {
+      return translateNotificationText(notification.titleKey, "notifications:fallback.title");
+    }
+    return t(operationalDayActivityTitleKey(notification), {
+      station: notification.stationName || t("notifications:operationalDayActivity.unknownStation"),
+    });
+  };
+
+  const operationalDayActivityMessage = (notification) => (
+    <>
+      {t("notifications:operationalDayActivity.activityCount", { count: notification.activityCount || 0 })}
+      <br />
+      {t("notifications:operationalDayActivity.lastActivity", {
+        activity: t(
+          operationalDayActivityTranslationKey(notification),
+          { defaultValue: t("notifications:operationalDayActivity.activities.UNKNOWN") },
+        ),
+      })}
+    </>
+  );
+
   const handleNotificationClick = async (notification) => {
     if (!notification.read) await handleMarkAsRead(notification.id);
     const prefix = isSupervisor ? "/superviseur" : "/gerant";
-    if (notification.resourceType === "PURCHASE_ORDER" && notification.resourceId) {
-      navigate("/superviseur/commandes/" + notification.resourceId);
+    const aggregateTarget = notificationTarget(notification, isSupervisor);
+    if (aggregateTarget) {
+      navigate(aggregateTarget);
+    } else if (notification.resourceType === "PURCHASE_ORDER" && notification.resourceId) {
+      navigate(prefix + "/commandes/" + notification.resourceId);
     } else if (notification.resourceType === "RECEPTION" && notification.resourceId) {
       navigate(prefix + "/receptions/" + notification.resourceId);
     } else if (notification.resourceType === "OPERATIONAL_DAY" && notification.resourceId) {
@@ -350,24 +382,20 @@ function NotificationsPopover({ isOpen, onOpen, onClose }) {
                     )}
                   </div>
                   <strong>
-                    {translateNotificationText(
-                      notification.titleKey,
-                      "notifications:fallback.title",
-                    )}
+                    {notificationTitle(notification)}
                   </strong>
                   <p>
                     {notification.pendingOrder && (
                       <>{notification.pendingOrder.orderNumber} · {notification.pendingOrder.station?.name || notification.pendingOrder.station?.code}</>
                     )}
                     {notification.pendingOrder && <br />}
-                    {translateNotificationText(
-                      notification.messageKey,
-                      "notifications:fallback.message",
-                    )}
+                    {isOperationalDayActivity(notification)
+                      ? operationalDayActivityMessage(notification)
+                      : translateNotificationText(notification.messageKey, "notifications:fallback.message")}
                   </p>
                   <div className="notification-item-footer">
-                    <time dateTime={notification.createdAt}>
-                      {formatCreatedAt(notification.createdAt)}
+                    <time dateTime={notificationActivityTimestamp(notification)}>
+                      {formatCreatedAt(notificationActivityTimestamp(notification))}
                     </time>
                     {!notification.read && (
                       <button

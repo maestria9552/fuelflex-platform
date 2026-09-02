@@ -105,7 +105,7 @@ public class NotificationServiceImpl implements NotificationService {
         PageRequest pageable = PageRequest.of(
                 validatePage(page),
                 validateSize(size),
-                Sort.by(Sort.Direction.DESC, "createdAt")
+                Sort.by(Sort.Direction.DESC, "updatedAt")
                         .and(Sort.by(Sort.Direction.DESC, "id"))
         );
         Page<NotificationResponse> notifications = notificationRepository

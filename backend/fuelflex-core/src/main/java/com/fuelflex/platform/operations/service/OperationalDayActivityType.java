@@ -1,0 +1,12 @@
+package com.fuelflex.platform.operations.service;
+
+public enum OperationalDayActivityType {
+    OPERATIONAL_DAY_OPENED,
+    SHIFT_ASSIGNMENT_OPENED,
+    DAILY_EXPENSE_RECORDED,
+    TANK_GAUGE_RECORDED,
+    INTERNAL_CONSUMPTION_RECORDED,
+    TANK_RETURN_RECORDED,
+    SHIFT_ASSIGNMENT_CLOSED,
+    OPERATIONAL_DAY_CLOSED
+}

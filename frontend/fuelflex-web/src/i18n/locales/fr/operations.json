@@ -22,7 +22,13 @@
     "comment": "Commentaire",
     "tank": "Citerne",
     "product": "Produit",
-    "physicalStock": "Stock physique constaté"
+    "physicalStock": "Stock physique constaté",
+    "sourceTank": "Citerne source",
+    "destinationTank": "Citerne destination",
+    "returnedQuantity": "Quantité remise",
+    "creditQuantity": "Quantité vendue à crédit",
+    "occurredAt": "Date et heure",
+    "reason": "Motif / observation"
   },
   "days": {
     "title": "Journées opérationnelles",
@@ -49,7 +55,8 @@
     "reconciliations": "Rapprochements",
     "ofAssignments": "sur {{count}} poste(s)",
     "gauges": "Jaugeages",
-    "expenses": "Total dépenses"
+    "expenses": "Total dépenses",
+    "provisional": "Journée en cours : les postes ouverts restent provisoires jusqu’à leur clôture."
   },
   "assignments": {
     "title": "Affectations de poste",
@@ -64,8 +71,43 @@
     "title": "Nouvelle affectation"
   },
   "closeShift": {
-    "title": "Fermer le poste",
-    "description": "{{name}} — index d’ouverture : {{index}}"
+    "title": "Clôturer l’affectation",
+    "description": "Renseignez uniquement l’index final et le volume CREDIT. Les remises sont consolidées automatiquement.",
+    "review": "Vérifier la clôture",
+    "preview": "Aperçu volumétrique",
+    "financialAfter": "Les prix et montants définitifs seront calculés et figés par le backend après clôture.",
+    "confirmTitle": "Confirmer la clôture de l’affectation",
+    "confirmDescription": "Cette action consolidera définitivement le poste et le mouvement physique issu du compteur.",
+    "loading": "Clôture…",
+    "metrics": {
+      "openingIndex": "Index initial",
+      "closingIndex": "Index final",
+      "meteredVolume": "Volume compteur",
+      "tankReturnVolume": "Remise en cuve",
+      "soldVolume": "Volume vendu",
+      "cashVolume": "CASH",
+      "creditVolume": "CREDIT",
+      "internalConsumptionVolume": "Consommation interne"
+    },
+    "errors": {
+      "finalRequired": "L’index final est obligatoire.",
+      "finalBelowOpening": "L’index final doit être supérieur ou égal à l’index initial.",
+      "creditNegative": "La quantité CREDIT ne peut pas être négative.",
+      "returnsAboveOutput": "Les remises dépassent le volume sorti au compteur.",
+      "creditAboveSaleable": "Le CREDIT dépasse le volume commercialisable de {{value}} L.",
+      "cashNegative": "Le volume CASH calculé ne peut pas être négatif."
+    }
+  },
+  "tankReturns": {
+    "title": "Remises en cuve",
+    "action": "Remise en cuve",
+    "recorded": "Remises enregistrées",
+    "empty": "Aucune remise enregistrée pour ce poste.",
+    "formTitle": "Enregistrer une remise en cuve",
+    "formDescription": "La source, le produit, la pompe et le pompiste sont imposés par l’affectation.",
+    "chooseTank": "Choisir une citerne compatible",
+    "noCompatibleTank": "Aucune citerne active compatible n’est disponible.",
+    "save": "Enregistrer la remise"
   },
   "expenses": {
     "title": "Dépenses journalières",
@@ -81,10 +123,15 @@
     "empty": "Aucun stock physique enregistré.",
     "theoretical": "Théorique : {{value}} L",
     "variance": "Écart : {{value}} L",
-    "allRecorded": "Toutes les citernes ont été jaugées"
+    "allRecorded": "Toutes les citernes ont été jaugées",
+    "save": "Enregistrer le jaugeage",
+    "ledgerStock": "Stock théorique FuelFlex",
+    "measuredQuantity": "Quantité jaugée",
+    "calculatedVariance": "Écart calculé"
   },
   "gaugeForm": {
-    "title": "Enregistrer un stock physique"
+    "title": "Enregistrer un jaugeage",
+    "description": "Le stock théorique reste issu du ledger ; saisissez uniquement la quantité physiquement mesurée."
   },
   "reconciliations": {
     "title": "Rapprochement compteur / ventes",
@@ -92,8 +139,20 @@
     "metered": "Compteur",
     "cash": "CASH",
     "credit": "CREDIT",
-    "variance": "Écart",
-    "empty": "Les rapprochements apparaissent après la fermeture des postes."
+    "variance": "Écart de volume",
+    "tankReturnVolume": "Remise en cuve",
+    "sold": "Volume vendu",
+    "cashUnitPrice": "Prix CASH",
+    "cashAmount": "Montant CASH",
+    "creditUnitPrice": "Prix CREDIT",
+    "creditAmount": "Montant CREDIT",
+    "turnover": "Chiffre d’affaires",
+    "openingIndex": "Index initial",
+    "closingIndex": "Index final",
+    "definitive": "Rapprochement définitif",
+    "empty": "Les rapprochements apparaissent après la fermeture des postes.",
+    "internalConsumptionVolume": "Consommation interne",
+    "internalConsumptionAmount": "Montant INTERNAL"
   },
   "rjv": {
     "title": "Rapport journalier des ventes",
@@ -103,6 +162,7 @@
     "cashAmount": "Montant CASH",
     "creditVolume": "Volume CREDIT",
     "creditAmount": "Montant CREDIT",
+    "tankReturnVolume": "Remises en cuve",
     "totalVolume": "Volume total",
     "totalSoldVolume": "Volume vendu",
     "totalAmount": "Montant total",
@@ -113,24 +173,70 @@
     "theoreticalStock": "Stock théorique",
     "physicalStock": "Stock physique",
     "stockVariance": "Écart de stock",
+    "expectedCash": "Caisse attendue",
+    "expensesAmount": "Dépenses",
+    "expectedNetCash": "Caisse nette attendue",
+    "daySection": "A. Journée",
+    "activitySection": "B. Activité carburant",
+    "turnoverSection": "C. Chiffre d’affaires",
+    "cashSection": "D. Caisse",
+    "stockSection": "E. Stock",
+    "analysisSection": "F. Analyses",
+    "reconciliationSection": "G. Rapprochements des affectations",
+    "expensesSection": "H. Dépenses",
     "byProduct": "Par produit",
     "byPumpAttendant": "Par pompiste",
     "byFuelMeter": "Par compteur",
     "stockDetails": "Stocks par citerne",
     "noData": "Aucune donnée à afficher.",
-    "unavailable": "La synthèse n’est pas disponible pour cette journée."
+    "unavailable": "La synthèse n’est pas disponible pour cette journée.",
+    "internalSection": "Consommations internes",
+    "internalVolume": "Volume interne",
+    "internalAmount": "Valorisation interne"
   },
   "closeDay": {
     "title": "Confirmer la clôture opérationnelle",
-    "description": "{{open}} poste(s) ouvert(s), {{reconciliations}} rapprochement(s), {{gauges}} jaugeage(s). Le backend vérifiera toutes les conditions de clôture.",
-    "loading": "Clôture…"
+    "description": "{{reconciliations}} rapprochement(s) et {{gauges}} jaugeage(s) seront figés dans le résumé définitif de la journée.",
+    "blocked": "La journée ne peut pas être clôturée : {{count}} affectation(s) restent ouvertes.",
+    "loading": "Clôture…",
+    "cash": {
+      "title": "SITUATION DE CAISSE",
+      "referenceCurrency": "Devise de référence",
+      "grossExpected": "CASH brut attendu",
+      "disbursedExpenses": "Dépenses décaissées",
+      "netExpected": "CASH net attendu",
+      "referenceCash": "Espèces {{currency}}",
+      "usdCash": "Espèces USD",
+      "rate": "Taux USD/{{currency}}",
+      "convertedUsd": "Équivalent USD",
+      "observed": "Caisse constatée",
+      "variance": "Écart de caisse",
+      "backendAuthority": "Aperçu indicatif : le backend calcule et fige les valeurs définitives à la clôture.",
+      "statuses": {
+        "CONFORME": "CONFORME",
+        "EXCEDENT": "EXCÉDENT",
+        "DEFICIT": "DÉFICIT"
+      },
+      "historicalUnavailable": "Données de caisse physique non disponibles pour cette journée historique."
+    }
   },
   "feedback": {
     "assignmentOpened": "Le poste a été ouvert.",
     "assignmentClosed": "Le poste a été fermé et rapproché.",
     "expenseAdded": "La dépense a été enregistrée.",
     "gaugeAdded": "Le stock physique a été enregistré.",
-    "dayClosed": "La journée opérationnelle a été clôturée."
+    "dayClosed": "La journée opérationnelle a été clôturée.",
+    "tankReturnAdded": "La remise en cuve a été enregistrée et le stock destination a été actualisé.",
+    "internalAdded": "La consommation interne a été enregistrée et le stock actualisé."
+  },
+  "stock": {
+    "title": "Situation du stock",
+    "description": "Valeurs calculées par le ledger backend et actualisées après chaque opération.",
+    "unavailable": "Le stock courant n’est pas disponible avec les permissions actuelles."
+  },
+  "modal": {
+    "no": "Non",
+    "yes": "Oui"
   },
   "errors": {
     "loadDays": "Impossible de charger les journées opérationnelles.",
@@ -138,5 +244,16 @@
     "loadDay": "Impossible de charger cette journée opérationnelle.",
     "loadTanks": "Impossible de charger les citernes actives.",
     "action": "L’opération n’a pas pu être réalisée."
+  },
+  "internal": {
+    "title": "Consommation interne",
+    "description": "Carburant distribué pour les besoins internes de la station. Le tarif est déterminé par FuelFlex.",
+    "action": "Consommation interne",
+    "quantity": "Quantité",
+    "usageBeneficiary": "Usage / bénéficiaire interne",
+    "observation": "Observation (facultative)",
+    "save": "Enregistrer",
+    "recorded": "Consommations internes",
+    "empty": "Aucune consommation interne enregistrée."
   }
 }

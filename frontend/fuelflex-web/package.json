@@ -7,7 +7,16 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:formatters": "node --test src/i18n/formatters.test.js",
+    "test:modals": "node --test src/components/modal/modalFoundation.test.js",
+    "test:operations-modals": "node --test src/features/operations/components/operationsManagerModals.test.js src/features/operations/components/operationsFlowModals.test.js src/features/operations/components/operationsClosureModals.test.js",
+    "test:manager-visual": "node --test src/managerVisualIdentity.test.js",
+    "test:pump-attendants-ui": "node --test src/pages/employee-validation/managerPumpAttendantsUi.test.js",
+    "test:manager-stability": "node --test src/managerStability.test.js",
+    "test:orders-modal": "node --test src/pages/orders/managerOrderModal.test.js",
+    "test:reception-modal": "node --test src/pages/receptions/managerReceptionModal.test.js",
+    "test:notifications": "node --test src/features/notification/components/operationalDayNotification.test.js"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",
@@ -28,6 +37,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
+    "react-test-renderer": "^19.2.7",
     "vite": "^8.1.1"
   }
 }

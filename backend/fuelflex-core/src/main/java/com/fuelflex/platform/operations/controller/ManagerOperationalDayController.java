@@ -102,7 +102,10 @@ public class ManagerOperationalDayController {
 
     @PostMapping("/operational-days/{id}/close")
     @PreAuthorize("hasAuthority('MANAGER') and hasAuthority('operational-day:close')")
-    public DayResponse close(@PathVariable UUID id) {
-        return service.close(id);
+    public DayResponse close(
+            @PathVariable UUID id,
+            @Valid @RequestBody CloseDayRequest request
+    ) {
+        return service.close(id, request);
     }
 }

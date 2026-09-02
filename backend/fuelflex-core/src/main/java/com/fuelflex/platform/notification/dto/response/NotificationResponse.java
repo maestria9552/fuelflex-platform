@@ -28,5 +28,9 @@ public class NotificationResponse {
     private boolean resolved;
     private OffsetDateTime resolvedAt;
     private UUID resolvedById;
+    private Integer activityCount;
+    private String lastActivityType;
+    private OffsetDateTime updatedAt;
+    private String stationName;
     private OffsetDateTime createdAt;
 }

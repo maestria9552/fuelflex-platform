@@ -28,6 +28,7 @@ public class TankReturnService {
     private final TankReturnSourceMovementRepository sourceMovements;
     private final AssignmentFuelSourceResolver sources;
     private final StationAccessService stationAccess;
+    private final SupervisorOperationalNotifier notifier;
 
     public Response create(UUID shiftId, CreateRequest request) {
         User actor = actor("MANAGER");
@@ -61,6 +62,7 @@ public class TankReturnService {
         catch (DataIntegrityViolationException e) { throw new ConflictException("Le mouvement de stock de cette remise existe déjà."); }
         TankReturnSourceMovement sourceMovement=new TankReturnSourceMovement();sourceMovement.setTankReturn(tankReturn);sourceMovement.setStation(day.getStation());sourceMovement.setTank(fuel.tank());sourceMovement.setProduct(fuel.product());sourceMovement.setQuantity(quantity);
         try{sourceMovements.saveAndFlush(sourceMovement);}catch(DataIntegrityViolationException e){throw new ConflictException("Le mouvement source de cette remise existe déjà.");}
+        notifier.recordOperationalDayActivity(actor, day, OperationalDayActivityType.TANK_RETURN_RECORDED);
         return response(tankReturn, fuel);
     }
 

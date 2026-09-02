@@ -29,6 +29,11 @@ public class NotificationMapper {
                 .resolvedAt(notification.getResolvedAt())
                 .resolvedById(notification.getResolvedBy() == null
                         ? null : notification.getResolvedBy().getId())
+                .activityCount(notification.getActivityCount())
+                .lastActivityType(notification.getLastActivityType())
+                .updatedAt(notification.getUpdatedAt())
+                .stationName(notification.getStation() == null
+                        ? null : notification.getStation().getName())
                 .createdAt(notification.getCreatedAt())
                 .build();
     }

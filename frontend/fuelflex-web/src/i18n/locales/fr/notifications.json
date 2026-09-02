@@ -32,6 +32,25 @@
     "title": "Événement FuelFlex",
     "message": "Un événement métier a été enregistré."
   },
+  "operationalDayActivity": {
+    "title": "Journée opérationnelle — {{station}}",
+    "closedTitle": "Journée opérationnelle clôturée — {{station}}",
+    "unknownStation": "Station",
+    "activityCount_one": "{{count}} activité enregistrée",
+    "activityCount_other": "{{count}} activités enregistrées",
+    "lastActivity": "Dernière activité : {{activity}}",
+    "activities": {
+      "OPERATIONAL_DAY_OPENED": "Journée ouverte",
+      "SHIFT_ASSIGNMENT_OPENED": "Pompiste affecté",
+      "DAILY_EXPENSE_RECORDED": "Dépense enregistrée",
+      "TANK_GAUGE_RECORDED": "Jauge enregistrée",
+      "INTERNAL_CONSUMPTION_RECORDED": "Consommation interne enregistrée",
+      "TANK_RETURN_RECORDED": "Retour en cuve enregistré",
+      "SHIFT_ASSIGNMENT_CLOSED": "Poste clôturé",
+      "OPERATIONAL_DAY_CLOSED": "Journée clôturée",
+      "UNKNOWN": "Activité enregistrée"
+    }
+  },
   "events": {
     "dayOpened": {
       "title": "Journée ouverte",

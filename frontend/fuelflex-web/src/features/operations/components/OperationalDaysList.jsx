@@ -86,6 +86,7 @@ export default function OperationalDaysList({ role }) {
 
   const submitOpenDay = async (event) => {
     event.preventDefault();
+    if (submitting) return;
     setSubmitting(true);
     setFormError("");
     try {
@@ -114,7 +115,7 @@ export default function OperationalDaysList({ role }) {
           </button>
           {isManager && permissions.canOpenDay && (
             <button
-              className="ops-button ops-button-primary"
+              className="ops-button ops-button-primary operations-manager-form-action"
               type="button"
               onClick={() => {
                 setFormError("");
@@ -201,14 +202,18 @@ export default function OperationalDaysList({ role }) {
         isOpen={openModal}
         title={t("operations:openDay.title")}
         description={t("operations:openDay.description")}
+        headerIcon={CalendarDays}
         size="sm"
+        isLoading={submitting}
+        closeOnEscape={!submitting}
+        closeOnOverlay={!submitting}
         onClose={() => !submitting && setOpenModal(false)}
         footer={
           <>
-            <button className="ops-button ops-button-secondary" type="button" onClick={() => setOpenModal(false)} disabled={submitting}>
-              {t("common:actions.cancel")}
+            <button className="app-modal-action app-modal-action-no" type="button" onClick={() => setOpenModal(false)} disabled={submitting}>
+              {t("common:actions.no")}
             </button>
-            <button className="ops-button ops-button-primary" type="submit" form="open-operational-day-form" disabled={submitting || !stationId || !businessDate}>
+            <button className="app-modal-action operations-manager-form-action" type="submit" form="open-operational-day-form" disabled={submitting || !stationId || !businessDate}>
               {submitting ? t("common:actions.saving") : t("operations:days.openAction")}
             </button>
           </>

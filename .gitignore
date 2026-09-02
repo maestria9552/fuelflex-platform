@@ -35,3 +35,6 @@ Thumbs.db
 
 # Docker
 docker-data/
+
+# Runtime uploads
+backend/fuelflex-core/uploads/

@@ -155,6 +155,7 @@ const navigationGroups = [
         labelKey: "items.reports",
         path: "/superviseur/rapports",
         icon: ChartNoAxesCombined,
+        permission: "report:view",
       },
       {
         id: "parametres",

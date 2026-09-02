@@ -113,6 +113,15 @@ public class Notification {
     @Column(name = "resolved_at")
     private OffsetDateTime resolvedAt;
 
+    @Column(name = "activity_count")
+    private Integer activityCount;
+
+    @Column(name = "last_activity_type", length = 100)
+    private String lastActivityType;
+
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "resolved_by_id",
@@ -127,6 +136,9 @@ public class Notification {
     protected void onCreate() {
         if (createdAt == null) {
             createdAt = OffsetDateTime.now();
+        }
+        if (updatedAt == null) {
+            updatedAt = createdAt;
         }
     }
 }

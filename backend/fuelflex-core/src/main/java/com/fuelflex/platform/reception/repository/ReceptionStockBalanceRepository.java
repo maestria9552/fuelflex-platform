@@ -46,6 +46,11 @@ public interface ReceptionStockBalanceRepository extends JpaRepository<Reception
                                 join tank_returns returned on returned.id=return_source.tank_return_id
                                 join pump_shift_assignments return_shift on return_shift.id=returned.shift_assignment_id
                                where return_source.tank_id=tank.id and return_shift.status='OPEN'),0)
+                   - coalesce((select sum(internal_movement.quantity)
+                                from internal_consumption_stock_movements internal_movement
+                                join internal_consumptions consumption on consumption.id=internal_movement.internal_consumption_id
+                                join pump_shift_assignments internal_shift on internal_shift.id=consumption.shift_assignment_id
+                               where internal_movement.tank_id=tank.id and internal_shift.status='OPEN'),0)
                    + coalesce((select sum(returned.quantity)
                                 from tank_return_stock_movements returned
                                where returned.tank_id = tank.id), 0) as "currentStock"

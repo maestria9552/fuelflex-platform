@@ -22,7 +22,13 @@
     "comment": "Comment",
     "tank": "Tank",
     "product": "Product",
-    "physicalStock": "Observed physical stock"
+    "physicalStock": "Observed physical stock",
+    "sourceTank": "Source tank",
+    "destinationTank": "Destination tank",
+    "returnedQuantity": "Returned quantity",
+    "creditQuantity": "Credit quantity",
+    "occurredAt": "Date and time",
+    "reason": "Reason / note"
   },
   "days": {
     "title": "Operational days",
@@ -49,7 +55,8 @@
     "reconciliations": "Reconciliations",
     "ofAssignments": "of {{count}} shift(s)",
     "gauges": "Gauge readings",
-    "expenses": "Total expenses"
+    "expenses": "Total expenses",
+    "provisional": "Day in progress: open shifts remain provisional until they are closed."
   },
   "assignments": {
     "title": "Shift assignments",
@@ -60,34 +67,92 @@
     "noAttendant": "No eligible pump attendant is available for this station.",
     "noMeter": "No configured fuel meter is currently available."
   },
-  "assignmentForm": { "title": "New assignment" },
+  "assignmentForm": {
+    "title": "New assignment"
+  },
   "closeShift": {
-    "title": "Close shift",
-    "description": "{{name}} — opening index: {{index}}"
+    "title": "Close assignment",
+    "description": "Enter only the final meter index and CREDIT volume. Returns are consolidated automatically.",
+    "review": "Review closure",
+    "preview": "Volume preview",
+    "financialAfter": "Final prices and amounts will be calculated and frozen by the backend after closing.",
+    "confirmTitle": "Confirm assignment closure",
+    "confirmDescription": "This action permanently consolidates the shift and its physical metered movement.",
+    "loading": "Closing…",
+    "metrics": {
+      "openingIndex": "Opening index",
+      "closingIndex": "Closing index",
+      "meteredVolume": "Metered volume",
+      "tankReturnVolume": "Tank return",
+      "soldVolume": "Sold volume",
+      "cashVolume": "CASH",
+      "creditVolume": "CREDIT",
+      "internalConsumptionVolume": "Internal consumption"
+    },
+    "errors": {
+      "finalRequired": "The final index is required.",
+      "finalBelowOpening": "The final index must be greater than or equal to the opening index.",
+      "creditNegative": "CREDIT quantity cannot be negative.",
+      "returnsAboveOutput": "Returns exceed the metered output.",
+      "creditAboveSaleable": "CREDIT exceeds the saleable volume of {{value}} L.",
+      "cashNegative": "Calculated CASH volume cannot be negative."
+    }
+  },
+  "tankReturns": {
+    "title": "Tank returns",
+    "action": "Tank return",
+    "recorded": "Recorded returns",
+    "empty": "No return recorded for this shift.",
+    "formTitle": "Record a tank return",
+    "formDescription": "Source, product, pump and attendant are imposed by the assignment.",
+    "chooseTank": "Choose a compatible tank",
+    "noCompatibleTank": "No compatible active tank is available.",
+    "save": "Record return"
   },
   "expenses": {
     "title": "Daily expenses",
     "add": "Add expense",
     "empty": "No expense recorded."
   },
-  "expenseForm": { "title": "Record an expense" },
+  "expenseForm": {
+    "title": "Record an expense"
+  },
   "gauges": {
     "title": "Tank gauge readings",
     "add": "Add gauge reading",
     "empty": "No physical stock recorded.",
     "theoretical": "Theoretical: {{value}} L",
     "variance": "Variance: {{value}} L",
-    "allRecorded": "All tanks have been gauged"
+    "allRecorded": "All tanks have been gauged",
+    "save": "Record gauge reading",
+    "ledgerStock": "FuelFlex theoretical stock",
+    "measuredQuantity": "Gauged quantity",
+    "calculatedVariance": "Calculated variance"
   },
-  "gaugeForm": { "title": "Record physical stock" },
+  "gaugeForm": {
+    "title": "Record a gauge reading",
+    "description": "The theoretical stock remains ledger-based; enter only the physically measured quantity."
+  },
   "reconciliations": {
     "title": "Meter / sales reconciliation",
     "description": "Physical meter volume remains separate from recorded commercial volume.",
     "metered": "Metered",
     "cash": "CASH",
     "credit": "CREDIT",
-    "variance": "Variance",
-    "empty": "Reconciliations appear after shifts are closed."
+    "variance": "Volume variance",
+    "tankReturnVolume": "Tank return",
+    "sold": "Sold volume",
+    "cashUnitPrice": "CASH price",
+    "cashAmount": "CASH amount",
+    "creditUnitPrice": "CREDIT price",
+    "creditAmount": "CREDIT amount",
+    "turnover": "Turnover",
+    "openingIndex": "Opening index",
+    "closingIndex": "Closing index",
+    "definitive": "Definitive reconciliation",
+    "empty": "Reconciliations appear after shifts are closed.",
+    "internalConsumptionVolume": "Internal consumption",
+    "internalConsumptionAmount": "INTERNAL amount"
   },
   "rjv": {
     "title": "Daily sales report",
@@ -97,6 +162,7 @@
     "cashAmount": "CASH amount",
     "creditVolume": "CREDIT volume",
     "creditAmount": "CREDIT amount",
+    "tankReturnVolume": "Tank returns",
     "totalVolume": "Total volume",
     "totalSoldVolume": "Sold volume",
     "totalAmount": "Total amount",
@@ -107,24 +173,70 @@
     "theoreticalStock": "Theoretical stock",
     "physicalStock": "Physical stock",
     "stockVariance": "Stock variance",
+    "expectedCash": "Expected cash",
+    "expensesAmount": "Expenses",
+    "expectedNetCash": "Expected net cash",
+    "daySection": "A. Day",
+    "activitySection": "B. Fuel activity",
+    "turnoverSection": "C. Turnover",
+    "cashSection": "D. Cash",
+    "stockSection": "E. Stock",
+    "analysisSection": "F. Analysis",
+    "reconciliationSection": "G. Assignment reconciliations",
+    "expensesSection": "H. Expenses",
     "byProduct": "By product",
     "byPumpAttendant": "By pump attendant",
     "byFuelMeter": "By fuel meter",
     "stockDetails": "Stock by tank",
     "noData": "No data to display.",
-    "unavailable": "The summary is unavailable for this day."
+    "unavailable": "The summary is unavailable for this day.",
+    "internalSection": "INTERNAL CONSUMPTION",
+    "internalVolume": "Internal volume",
+    "internalAmount": "Internal amount"
   },
   "closeDay": {
     "title": "Confirm operational closing",
-    "description": "{{open}} open shift(s), {{reconciliations}} reconciliation(s), {{gauges}} gauge reading(s). The backend will verify all closing requirements.",
-    "loading": "Closing…"
+    "description": "{{reconciliations}} reconciliation(s) and {{gauges}} gauge reading(s) will be frozen in the final day summary.",
+    "blocked": "The day cannot be closed: {{count}} assignment(s) remain open.",
+    "loading": "Closing…",
+    "cash": {
+      "title": "CASH POSITION",
+      "referenceCurrency": "Reference currency",
+      "grossExpected": "Expected gross CASH",
+      "disbursedExpenses": "Disbursed expenses",
+      "netExpected": "Expected net CASH",
+      "referenceCash": "{{currency}} cash",
+      "usdCash": "USD cash",
+      "rate": "USD/{{currency}} rate",
+      "convertedUsd": "USD equivalent",
+      "observed": "Observed cash",
+      "variance": "Cash variance",
+      "backendAuthority": "Indicative preview: the backend calculates and freezes the final values on closing.",
+      "statuses": {
+        "CONFORME": "BALANCED",
+        "EXCEDENT": "SURPLUS",
+        "DEFICIT": "DEFICIT"
+      },
+      "historicalUnavailable": "Physical cash data is not available for this historical day."
+    }
   },
   "feedback": {
     "assignmentOpened": "The shift was opened.",
     "assignmentClosed": "The shift was closed and reconciled.",
     "expenseAdded": "The expense was recorded.",
     "gaugeAdded": "The physical stock was recorded.",
-    "dayClosed": "The operational day was closed."
+    "dayClosed": "The operational day was closed.",
+    "tankReturnAdded": "The tank return was recorded and destination stock was refreshed.",
+    "internalAdded": "Internal consumption recorded and stock refreshed."
+  },
+  "stock": {
+    "title": "Stock position",
+    "description": "Values calculated by the backend ledger and refreshed after each operation.",
+    "unavailable": "Current stock is unavailable with the current permissions."
+  },
+  "modal": {
+    "no": "No",
+    "yes": "Yes"
   },
   "errors": {
     "loadDays": "Unable to load operational days.",
@@ -132,5 +244,16 @@
     "loadDay": "Unable to load this operational day.",
     "loadTanks": "Unable to load active tanks.",
     "action": "The operation could not be completed."
+  },
+  "internal": {
+    "title": "Internal consumption",
+    "description": "Fuel distributed for station internal needs. Pricing is determined by FuelFlex.",
+    "action": "Internal consumption",
+    "quantity": "Quantity",
+    "usageBeneficiary": "Internal use / beneficiary",
+    "observation": "Observation (optional)",
+    "save": "Save",
+    "recorded": "Internal consumption",
+    "empty": "No internal consumption recorded."
   }
 }

@@ -17,10 +17,14 @@
     "close": "Fermer",
     "confirm": "Confirmer",
     "confirming": "Confirmation...",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "no": "Non",
+    "ok": "OK"
   },
   "modal": {
-    "closeWindow": "Fermer la fenêtre"
+    "closeWindow": "Fermer la fenêtre",
+    "information": "Information",
+    "attention": "Attention"
   },
   "brand": {
     "logoAlt": "Logo FuelFlex",

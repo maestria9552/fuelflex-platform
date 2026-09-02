@@ -9,6 +9,17 @@ public class OperationalDaySummary {
  @Column(name="tank_return_volume",nullable=false,precision=19,scale=3) private BigDecimal tankReturnVolume; @Column(name="accounted_volume",nullable=false,precision=19,scale=3) private BigDecimal accountedVolume;
  @Column(name="internal_consumption_volume",nullable=false,precision=19,scale=3)private BigDecimal internalConsumptionVolume;@Column(name="internal_consumption_amount",nullable=false,precision=19,scale=3)private BigDecimal internalConsumptionAmount;
  @Column(name="expected_cash",nullable=false,precision=19,scale=3) private BigDecimal expectedCash; @Column(name="expected_net_cash",nullable=false,precision=19,scale=3) private BigDecimal expectedNetCash;
+ @Column(name="reference_currency",nullable=false,length=10) private String referenceCurrency;
+ @Column(name="cash_gross_expected",nullable=false,precision=19,scale=3) private BigDecimal cashGrossExpected;
+ @Column(name="disbursed_expense_amount",nullable=false,precision=19,scale=3) private BigDecimal disbursedExpenseAmount;
+ @Column(name="cash_net_expected",nullable=false,precision=19,scale=3) private BigDecimal cashNetExpected;
+ @Column(name="cash_reconciliation_available",nullable=false) private boolean cashReconciliationAvailable;
+ @Column(name="physical_reference_amount",nullable=false,precision=19,scale=3) private BigDecimal physicalReferenceAmount;
+ @Column(name="physical_usd_amount",nullable=false,precision=19,scale=3) private BigDecimal physicalUsdAmount;
+ @Column(name="usd_exchange_rate",nullable=false,precision=19,scale=6) private BigDecimal usdExchangeRate;
+ @Column(name="converted_usd_amount",nullable=false,precision=19,scale=3) private BigDecimal convertedUsdAmount;
+ @Column(name="observed_cash_amount",nullable=false,precision=19,scale=3) private BigDecimal observedCashAmount;
+ @Column(name="cash_variance",nullable=false,precision=19,scale=3) private BigDecimal cashVariance;
  @Column(name="volume_variance",nullable=false,precision=19,scale=3) private BigDecimal volumeVariance; @Column(name="expense_amount",nullable=false,precision=19,scale=3) private BigDecimal expenseAmount;
  @Column(name="theoretical_stock",nullable=false,precision=19,scale=3) private BigDecimal theoreticalStock; @Column(name="physical_stock",nullable=false,precision=19,scale=3) private BigDecimal physicalStock;
  @Column(name="stock_variance",nullable=false,precision=19,scale=3) private BigDecimal stockVariance; @ManyToOne(fetch=FetchType.LAZY,optional=false) @JoinColumn(name="closed_by",nullable=false) private User closedBy;

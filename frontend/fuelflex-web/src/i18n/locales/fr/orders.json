@@ -199,7 +199,12 @@
     "tooLarge": "La taille maximale est de 2 Mo.",
     "limit": "Deux pièces jointes maximum.",
     "uploadError": "Impossible d’ajouter la pièce jointe.",
-    "deleteError": "Impossible de supprimer la pièce jointe."
+    "deleteError": "Impossible de supprimer la pièce jointe.",
+    "chooseFile": "Choisir un fichier",
+    "noFile": "Aucun fichier sélectionné",
+    "dropTitle": "Glissez-déposez vos fichiers ici",
+    "dropSubtitle": "ou sélectionnez un fichier",
+    "constraints": "Formats acceptés : PDF, JPG, PNG (max. 2 Mo)"
   },
   "reception": {
     "start": "Démarrer une réception"

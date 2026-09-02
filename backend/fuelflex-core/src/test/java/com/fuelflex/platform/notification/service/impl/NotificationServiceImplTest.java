@@ -194,7 +194,7 @@ class NotificationServiceImplTest {
             Pageable pageable = invocation.getArgument(2);
             assertThat(pageable.getPageNumber()).isZero();
             assertThat(pageable.getPageSize()).isEqualTo(20);
-            assertThat(pageable.getSort().getOrderFor("createdAt").isDescending())
+            assertThat(pageable.getSort().getOrderFor("updatedAt").isDescending())
                     .isTrue();
             return new PageImpl<>(List.of(newer, older), pageable, 2);
         });

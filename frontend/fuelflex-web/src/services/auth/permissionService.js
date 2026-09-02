@@ -37,6 +37,10 @@ export function getOperationalPermissions() {
     canCreateGauge: hasPermission("tank-gauge:create"),
     canViewReconciliations: hasPermission("reconciliation:view"),
     canViewRjv: hasPermission("rjv:view"),
+    canViewTankReturns: hasPermission("tank-return:view"),
+    canCreateTankReturn: hasPermission("tank-return:create"),
+    canViewInternalConsumption: hasPermission("internal-consumption:view"),
+    canCreateInternalConsumption: hasPermission("internal-consumption:create"),
   };
 }
 

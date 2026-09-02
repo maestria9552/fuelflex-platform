@@ -1,5 +1,6 @@
 import {
   AlertCircle,
+  BadgeCheck,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
@@ -26,17 +27,14 @@ import {
   getPumpAttendantValidationRequests,
 } from "../../services/employee/pumpAttendantValidationService";
 import { getManagerStations } from "../../services/operations/operationalService";
+import {
+  isPreparablePumpAttendant,
+  onlyPreparablePumpAttendants,
+  PREPARABLE_PUMP_ATTENDANT_STATUS,
+} from "./pumpAttendantPreparation";
 import "./PumpAttendantValidation.css";
 
 const PAGE_SIZE = 10;
-const CANDIDATE_STATUSES = [
-  "PREPARATION",
-  "PENDING_SUPERVISOR_APPROVAL",
-  "RETURNED_FOR_CORRECTION",
-  "VALIDATED",
-  "REJECTED",
-  "CANCELLED",
-];
 const REQUEST_STATUSES = [
   "DRAFT",
   "PENDING_SUPERVISOR_APPROVAL",
@@ -69,7 +67,6 @@ function ManagerPumpAttendantsPage() {
   const [requestPage, setRequestPage] = useState(0);
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
-  const [candidateStatus, setCandidateStatus] = useState("");
   const [requestStatus, setRequestStatus] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [stationId, setStationId] = useState("");
@@ -100,7 +97,7 @@ function ManagerPumpAttendantsPage() {
             page: candidatePage,
             size: PAGE_SIZE,
             search,
-            status: candidateStatus,
+            status: PREPARABLE_PUMP_ATTENDANT_STATUS,
           }, { signal }),
           getPumpAttendantValidationRequests("manager", {
             page: requestPage,
@@ -109,7 +106,7 @@ function ManagerPumpAttendantsPage() {
           }, { signal }),
           getManagerStations({ signal }),
         ]);
-      setCandidates(candidatePageData || EMPTY_PAGE);
+      setCandidates(onlyPreparablePumpAttendants(candidatePageData || EMPTY_PAGE));
       setRequests(requestPageData || EMPTY_PAGE);
       setStations(Array.isArray(accessibleStations) ? accessibleStations : []);
       setStationId((current) => current
@@ -125,7 +122,6 @@ function ManagerPumpAttendantsPage() {
     }
   }, [
     candidatePage,
-    candidateStatus,
     reload,
     requestPage,
     requestStatus,
@@ -141,7 +137,7 @@ function ManagerPumpAttendantsPage() {
 
   const toggleCandidate = (candidate) => {
     if (candidate.validationRequestId
-      || candidate.validationStatus !== "PREPARATION"
+      || !isPreparablePumpAttendant(candidate)
       || !candidate.station?.id) return;
     setSelectedIds((current) => {
       if (current.includes(candidate.id)) {
@@ -185,10 +181,9 @@ function ManagerPumpAttendantsPage() {
 
   return (
     <ManagerLayout>
-      <main className="validation-page">
+      <main className="validation-page validation-manager-page">
         <header className="validation-page-header">
           <div>
-            <span>{t("pumpAttendantValidation:manager.eyebrow")}</span>
             <h1>{t("pumpAttendantValidation:manager.title")}</h1>
             <p>{t("pumpAttendantValidation:manager.description")}</p>
           </div>
@@ -225,12 +220,17 @@ function ManagerPumpAttendantsPage() {
           </div>
         )}
 
-        <section className="validation-panel">
+        <section className="validation-panel validation-candidates-panel">
           <header>
             <div>
               <h2>{t("pumpAttendantValidation:manager.candidatesTitle")}</h2>
               <p>{t("pumpAttendantValidation:manager.candidatesDescription")}</p>
             </div>
+            <span className="validation-count" aria-label={t("pumpAttendantValidation:pagination.total", {
+              count: candidates.totalElements,
+            })}>
+              {candidates.totalElements}
+            </span>
           </header>
           <div className="validation-toolbar">
             <label className="validation-search">
@@ -242,23 +242,6 @@ function ManagerPumpAttendantsPage() {
                 placeholder={t("pumpAttendantValidation:filters.search")}
               />
             </label>
-            <label>
-              <span>{t("pumpAttendantValidation:fields.status")}</span>
-              <select
-                value={candidateStatus}
-                onChange={(event) => {
-                  setCandidatePage(0);
-                  setCandidateStatus(event.target.value);
-                }}
-              >
-                <option value="">{t("pumpAttendantValidation:filters.all")}</option>
-                {CANDIDATE_STATUSES.map((status) => (
-                  <option key={status} value={status}>
-                    {t(`pumpAttendantValidation:candidateStatus.${status}`)}
-                  </option>
-                ))}
-              </select>
-            </label>
           </div>
 
           {isLoading ? (
@@ -268,8 +251,12 @@ function ManagerPumpAttendantsPage() {
             </div>
           ) : candidates.content.length === 0 ? (
             <div className="validation-state empty">
-              <UsersRound size={32} />
+              <span className="validation-empty-icon">
+                <UsersRound size={29} />
+                <BadgeCheck size={16} />
+              </span>
               <strong>{t("pumpAttendantValidation:manager.noCandidates")}</strong>
+              <p>{t("pumpAttendantValidation:manager.noCandidatesDescription")}</p>
             </div>
           ) : (
             <div className="validation-table-wrap">
@@ -287,14 +274,17 @@ function ManagerPumpAttendantsPage() {
                 </thead>
                 <tbody>
                   {candidates.content.map((candidate) => {
-                    const selectable = candidate.validationStatus === "PREPARATION"
+                    const selectable = isPreparablePumpAttendant(candidate)
                       && !candidate.validationRequestId
                       && Boolean(candidate.station?.id)
                       && (selectedIds.length === 0
                         || candidate.station.id === stationId
                         || selectedIds.includes(candidate.id));
                     return (
-                      <tr key={candidate.id}>
+                      <tr
+                        key={candidate.id}
+                        className={selectedIds.includes(candidate.id) ? "is-selected" : undefined}
+                      >
                         <td>
                           <input
                             type="checkbox"
@@ -398,7 +388,7 @@ function ManagerPumpAttendantsPage() {
           )}
         </section>
 
-        <section className="validation-panel">
+        <section className="validation-panel validation-requests-panel">
           <header>
             <div>
               <h2>{t("pumpAttendantValidation:manager.requestsTitle")}</h2>

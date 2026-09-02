@@ -199,7 +199,12 @@
     "tooLarge": "Maximum size is 2 MB.",
     "limit": "Two attachments maximum.",
     "uploadError": "Unable to add attachment.",
-    "deleteError": "Unable to delete attachment."
+    "deleteError": "Unable to delete attachment.",
+    "chooseFile": "Choose a file",
+    "noFile": "No file selected",
+    "dropTitle": "Drag and drop your files here",
+    "dropSubtitle": "or select a file",
+    "constraints": "Accepted formats: PDF, JPG, PNG (max. 2 MB)"
   },
   "reception": {
     "start": "Start a receipt"

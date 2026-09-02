@@ -32,6 +32,25 @@
     "title": "FuelFlex event",
     "message": "A business event has been recorded."
   },
+  "operationalDayActivity": {
+    "title": "Operational day — {{station}}",
+    "closedTitle": "Operational day closed — {{station}}",
+    "unknownStation": "Station",
+    "activityCount_one": "{{count}} activity recorded",
+    "activityCount_other": "{{count}} activities recorded",
+    "lastActivity": "Latest activity: {{activity}}",
+    "activities": {
+      "OPERATIONAL_DAY_OPENED": "Operational day opened",
+      "SHIFT_ASSIGNMENT_OPENED": "Pump attendant assigned",
+      "DAILY_EXPENSE_RECORDED": "Expense recorded",
+      "TANK_GAUGE_RECORDED": "Gauge reading recorded",
+      "INTERNAL_CONSUMPTION_RECORDED": "Internal consumption recorded",
+      "TANK_RETURN_RECORDED": "Tank return recorded",
+      "SHIFT_ASSIGNMENT_CLOSED": "Shift closed",
+      "OPERATIONAL_DAY_CLOSED": "Operational day closed",
+      "UNKNOWN": "Activity recorded"
+    }
+  },
   "events": {
     "dayOpened": {
       "title": "Day opened",

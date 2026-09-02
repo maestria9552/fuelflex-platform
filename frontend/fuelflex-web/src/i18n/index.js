@@ -47,6 +47,8 @@ import receptionsEn from "./locales/en/receptions.json";
 import receptionsFr from "./locales/fr/receptions.json";
 import operationsEn from "./locales/en/operations.json";
 import operationsFr from "./locales/fr/operations.json";
+import reportsEn from "./locales/en/reports.json";
+import reportsFr from "./locales/fr/reports.json";
 import salesEn from "./locales/en/sales.json";
 import salesFr from "./locales/fr/sales.json";
 import pumpAttendantValidationEn from "./locales/en/pumpAttendantValidation.json";
@@ -81,6 +83,7 @@ const resources = {
     orders: ordersFr,
     receptions: receptionsFr,
     operations: operationsFr,
+    reports: reportsFr,
     sales: salesFr,
     pumpAttendantValidation: pumpAttendantValidationFr,
     pumps: pumpsFr,
@@ -108,6 +111,7 @@ const resources = {
     orders: ordersEn,
     receptions: receptionsEn,
     operations: operationsEn,
+    reports: reportsEn,
     sales: salesEn,
     pumpAttendantValidation: pumpAttendantValidationEn,
     pumps: pumpsEn,

@@ -10,6 +10,7 @@ public class ShiftReconciliation {
  @Column(name="credit_volume",nullable=false,precision=19,scale=3) private BigDecimal creditVolume; @Column(name="total_sold_volume",nullable=false,precision=19,scale=3) private BigDecimal totalSoldVolume;
  @Column(name="tank_return_volume",nullable=false,precision=19,scale=3) private BigDecimal tankReturnVolume; @Column(name="accounted_volume",nullable=false,precision=19,scale=3) private BigDecimal accountedVolume;
  @Column(name="internal_consumption_volume",nullable=false,precision=19,scale=3)private BigDecimal internalConsumptionVolume;@Column(name="internal_consumption_amount",nullable=false,precision=19,scale=3)private BigDecimal internalConsumptionAmount;
+ @Column(name="internal_unit_price",nullable=false,precision=19,scale=3)private BigDecimal internalUnitPrice;
  @ManyToOne(fetch=FetchType.LAZY,optional=false)@JoinColumn(name="source_tank_id",nullable=false)private Tank sourceTank;@ManyToOne(fetch=FetchType.LAZY,optional=false)@JoinColumn(name="product_id",nullable=false)private Product product;
  @Column(name="cash_unit_price",nullable=false,precision=19,scale=3)private BigDecimal cashUnitPrice;@Column(name="credit_unit_price",nullable=false,precision=19,scale=3)private BigDecimal creditUnitPrice;
  @Column(name="cash_amount",nullable=false,precision=19,scale=3)private BigDecimal cashAmount;@Column(name="credit_amount",nullable=false,precision=19,scale=3)private BigDecimal creditAmount;@Column(name="turnover",nullable=false,precision=19,scale=3)private BigDecimal turnover;

@@ -129,7 +129,7 @@
 .reception-form-field textarea:focus {
   background: #ffffff;
   color: #1e293b;
-  border-color: #3b82f6;
+  border-color: var(--ff-primary);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
@@ -272,8 +272,8 @@
 }
 
 .reception-alert.partial {
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: var(--ff-primary-soft);
+  color: var(--ff-primary-hover);
 }
 
 .reception-alert.over {
@@ -360,7 +360,7 @@
   background-color: #ffffff !important;
   color: #1e293b !important;
 
-  border-color: #3b82f6;
+  border-color: var(--ff-primary);
 
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
@@ -411,65 +411,19 @@
   backdrop-filter: blur(6px);
 }
 
-/* =========================
-   SUBMISSION MODAL
-   ========================= */
 
-.reception-submit-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-
+.reception-submit-justification {
   display: grid;
-  place-items: center;
+  gap: 6px;
 
-  padding: 20px;
-
-  background: rgba(15, 39, 71, 0.48);
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
-.reception-submit-dialog {
+.reception-submit-justification textarea {
   width: 100%;
-  max-width: 520px;
-  box-sizing: border-box;
-
-  padding: 22px;
-
-  background: #ffffff;
-
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-
-  box-shadow: 0 20px 50px rgba(15, 39, 71, 0.2);
-}
-
-.reception-submit-dialog h2 {
-  margin: 0;
-
-  color: #0f2747;
-
-  font-size: 1.15rem;
-  line-height: 1.3;
-}
-
-.reception-submit-dialog h3 {
-  margin: 16px 0 8px;
-
-  color: #0f2747;
-
-  font-size: 0.95rem;
-}
-
-.reception-submit-dialog p {
-  color: #475569;
-
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
-
-.reception-submit-dialog textarea {
-  width: 100%;
-  min-height: 90px;
+  min-height: 100px;
   box-sizing: border-box;
 
   padding: 10px;
@@ -482,22 +436,13 @@
 
   font: inherit;
   font-size: 0.88rem;
-
   outline: none;
   resize: vertical;
 }
 
-.reception-submit-dialog textarea:focus {
-  border-color: #3b82f6;
+.reception-submit-justification textarea:focus {
+  border-color: var(--ff-primary);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.reception-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-
-  margin-top: 18px;
 }
 
 /* =========================
